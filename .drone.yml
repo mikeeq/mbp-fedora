@@ -1,0 +1,42 @@
+---
+kind: pipeline
+name: mbp-fedora
+
+steps:
+- name: build
+  image: fedora:30
+  pull: always
+  volumes:
+    - name: build-artifacts
+      path: /tmp/artifacts
+  commands:
+    - ls
+    - |
+      echo "CPU threads: $(nproc --all)"
+    - cat /proc/cpuinfo | grep 'model name' | uniq
+    - pwd
+    - dnf install -y git livecd-tools spin-kickstarts
+    - git clone https://pagure.io/fedora-kickstarts.git
+    - cd fedora-kickstarts
+    - git checkout f30
+    - cp -rfv ../fedora-mbp.ks ./
+    - mkdir -p /var/cache/live
+    - livecd-creator --verbose --config=fedora-mbp.ks --cache=/var/cache/live
+    - cp -rfv *.iso /tmp/artifacts/
+
+- name: publish-github
+  image: plugins/github-release
+  volumes:
+    - name: build-artifacts
+      path: /tmp/artifacts
+  settings:
+    api_key:
+      from_secret: github_token
+    files: /tmp/artifacts/*
+    prerelease: yes
+  when:
+    event: tag
+
+volumes:
+- name: build-artifacts
+  temp: {}
