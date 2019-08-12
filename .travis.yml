@@ -26,7 +26,7 @@ script:
         cd /repo \
         && ls \
         && echo "CPU threads: $(nproc --all)" \
-        && cat /proc/cpuinfo | grep 'model name' | uniq \
+        && cat /proc/cpuinfo | grep "model name" | uniq \
         && pwd \
         && dnf install -y git livecd-tools spin-kickstarts \
         && git clone https://pagure.io/fedora-kickstarts.git \
