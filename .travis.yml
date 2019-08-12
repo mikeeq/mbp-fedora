@@ -32,7 +32,7 @@ script:
         && git checkout f30 \
         && cp -rfv ../fedora-mbp.ks ./ \
         && mkdir -p /var/cache/live \
-        && (while true; do date && sleep 30; done) & \
+        && (while true; do date && sleep 30; done &) \
         && livecd-creator --verbose --config=fedora-mbp.ks --cache=/var/cache/live \
         && kill %1 \
       '
