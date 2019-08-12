@@ -34,7 +34,6 @@ script:
         && mkdir -p /var/cache/live \
         && (while true; do date && sleep 30; done &) \
         && livecd-creator --verbose --config=fedora-mbp.ks --cache=/var/cache/live \
-        && kill %1 \
       '
 deploy:
   provider: releases
