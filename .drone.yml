@@ -6,6 +6,7 @@ steps:
 - name: build
   image: fedora:30
   pull: always
+  privileged: true
   volumes:
     - name: build-artifacts
       path: /tmp/artifacts
