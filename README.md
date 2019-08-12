@@ -1,5 +1,5 @@
 # mbp-fedora
-[![Build Status](https://cloud.drone.io/api/badges/mikeeq/mbp-fedora/status.svg)](https://cloud.drone.io/mikeeq/mbp-fedora)
+[![Build Status](https://travis-ci.org/mikeeq/mbp-fedora.svg?branch=master)](https://travis-ci.org/mikeeq/mbp-fedora)
 
 Fedora 30 iso with custom kernel built-in.
 
