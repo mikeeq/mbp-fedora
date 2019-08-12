@@ -15,10 +15,7 @@ script:
   - docker pull fedora:30
   - |
     docker run \
-      --device /dev/loop0 \
-      --device /dev/loop1 \
-      --device /dev/loop-control \
-      --cap-add SYS_ADMIN \
+      --privileged \
       -t \
       -v $(pwd):/repo \
       fedora:30 \
