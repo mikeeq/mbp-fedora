@@ -1,0 +1,45 @@
+---
+language: bash
+
+os:
+  - linux
+
+services:
+  - docker
+
+branches:
+  only:
+    - master
+
+script:
+  - docker pull fedora:30
+  - |
+    docker run \
+      --device /dev/loop0 \
+      --device /dev/loop1 \
+      --device /dev/loop-control \
+      --cap-add SYS_ADMIN \
+      -t \
+      -v $(pwd):/repo \
+      fedora:30 \
+      /bin/bash -c ' \
+        cd /repo \
+        && ls \
+        && echo "CPU threads: $(nproc --all)" \
+        && cat /proc/cpuinfo | grep 'model name' | uniq \
+        && pwd \
+        && dnf install -y git livecd-tools spin-kickstarts \
+        && git clone https://pagure.io/fedora-kickstarts.git \
+        && cd fedora-kickstarts \
+        && git checkout f30 \
+        && cp -rfv ../fedora-mbp.ks ./ \
+        && mkdir -p /var/cache/live \
+        && livecd-creator --verbose --config=fedora-mbp.ks --cache=/var/cache/live \
+      '
+deploy:
+  provider: releases
+  api_key: "$GITHUB_TOKEN"
+  file: "fedora-kickstarts/*.iso"
+  skip_cleanup: true
+  on:
+    tags: true
