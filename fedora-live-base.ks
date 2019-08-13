@@ -24,6 +24,14 @@ shutdown
 
 %include fedora-repo.ks
 
+%pre
+
+echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+dnf install -y https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-5.2.8-200.wifi.patch.fc30.x86_64.rpm https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-core-5.2.8-200.wifi.patch.fc30.x86_64.rpm https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-modules-5.2.8-200.wifi.patch.fc30.x86_64.rpm https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-modules-extra-5.2.8-200.wifi.patch.fc30.x86_64.rpm https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-devel-5.2.8-200.wifi.patch.fc30.x86_64.rpm
+rm -rf /etc/resolv.conf
+
+%end
+
 %packages
 @base-x
 @guest-desktop-agents
@@ -38,9 +46,9 @@ shutdown
 
 # Explicitly specified here:
 # <notting> walters: because otherwise dependency loops cause yum issues.
-kernel
-kernel-modules
-kernel-modules-extra
+# kernel
+# kernel-modules
+# kernel-modules-extra
 
 # This was added a while ago, I think it falls into the category of
 # "Diagnosis/recovery tool useful from a Live OS image".  Leaving this untouched
@@ -66,15 +74,6 @@ glibc-all-langpacks
 # no longer in @core since 2018-10, but needed for livesys script
 initscripts
 chkconfig
-%end
-
-%post
-
-echo 'nameserver 8.8.8.8' > /etc/resolv.conf
-dnf remove -y kernel kernel-core kernel-modules kernel-modules-extra
-dnf install -y https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-5.2.8-200.wifi.patch.fc30.x86_64.rpm https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-core-5.2.8-200.wifi.patch.fc30.x86_64.rpm https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-modules-5.2.8-200.wifi.patch.fc30.x86_64.rpm https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-modules-extra-5.2.8-200.wifi.patch.fc30.x86_64.rpm https://github.com/mikeeq/mbp-fedora-kernel/releases/download/v5.2.8/kernel-devel-5.2.8-200.wifi.patch.fc30.x86_64.rpm
-rm -rf /etc/resolv.conf
-
 %end
 
 %post
