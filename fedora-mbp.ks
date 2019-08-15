@@ -6,6 +6,11 @@ repo --name=updates --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?re
 
 %packages
 
+-kernel
+-kernel-core
+-kernel-modules
+-kernel-modules-extra
+-kernel-devel
 kernel-5.1.19-300.wifi.patch.fc30.x86_64
 kernel-core-5.1.19-300.wifi.patch.fc30.x86_64
 kernel-devel-5.1.19-300.wifi.patch.fc30.x86_64
