@@ -1,15 +1,22 @@
+# Add rpm repo hosted on heroku https://github.com/mikeeq/mbp-fedora-kernel/releases
 repo --name=fedora-mbp --baseurl=http://fedora-mbp-repo.herokuapp.com/
+
 ### Selinux in permissive mode
+## enforcing=0 is not saved after installation in grub
 bootloader --append=" enforcing=0"
+
 ### Disable gnome-initial-setup (not working)
+eula --agreed
 firstboot --disable
+services --disabled="initial-setup-graphical"
 
-# root password - root
-rootpw root
-
-### Install kernel from https://github.com/mikeeq/mbp-fedora-kernel
+### Install kernel from hosted rpm repo
 %packages
 
+git
+gcc
+gcc-c++
+make
 kernel-5.1.19-300.wifi.patch.fc30.x86_64
 kernel-core-5.1.19-300.wifi.patch.fc30.x86_64
 kernel-devel-5.1.19-300.wifi.patch.fc30.x86_64
@@ -20,12 +27,30 @@ kernel-modules-extra-5.1.19-300.wifi.patch.fc30.x86_64
 
 ### Remove other kernel versions than custom one
 %post
+echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-dnf remove -y $(rpm -qa | grep kernel | grep -v oops | grep -v wifi)
-sed -i 's/^SELINUX=.*$/SELINUX=permissive/' /etc/selinux/config
-echo "fedora" | passwd fedora --stdin > /dev/null
-usermod -aG wheel fedora > /dev/null
+dnf remove --noautoremove -y $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi)
 
+mkdir -p /opt/drivers
+git clone https://github.com/MCMrARM/mbp2018-bridge-drv.git /opt/drivers/bce
+git clone --single-branch --branch mbp15 https://github.com/roadrunner2/macbook12-spi-driver.git /opt/drivers/touchbar
+echo -e 'hid-apple\nbcm5974\nbce' > /etc/modules-load.d/bce.conf
+
+PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin make -C /lib/modules/5.1.19-300.wifi.patch.fc30.x86_64/build/ M=/opt/drivers/bce modules
+PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin make -C /lib/modules/5.1.19-300.wifi.patch.fc30.x86_64/build/ M=/opt/drivers/touchbar modules
+
+cp -rf /opt/drivers/bce/*.ko /lib/modules/5.1.19-300.wifi.patch.fc30.x86_64/extra/
+cp -rf /opt/drivers/touchbar/*.ko /lib/modules/5.1.19-300.wifi.patch.fc30.x86_64/extra/
+
+/usr/sbin/depmod -a 5.1.19-300.wifi.patch.fc30.x86_64
+
+/usr/sbin/useradd fedora
+echo 'fedora' | /usr/bin/passwd fedora --stdin > /dev/null
+/usr/sbin/usermod -aG wheel fedora > /dev/null
+
+dnf remove -y kernel-headers
+rm -rf /opt/drivers
+rm -rf /etc/resolv.conf
 %end
 
 %include fedora-live-workstation.ks
