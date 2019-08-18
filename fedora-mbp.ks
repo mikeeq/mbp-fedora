@@ -1,21 +1,30 @@
 repo --name=fedora-mbp --baseurl=http://fedora-mbp-repo.herokuapp.com/
-bootloader --append="selinux=0"
+### Selinux in permissive mode
+bootloader --append=" enforcing=0"
+### Disable gnome-initial-setup (not working)
+firstboot --disable
 
-repo --name=fedora --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch --excludepkgs=kernel,kernel-core,kernel-modules,kernel-modules-extra,kernel-devel
-repo --name=updates --mirrorlist=https://mirrors.fedoraproject.org/mirrorlist?repo=updates-released-f$releasever&arch=$basearch --excludepkgs=kernel,kernel-core,kernel-modules,kernel-modules-extra,kernel-devel
+# root password - root
+rootpw root
 
+### Install kernel from https://github.com/mikeeq/mbp-fedora-kernel
 %packages
 
--kernel
--kernel-core
--kernel-modules
--kernel-modules-extra
--kernel-devel
 kernel-5.1.19-300.wifi.patch.fc30.x86_64
 kernel-core-5.1.19-300.wifi.patch.fc30.x86_64
 kernel-devel-5.1.19-300.wifi.patch.fc30.x86_64
 kernel-modules-5.1.19-300.wifi.patch.fc30.x86_64
 kernel-modules-extra-5.1.19-300.wifi.patch.fc30.x86_64
+
+%end
+
+### Remove other kernel versions than custom one
+%post
+
+dnf remove -y $(rpm -qa | grep kernel | grep -v oops | grep -v wifi)
+sed -i 's/^SELINUX=.*$/SELINUX=permissive/' /etc/selinux/config
+echo "fedora" | passwd fedora --stdin > /dev/null
+usermod -aG wheel fedora > /dev/null
 
 %end
 

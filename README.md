@@ -1,18 +1,20 @@
 # mbp-fedora
 [![Build Status](https://travis-ci.com/mikeeq/mbp-fedora.svg?branch=master)](https://travis-ci.com/mikeeq/mbp-fedora)
 
-Fedora 30 iso with custom kernel built-in and selinux disabled.
+Fedora 30 iso with custom kernel built-in and selinux in permissive mode.
 
 Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 
-## Known issues:
+## Known issues
 
-- selinux - i don't know why but with selinux enabled livecd iso don't want to boot? Several systemd services are failling to start, like: journal or gnome desktop env. ![selinux issue](screenshots/selinux.png)
-- kernel/mac related issues you will find in kernel repo
+- kernel/mac related issues are mentioned in kernel repo
+- gnome-initial-setup is broken - it's crashing - nothing actually happens after user creation during initial setup (it should restart gnome session with created user)
+- selinux - some security contexts aren't set, mostly for /run/udev/queue & systemd-journal etc, it's not working even with unmodified kickstart fedora-live-workstation.ks  - <https://forums.fedoraforum.org/showthread.php?309922-Getting-lots-of-failures-when-booting-my-LiveCD-with-a-custom-kernel>
+![selinux issue](screenshots/selinux.png)
 
-## Docs:
+## Docs
 
-### Fedora:
+### Fedora
 
 - <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-postinstallconfig>
 - <https://fedoraproject.org/wiki/LiveOS_image>
