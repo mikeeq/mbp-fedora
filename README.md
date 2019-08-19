@@ -6,21 +6,30 @@ Fedora 30 iso with custom kernel built-in and selinux in permissive mode.
 
 Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 
-## TODO:
+## How to install
+
+- Download .iso from releases
+- Burn the image on USB stick >=8GB via:
+  - dd - `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync  status=progress`
+  - rufus (GPT)- <https://rufus.ie/>
+  - fedora media writer (custom image option)- <https://getfedora.org/pl/workstation/download/>
+  - don't use `livecd-iso-to-disk`, because it's overwriting grub settings
+- Install Fedora
+- Default user: `fedora` pass: `fedora` (it's created due to gnome-initial-setup issue)
+
+## TODO
 
 - fix gnome-inital-setup
 - fix selinux contexts
-- mock efibootmgr
-- script: selinux permissive `/etc/selinux/config`, touch /.autorelabel, grub config
-- touchpad
-- fn patch
-- audio
+- add efibootmgr script for testing on VM
+- alsa config - audio (mic)
 
 ## Known issues
 
 - kernel/mac related issues are mentioned in kernel repo
 - gnome-initial-setup is broken - it's crashing - nothing actually happens after user creation during initial setup (it should restart gnome session with created user)
-- efibootmgr freezes Mac (it's executed in Anaconda during `Install bootloader...` step)
+- efibootmgr write command freezes Mac (it's executed in Anaconda during `Install bootloader...` step), probably nvram is blocked from writing
+  - `Based on the behavior your describe this is an issue with the firmware and the inability to change NVRAM in the OS` - <https://bugs.launchpad.net/ubuntu/+source/efibootmgr/+bug/1671794/comments/4>
 
 ```
 efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
