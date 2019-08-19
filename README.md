@@ -19,6 +19,7 @@ Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 
 ## TODO
 
+- fix booting from Macbook default bootloader (boot from refind for now)
 - fix gnome-inital-setup
 - fix selinux contexts
 - add efibootmgr script for testing on VM
