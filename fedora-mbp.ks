@@ -56,7 +56,7 @@ dnf remove -y kernel-headers
 rm -rf /opt/drivers
 rm -rf /etc/resolv.conf
 
-echo -e 'exclude=kernel*' >> /etc/dnf/dnf.conf
+echo -e 'exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra' >> /etc/dnf/dnf.conf
 %end
 
 ### Remove efibootmgr part from bootloader installation step in anaconda
@@ -64,6 +64,7 @@ echo -e 'exclude=kernel*' >> /etc/dnf/dnf.conf
 
 cp -rfv /tmp/kickstart_files/efi.py /var/tmp/imgcreate-*/install_root/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
 cp -rfv /tmp/kickstart_files/98-mbp-post-install.ks /var/tmp/imgcreate-*/install_root/usr/share/anaconda/post-scripts/
+cp -rfv /tmp/kickstart_files/AppleT2.conf /var/tmp/imgcreate-*/install_root/usr/share/alsa/cards/AppleT2.conf
 
 %end
 
