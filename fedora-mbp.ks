@@ -62,9 +62,10 @@ echo -e 'exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-e
 ### Remove efibootmgr part from bootloader installation step in anaconda
 %post --nochroot
 
-cp -rfv /tmp/kickstart_files/efi.py /var/tmp/imgcreate-*/install_root/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
-cp -rfv /tmp/kickstart_files/98-mbp-post-install.ks /var/tmp/imgcreate-*/install_root/usr/share/anaconda/post-scripts/
-cp -rfv /tmp/kickstart_files/AppleT2.conf /var/tmp/imgcreate-*/install_root/usr/share/alsa/cards/AppleT2.conf
+cp -rfv /tmp/kickstart_files/efi.py ${INSTALL_ROOT}/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
+cp -rfv /tmp/kickstart_files/98-mbp-post-install.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
+mkdir -p ${INSTALL_ROOT}/usr/share/alsa/cards/
+cp -rfv /tmp/kickstart_files/AppleT2.conf ${INSTALL_ROOT}/usr/share/alsa/cards/AppleT2.conf
 
 %end
 
