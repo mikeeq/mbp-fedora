@@ -37,7 +37,7 @@ Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 - Kernel/Mac related issues are mentioned in kernel repo
 - Macbooks with Apple T2 can't boot bootloader from HFS+ formatted ESP - only FAT32.
 
-> workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step
+> workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`
 
 - gnome-initial-setup is broken - nothing actually happens after user creation during initial setup (it should restart gnome session with created user)
 
