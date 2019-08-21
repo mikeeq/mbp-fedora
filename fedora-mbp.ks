@@ -63,7 +63,8 @@ echo -e 'exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-e
 %post --nochroot
 
 cp -rfv /tmp/kickstart_files/efi.py ${INSTALL_ROOT}/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
-cp -rfv /tmp/kickstart_files/98-mbp-post-install.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
+cp -rfv /tmp/kickstart_files/97-mbp-post-install.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
+cp -rfv /tmp/kickstart_files/98-mbp-regenerate-grub-cfg.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
 mkdir -p ${INSTALL_ROOT}/usr/share/alsa/cards/
 cp -rfv /tmp/kickstart_files/AppleT2.conf ${INSTALL_ROOT}/usr/share/alsa/cards/AppleT2.conf
 

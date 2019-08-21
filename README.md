@@ -23,18 +23,23 @@ Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 
 - Keyboard backlight
 - Microphone
-- Wifi
 
 ## TODO
 
 - fix gnome-inital-setup
 - fix selinux contexts
-- alsa config - audio (mic) - dynamic audio outputs change (on connecting/disconnecting headphones jack)
+- alsa config
+  - mic
+  - dynamic audio outputs change (on connecting/disconnecting headphones jack)
 - push a fix for Linux HFS+ ESP in anaconda
+- disable iBridge network interface
 
 ## Known issues
 
 - Kernel/Mac related issues are mentioned in kernel repo
+- Wifi could have problems with connecting to secure networks (WPA2)
+  - wpa_supplicant error - `CTRL-EVENT-ASSOC-REJECT bssid= status_code=16`
+> workaround - execute `modprobe -r brcmfmac; modprobe brcmfmac` with sudo privileges to reset broadcom kernel module
 - Macbooks with Apple T2 can't boot bootloader from HFS+ formatted ESP - only FAT32.
 
 > workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`
