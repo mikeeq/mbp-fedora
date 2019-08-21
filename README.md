@@ -18,11 +18,15 @@ Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
   - don't use `livecd-iso-to-disk`, because it's overwriting grub settings
 - Install Fedora
 - Login with default user: `fedora` pass: `fedora` (it's created due to gnome-initial-setup issue)
+- Put wifi firmware files to `/lib/firmware/brcm/`
+  - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
 
 ## Not working
 
 - Keyboard backlight
 - Microphone
+- Dynamic audio outputs change (on connecting/disconnecting headphones jack)
+- Suspend/Resume (sleep mode)
 
 ## TODO
 
@@ -39,7 +43,9 @@ Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 - Kernel/Mac related issues are mentioned in kernel repo
 - Wifi could have problems with connecting to secure networks (WPA2)
   - wpa_supplicant error - `CTRL-EVENT-ASSOC-REJECT bssid= status_code=16`
+
 > workaround - execute `modprobe -r brcmfmac; modprobe brcmfmac` with sudo privileges to reset broadcom kernel module
+
 - Macbooks with Apple T2 can't boot bootloader from HFS+ formatted ESP - only FAT32.
 
 > workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`
@@ -73,3 +79,11 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 - <https://forums.fedoraforum.org/showthread.php?309843-Fedora-24-livecd-creator-fails-to-create-initrd>
 - <https://fedoraproject.org/wiki/QA/Test_Days/Live_Image>
 - <https://fedoraproject.org/wiki/How_to_create_a_Fedora_install_ISO_for_testing>
+
+## Credits
+
+- @MCMrARM - thanks for all RE work
+- @ozbenh - thanks for submitting NVME patch
+- @roadrunner2 - thanks for SPI (touchbar) driver
+- @aunali1 - thanks for ArchLinux Kernel CI
+- @ppaulweber - thanks for keyboard and Macbook Air patches
