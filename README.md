@@ -2,17 +2,22 @@
 
 [![Build Status](https://travis-ci.com/mikeeq/mbp-fedora.svg?branch=master)](https://travis-ci.com/mikeeq/mbp-fedora)
 
-Fedora 30 ISO with Mac Apple T2 compatbility built-in (Macbooks >2018). Everything works out-of-the-box.
+Fedora 30 ISO with Apple T2 patches built-in (Macbooks produced >= 2018).
 
-Custom kernel and SELinux in permissive mode.
+All available Apple T2 drivers are integrated with this iso. Most things work, besides those mentioned in [not working section](#not-working).
 
 Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
+
+Drivers:
+
+- Apple T2 (audio, keyboard, touchpad) - <https://github.com/MCMrARM/mbp2018-bridge-drv.git>
+- Touchbar - <https://github.com/roadrunner2/macbook12-spi-driver.git>
 
 ## How to install
 
 - Download .iso from releases
 - Burn the image on USB stick >=8GB via:
-  - dd - `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync  status=progress`
+  - dd - `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
   - rufus (GPT)- <https://rufus.ie/>
   - fedora media writer (custom image option)- <https://getfedora.org/pl/workstation/download/>
   - don't use `livecd-iso-to-disk`, because it's overwriting grub settings
@@ -20,6 +25,7 @@ Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 - Login with default user: `fedora` pass: `fedora` (it's created due to gnome-initial-setup issue)
 - Put wifi firmware files to `/lib/firmware/brcm/`
   - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
+- You can put back SELinux in enforcing mode by changing the value in `/etc/selinux/config` but remember about relabelling your OS partition `touch /.autorelabel`
 
 ## Not working
 
