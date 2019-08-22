@@ -1,8 +1,7 @@
 #!/bin/sh
 
 FEDORA_KERNEL_BRANCH_NAME=f30
-LIVECD_CACHE_PATH=/var/cache/live
-
+LIVECD_CACHE_PATH=/var/lib/libvirt/live2
 ### Debug commands
 echo "FEDORA_KERNEL_BRANCH_NAME=$FEDORA_KERNEL_BRANCH_NAME"
 pwd
