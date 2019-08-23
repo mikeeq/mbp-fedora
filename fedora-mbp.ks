@@ -41,6 +41,7 @@ PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
 cp -rf /opt/drivers/bce/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 cp -rf /opt/drivers/touchbar/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 
+echo -e 'hid-apple\nbcm5974\nsnd-seq\nbce' > /etc/modules-load.d/bce.conf
 echo -e 'blacklist applesmc' > /etc/modprobe.d/blacklist.conf
 echo -e 'add_drivers+="hid_apple snd-seq bce"' >> /etc/dracut.conf
 echo -e 'force_drivers+="hid_apple snd-seq bce"' >> /etc/dracut.conf
