@@ -37,20 +37,60 @@ Drivers:
 ## TODO
 
 - fix gnome-inital-setup
-- fix selinux contexts
+- fix selinux security contexts
 - alsa config
   - mic
   - dynamic audio outputs change (on connecting/disconnecting headphones jack)
-- push a fix for Linux HFS+ ESP in anaconda
-- disable iBridge network interface
+- disable iBridge network interface (awkward internal Ethernet device?)
+- disable not working camera device
+  - there are two video devices (web cameras) initialized/discovered, don't know why yet
+- verify `brcmf_chip_tcm_rambase` returns
+
+```
+➜ ls -l /sys/class/video4linux/
+total 0
+lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video0 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video0
+lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video1 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video1
+➜ cat /sys/class/video4linux/*/dev
+81:0
+81:1
+```
 
 ## Known issues
 
 - Kernel/Mac related issues are mentioned in kernel repo
 - Wifi could have problems with connecting to secure networks (WPA2)
   - wpa_supplicant error - `CTRL-EVENT-ASSOC-REJECT bssid= status_code=16`
+    - there are two workaround available:
+      - you can stick with wpa_supplicant as wifi backend and you will need to reload broadcom module every time you connect to network
 
-> workaround - execute `modprobe -r brcmfmac; modprobe brcmfmac` with sudo privileges to reset broadcom kernel module
+      ```
+      ## Run as root
+      modprobe -r brcmfmac; modprobe brcmfmac
+      ```
+
+      - or you can change your wifi backend to iwd (it's less problematic, it's crashing sometimes, but it's more stable than wpa_supplicant [with broadcom wifi])
+
+      ```
+      ## Run all commands as root
+      # install NetworkManager with iwd support
+      dnf copr enable nyk/networkmanager-iwd
+      dnf update NetworkManager
+
+      # Change wifi backend which NetworkManager is using
+      vi /etc/NetworkManager/conf.d/wifi_backend.conf
+
+      [device]
+      wifi.backend=iwd
+
+      # enable iwd autostart
+      systemctl enable iwd
+
+      # start iwd
+      /usr/libexec/iwd
+      systemctl start iwd
+      systemctl restart NetworkManager
+      ```
 
 - Macbooks with Apple T2 can't boot bootloader from HFS+ formatted ESP - only FAT32.
 
@@ -85,6 +125,14 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 - <https://forums.fedoraforum.org/showthread.php?309843-Fedora-24-livecd-creator-fails-to-create-initrd>
 - <https://fedoraproject.org/wiki/QA/Test_Days/Live_Image>
 - <https://fedoraproject.org/wiki/How_to_create_a_Fedora_install_ISO_for_testing>
+
+### Github
+
+- GitHub issue (RE history): <https://github.com/Dunedan/mbp-2016-linux/issues/71>
+- VHCI+Sound driver (Apple T2) <https://github.com/MCMrARM/mbp2018-bridge-drv/>
+- TouchBar driver: <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
+- Kernel patches (all are mentioned in github issue above): <https://github.com/aunali1/linux-mbp-arch>
+- ArchLinux kernel patches: <https://github.com/ppaulweber/linux-mba>
 
 ## Credits
 
