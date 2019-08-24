@@ -19,13 +19,13 @@ Drivers:
 - Burn the image on USB stick >=8GB via:
   - dd - `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
   - rufus (GPT)- <https://rufus.ie/>
-  - fedora media writer (custom image option)- <https://getfedora.org/pl/workstation/download/>
+  - fedora media writer (custom image option)- <https://getfedora.org/en/workstation/download/>
   - don't use `livecd-iso-to-disk`, because it's overwriting grub settings
 - Install Fedora
 - Login with default user: `fedora` pass: `fedora` (it's created due to gnome-initial-setup issue)
 - Put wifi firmware files to `/lib/firmware/brcm/`
   - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
-- You can put back SELinux in enforcing mode by changing the value in `/etc/selinux/config` but remember about relabelling your OS partition `touch /.autorelabel`
+- You can put back SELinux in enforcing mode by changing the value in `/etc/selinux/config` but remember about relabelling your OS partition `touch /.autorelabel` before changing SELinux mode
 
 ## Not working
 
@@ -44,21 +44,26 @@ Drivers:
 - disable iBridge network interface (awkward internal Ethernet device?)
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
-- verify `brcmf_chip_tcm_rambase` returns
 
-```
-➜ ls -l /sys/class/video4linux/
-total 0
-lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video0 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video0
-lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video1 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video1
-➜ cat /sys/class/video4linux/*/dev
-81:0
-81:1
-```
+  ```
+  ➜ ls -l /sys/class/video4linux/
+  total 0
+  lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video0 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video0
+  lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video1 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video1
+  ➜ cat /sys/class/video4linux/*/dev
+  81:0
+  81:1
+  ```
+
+- verify `brcmf_chip_tcm_rambase` returns
 
 ## Known issues
 
 - Kernel/Mac related issues are mentioned in kernel repo
+- Anaconda sometimes could not finish installation process and it's freezing on `Network Configuration` step, probably due to iBridge internal network interface
+
+> workaround - it's a final step of installation, just reboot your Mac (installation is complete)
+
 - Wifi could have problems with connecting to secure networks (WPA2)
   - wpa_supplicant error - `CTRL-EVENT-ASSOC-REJECT bssid= status_code=16`
     - there are two workaround available:
@@ -92,7 +97,7 @@ lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video1 -> ../../devices/pci0000:00/0000:0
       systemctl restart NetworkManager
       ```
 
-- Macbooks with Apple T2 can't boot bootloader from HFS+ formatted ESP - only FAT32.
+- Macbooks with Apple T2 can't boot EFI binaries from HFS+ formatted ESP - only FAT32 (FAT32 have to be labelled as msftdata).
 
 > workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`
 
@@ -111,7 +116,7 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 
 - SELinux - some security contexts aren't set, mostly for `/run/udev/queue` & `systemd-journal` etc, it's not working even with unmodified kickstart `fedora-live-workstation.ks`  - <https://forums.fedoraforum.org/showthread.php?309922-Getting-lots-of-failures-when-booting-my-LiveCD-with-a-custom-kernel>
 
-> workaround applied - SELinux in permissive mode
+> workaround applied - SELinux is set to work in permissive mode `/etc/selinux/config`
 
 ![selinux issue](screenshots/selinux.png)
 
