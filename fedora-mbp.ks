@@ -35,7 +35,9 @@ rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi)
 
 mkdir -p /opt/drivers
 git clone https://github.com/MCMrARM/mbp2018-bridge-drv.git /opt/drivers/bce
+git -C /opt/drivers/bce/ checkout 6574ac760ab47b1b28229f4a736edd9829188c3f
 git clone --single-branch --branch mbp15 https://github.com/roadrunner2/macbook12-spi-driver.git /opt/drivers/touchbar
+git -C /opt/drivers/touchbar/ checkout 3f01cdb5035c4bc6aceeb2e835ded30699b3c06e
 PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin make -C /lib/modules/${KERNEL_VERSION}/build/ M=/opt/drivers/bce modules
 PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin make -C /lib/modules/${KERNEL_VERSION}/build/ M=/opt/drivers/touchbar modules
 cp -rf /opt/drivers/bce/*.ko /lib/modules/${KERNEL_VERSION}/extra/

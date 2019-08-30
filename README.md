@@ -10,12 +10,13 @@ Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 
 Drivers:
 
-- Apple T2 (audio, keyboard, touchpad) - <https://github.com/MCMrARM/mbp2018-bridge-drv.git>
-- Touchbar - <https://github.com/roadrunner2/macbook12-spi-driver.git>
+- Apple T2 (audio, keyboard, touchpad) - <https://github.com/MCMrARM/mbp2018-bridge-drv>
+- Touchbar - <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
 
 ## How to install
 
-- Download .iso from releases
+- Turn off secure boot - <https://support.apple.com/en-us/HT208330>
+- Download .iso from releases section - <https://github.com/mikeeq/mbp-fedora/releases/latest>
 - Burn the image on USB stick >=8GB via:
   - dd - `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
   - rufus (GPT)- <https://rufus.ie/>
@@ -29,7 +30,6 @@ Drivers:
 
 ## Not working
 
-- Keyboard backlight
 - Microphone
 - Dynamic audio outputs change (on connecting/disconnecting headphones jack)
 - Suspend/Resume (sleep mode)
@@ -134,7 +134,8 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 ### Github
 
 - GitHub issue (RE history): <https://github.com/Dunedan/mbp-2016-linux/issues/71>
-- VHCI+Sound driver (Apple T2) <https://github.com/MCMrARM/mbp2018-bridge-drv/>
+- VHCI+Sound driver (Apple T2): <https://github.com/MCMrARM/mbp2018-bridge-drv/>
+- hid-apple keyboard backlight patch: <https://github.com/MCMrARM/mbp2018-etc>
 - TouchBar driver: <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
 - Kernel patches (all are mentioned in github issue above): <https://github.com/aunali1/linux-mbp-arch>
 - ArchLinux kernel patches: <https://github.com/ppaulweber/linux-mba>
