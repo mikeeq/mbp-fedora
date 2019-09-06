@@ -25,6 +25,12 @@ Drivers:
   - fedora media writer (custom image option)- <https://getfedora.org/en/workstation/download/>
   - don't use `livecd-iso-to-disk`, because it's overwriting grub settings
 - Install Fedora
+  - Boot directly from MacOS boot manager. (You can boot into it by pressing and holding option key after clicking power-on button).
+    - There will be three boot options available, usually the third one works for me. (There are three of them, because there are three partitions in ISO: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
+  - You should use standard partition layout during partitioning your Disk in anaconda, because i haven't tested LVM scenario yet. <https://github.com/mikeeq/mbp-fedora/issues/2>
+    - /boot/efi - 1024MB Linux HFS+ ESP
+    - /boot - 1024MB EXT4
+    - / - xxxGB EXT4
 - Login with default user: `fedora` pass: `fedora` (it's created due to gnome-initial-setup issue)
 - Put wifi firmware files to `/lib/firmware/brcm/`
   - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
