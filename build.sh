@@ -11,7 +11,7 @@ echo "CPU threads: $(nproc --all)"
 cat /proc/cpuinfo | grep 'model name' | uniq
 
 ### Dependencies
-dnf install -y git livecd-tools
+dnf install -y git livecd-tools zip
 
 ### Copy efibootmgr fix for anaconda
 mkdir -p /tmp/kickstart_files/
@@ -38,7 +38,12 @@ bgPID=$!
 livecd-creator --verbose --config=fedora-mbp.ks --cache=${LIVECD_CACHE_PATH}
 livecd_exitcode=$?
 
+### Zip iso and split it into multiple parts - github max size of release attachment is 2GB, where ISO is sometimes bigger than that
+mkdir -p ./output_zip
+zip -s 1500m ./output_zip/livecd.zip *.iso
+
 find ./ | grep ".iso"
+find ./ | grep ".zip"
 kill "$bgPID"
 
 exit $livecd_exitcode

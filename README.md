@@ -17,6 +17,8 @@ Drivers:
 
 - Turn off secure boot - <https://support.apple.com/en-us/HT208330>
 - Download .iso from releases section - <https://github.com/mikeeq/mbp-fedora/releases/latest>
+  - If it's splitted into multiple zip parts, you need to join splitted files into one and then extract it via `unzip` or extract them directly via `7z x` or `7za x`
+    - <https://unix.stackexchange.com/questions/40480/how-to-unzip-a-multipart-spanned-zip-on-linux>
 - Burn the image on USB stick >=8GB via:
   - dd - `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
   - rufus (GPT)- <https://rufus.ie/>
@@ -30,17 +32,16 @@ Drivers:
 
 ## Not working
 
-- Microphone
-- Dynamic audio outputs change (on connecting/disconnecting headphones jack)
+- Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 - Suspend/Resume (sleep mode)
+- TouchID - (@MCMrARM is working on it - https://github.com/Dunedan/mbp-2016-linux/issues/71#issuecomment-528545490)
 
 ## TODO
 
 - fix gnome-inital-setup
 - fix selinux security contexts
-- alsa config
-  - mic
-  - dynamic audio outputs change (on connecting/disconnecting headphones jack)
+- alsa/pulseaudio config
+  - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 - disable iBridge network interface (awkward internal Ethernet device?)
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
@@ -136,6 +137,7 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 - GitHub issue (RE history): <https://github.com/Dunedan/mbp-2016-linux/issues/71>
 - VHCI+Sound driver (Apple T2): <https://github.com/MCMrARM/mbp2018-bridge-drv/>
 - hid-apple keyboard backlight patch: <https://github.com/MCMrARM/mbp2018-etc>
+- alsa/pulseaudio config files: <https://gist.github.com/MCMrARM/c357291e4e5c18894bea10665dcebffb>
 - TouchBar driver: <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
 - Kernel patches (all are mentioned in github issue above): <https://github.com/aunali1/linux-mbp-arch>
 - ArchLinux kernel patches: <https://github.com/ppaulweber/linux-mba>
