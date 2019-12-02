@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FEDORA_KERNEL_BRANCH_NAME=f30
+FEDORA_KERNEL_BRANCH_NAME=f31
 LIVECD_CACHE_PATH=/var/cache/live
 
 ### Debug commands

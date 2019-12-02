@@ -12,14 +12,14 @@ services:
 #     - master
 
 script:
-  - docker pull fedora:30
+  - docker pull fedora:31
   - |
     docker run \
       --privileged \
       -t \
       --rm \
       -v $(pwd):/repo \
-      fedora:30 \
+      fedora:31 \
       /bin/bash -c 'cd /repo && ./build.sh'
 
 deploy:
