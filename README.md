@@ -44,10 +44,19 @@ Drivers:
 
 ## TODO
 
+- add ISO checksum to release page
 - fix gnome-inital-setup
 - fix selinux security contexts
 - alsa/pulseaudio config
   - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
+
+  ```
+  # to manually change audio profile via PulseAudio cli execute
+  pacmd set-card-profile 0 output:codec-output+input:codec-input
+  # list available audio profiles
+  pacmd list-cards
+  ```
+
 - disable iBridge network interface (awkward internal Ethernet device?)
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
@@ -128,6 +137,8 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 ![selinux issue](screenshots/selinux.png)
 
 ## Docs
+
+- Discord: <https://discord.gg/39Rmjh>
 
 ### Fedora
 
