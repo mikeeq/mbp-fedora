@@ -47,7 +47,7 @@ git clone --single-branch --branch ${BCE_DRIVER_BRANCH_NAME} https://github.com/
 git -C /opt/drivers/bce/ checkout ${BCE_DRIVER_COMMIT_HASH}
 
 ### Patch bce for kernel 5.3
-wget /opt/drivers/
+curl -sL https://raw.githubusercontent.com/mikeeq/mbp-fedora/f31/files/patches/bce_5_3.patch -o/opt/drivers/bce_5_3.patch
 git -C /opt/drivers/bce apply /opt/drivers/bce_5_3.patch
 
 git clone --single-branch --branch ${APPLE_IB_DRIVER_BRANCH_NAME} https://github.com/roadrunner2/macbook12-spi-driver.git /opt/drivers/touchbar
