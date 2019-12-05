@@ -42,6 +42,9 @@ livecd_exitcode=$?
 mkdir -p ./output_zip
 zip -s 1500m ./output_zip/livecd.zip *.iso
 
+### Calculate sha256 sums of built ISO
+sha256sum *.iso > ./output_zip/sha256
+
 find ./ | grep ".iso"
 find ./ | grep ".zip"
 kill "$bgPID"

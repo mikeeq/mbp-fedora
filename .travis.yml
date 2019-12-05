@@ -12,15 +12,7 @@ services:
 #     - master
 
 script:
-  - docker pull fedora:31
-  - |
-    docker run \
-      --privileged \
-      -t \
-      --rm \
-      -v $(pwd):/repo \
-      fedora:31 \
-      /bin/bash -c 'cd /repo && ./build.sh'
+  - ./build_in_docker.sh
 
 deploy:
   provider: releases

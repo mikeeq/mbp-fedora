@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/mikeeq/mbp-fedora.svg?branch=master)](https://travis-ci.com/mikeeq/mbp-fedora)
 
-Fedora 30 ISO with Apple T2 patches built-in (Macbooks produced >= 2018).
+Fedora ISO with Apple T2 patches built-in (Macbooks produced >= 2018).
 
 All available Apple T2 drivers are integrated with this iso. Most things work, besides those mentioned in [not working section](#not-working).
 
@@ -11,7 +11,15 @@ Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
 Drivers:
 
 - Apple T2 (audio, keyboard, touchpad) - <https://github.com/MCMrARM/mbp2018-bridge-drv>
+- Apple SMC - <https://github.com/MCMrARM/mbp2018-etc>
 - Touchbar - <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
+
+> Tested on: Macbook Pro 15,2 13" 2019 i5 TouchBar Z0WQ000AR MV972ZE/A/R1
+
+```
+Boot ROM Version:	220.270.99.0.0 (iBridge: 16.16.6571.0.0,0)
+MacOS Mojave: 10.14.6 (18G103)
+```
 
 ## How to install
 
@@ -44,7 +52,6 @@ Drivers:
 
 ## TODO
 
-- add ISO checksum to release page
 - fix gnome-inital-setup
 - fix selinux security contexts
 - alsa/pulseaudio config
