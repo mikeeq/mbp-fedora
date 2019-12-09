@@ -17,14 +17,14 @@ rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi |
 
 ### Install custom drivers
 mkdir -p /opt/drivers
-git clone --single-branch --branch ${BCE_DRIVER_BRANCH_NAME} https://github.com/MCMrARM/mbp2018-bridge-drv.git /opt/drivers/bce
+git clone --single-branch --branch ${BCE_DRIVER_BRANCH_NAME} ${BCE_DRIVER_GIT_URL} /opt/drivers/bce
 git -C /opt/drivers/bce/ checkout ${BCE_DRIVER_COMMIT_HASH}
 
 ### Patch bce for kernel 5.3
-curl -sL https://raw.githubusercontent.com/mikeeq/mbp-fedora/f31/files/patches/bce_5_3.patch -o/opt/drivers/bce_5_3.patch
+curl -sL https://raw.githubusercontent.com/mikeeq/mbp-fedora/f31/files/patches/bce_5_3.patch -o /opt/drivers/bce_5_3.patch
 git -C /opt/drivers/bce apply /opt/drivers/bce_5_3.patch
 
-git clone --single-branch --branch ${APPLE_IB_DRIVER_BRANCH_NAME} https://github.com/roadrunner2/macbook12-spi-driver.git /opt/drivers/touchbar
+git clone --single-branch --branch ${APPLE_IB_DRIVER_BRANCH_NAME} ${APPLE_IB_DRIVER_GIT_URL} /opt/drivers/touchbar
 git -C /opt/drivers/touchbar/ checkout ${APPLE_IB_DRIVER_COMMIT_HASH}
 PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin make -C /lib/modules/${KERNEL_VERSION}/build/ M=/opt/drivers/bce modules
 PATH=/usr/share/Modules/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin make -C /lib/modules/${KERNEL_VERSION}/build/ M=/opt/drivers/touchbar modules

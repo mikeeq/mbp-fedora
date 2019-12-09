@@ -52,7 +52,7 @@ class EFIBase(object):
         else:
             exec_func = util.execWithRedirect
         if "root" not in kwargs:
-            kwargs["root"] = util.getSysroot()
+            kwargs["root"] = conf.target.system_root
 
         return exec_func("efibootmgr", list(args), **kwargs)
 
@@ -105,21 +105,14 @@ class EFIBase(object):
                     raise BootLoaderError("Failed to remove old efi boot entry. This is most "
                                           "likely a kernel or firmware bug.")
 
-    def update(self):
-        self.install()
-
     def write(self):
         """ Write the bootloader configuration and install the bootloader. """
         if self.skip_bootloader:  # pylint: disable=no-member
             return
 
-        if self.update_only:  # pylint: disable=no-member
-            self.update()
-            return
-
         try:
             os.sync()
-            self.stage2_device.format.sync(root=util.getTargetPhysicalRoot()) # pylint: disable=no-member
+            self.stage2_device.format.sync(root=conf.target.physical_root) # pylint: disable=no-member
             self.install()
         finally:
             self.write_config()  # pylint: disable=no-member
@@ -195,7 +188,7 @@ class MacEFIGRUB(EFIGRUB):
         self._packages64.extend(["grub2-tools-efi", "mactel-boot"])
 
     def mactel_config(self):
-        if os.path.exists(util.getSysroot() + "/usr/libexec/mactel-boot-setup"):
+        if os.path.exists(conf.target.system_root + "/usr/libexec/mactel-boot-setup"):
             rc = util.execInSysroot("/usr/libexec/mactel-boot-setup", [])
             if rc:
                 log.error("failed to configure Mac boot loader")
