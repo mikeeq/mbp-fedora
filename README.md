@@ -39,10 +39,9 @@ MacOS Mojave: 10.14.6 (18G103)
     - /boot/efi - 1024MB Linux HFS+ ESP
     - /boot - 1024MB EXT4
     - / - xxxGB EXT4
-- Login with default user: `fedora` pass: `fedora` (it's created due to gnome-initial-setup issue)
 - Put wifi firmware files to `/lib/firmware/brcm/`
   - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
-- You can put back SELinux in enforcing mode by changing the value in `/etc/selinux/config` but remember about relabelling your OS partition `touch /.autorelabel` before changing SELinux mode
+- To install additional languages, install appropriate langpack via dnf `dnf search langpack`
 
 ## Not working
 
@@ -52,8 +51,7 @@ MacOS Mojave: 10.14.6 (18G103)
 
 ## TODO
 
-- fix gnome-inital-setup
-- fix selinux security contexts
+- add Fedora icon to usb installer
 - alsa/pulseaudio config
   - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 
@@ -124,24 +122,12 @@ MacOS Mojave: 10.14.6 (18G103)
 
 > workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`
 
-- gnome-initial-setup is broken - nothing actually happens after user creation during initial setup (it should restart gnome session with created user)
-
-> workaround applied - default Fedora user created
-
-- efibootmgr write command freezes Mac (it's executed in Anaconda during `Install bootloader...` step), probably nvram is blocked from writing
-  - `Based on the behavior your describe this is an issue with the firmware and the inability to change NVRAM in the OS` - <https://bugs.launchpad.net/ubuntu/+source/efibootmgr/+bug/1671794/comments/4>
+- efibootmgr write command freezes Mac (it's executed in Anaconda during `Install bootloader...` step) - nvram is blocked from writing
 
 ```
 efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 ```
-
-> workaround applied - efibootmgr execution is removed from anaconda
-
-- SELinux - some security contexts aren't set, mostly for `/run/udev/queue` & `systemd-journal` etc, it's not working even with unmodified kickstart `fedora-live-workstation.ks`  - <https://forums.fedoraforum.org/showthread.php?309922-Getting-lots-of-failures-when-booting-my-LiveCD-with-a-custom-kernel>
-
-> workaround applied - SELinux is set to work in permissive mode `/etc/selinux/config`
-
-![selinux issue](screenshots/selinux.png)
+  - since MacOS Catalina EFI is blocked even from reading, so access to EFI is blocked via adding `efi=noruntime` to kernel args
 
 ## Docs
 

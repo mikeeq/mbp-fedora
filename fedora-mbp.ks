@@ -2,13 +2,10 @@
 repo --name=fedora-mbp --baseurl=http://fedora-mbp-repo.herokuapp.com/
 
 ### Selinux in permissive mode
-## enforcing=0 is not saved after installation in grub
-bootloader --append=" enforcing=0"
+bootloader --append="enforcing=1 efi=noruntime modprobe.blacklist=thunderbolt"
 
-### Disable gnome-initial-setup (not working)
+### Accepting EULA
 eula --agreed
-firstboot --disable
-services --disabled="initial-setup-graphical"
 
 ### Install kernel from hosted rpm repo
 %packages
@@ -65,11 +62,6 @@ echo -e 'add_drivers+="hid_apple snd-seq bce"\nforce_drivers+="hid_apple snd-seq
 /usr/sbin/depmod -a ${KERNEL_VERSION}
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 
-### Add default 'fedora' user with 'fedora' password
-/usr/sbin/useradd fedora
-echo 'fedora' | /usr/bin/passwd fedora --stdin > /dev/null
-/usr/sbin/usermod -aG wheel fedora > /dev/null
-
 ### Remove temporary
 dnf remove -y kernel-headers
 rm -rf /opt/drivers
@@ -82,9 +74,6 @@ echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.c
 
 
 %post --nochroot
-### Remove efibootmgr part from bootloader installation step in anaconda
-cp -rfv /tmp/kickstart_files/anaconda/efi.py ${INSTALL_ROOT}/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
-
 ### Post install anaconda scripts - Reformatting HFS+ EFI partition to FAT32
 cp -rfv /tmp/kickstart_files/post-install-kickstart/*.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
 
@@ -94,8 +83,6 @@ cp -rfv /tmp/kickstart_files/audio/AppleT2.conf ${INSTALL_ROOT}/usr/share/alsa/c
 cp -rfv /tmp/kickstart_files/audio/apple-t2.conf ${INSTALL_ROOT}/usr/share/pulseaudio/alsa-mixer/profile-sets/apple-t2.conf
 cp -rfv /tmp/kickstart_files/audio/91-pulseaudio-custom.rules ${INSTALL_ROOT}/usr/lib/udev/rules.d/91-pulseaudio-custom.rules
 
-### Turn off thunderbolt driver at LIVECD boot
-sed -i '/^\s\sappend/ s/$/ noapic efi=noruntime nomodeset modprobe.blacklist=thunderbolt/' $LIVE_ROOT/isolinux/isolinux.cfg
 %end
 
 
