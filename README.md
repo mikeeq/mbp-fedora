@@ -46,7 +46,6 @@ MacOS Mojave: 10.14.6 (18G103)
 ## Not working
 
 - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
-- Suspend/Resume (sleep mode)
 - TouchID - (@MCMrARM is working on it - https://github.com/Dunedan/mbp-2016-linux/issues/71#issuecomment-528545490)
 
 ## TODO
@@ -124,10 +123,13 @@ MacOS Mojave: 10.14.6 (18G103)
 
 - efibootmgr write command freezes Mac (it's executed in Anaconda during `Install bootloader...` step) - nvram is blocked from writing
 
+  - since MacOS Catalina EFI is blocked even from reading, so access to EFI is blocked via adding `efi=noruntime` to kernel args
+
 ```
 efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 ```
-  - since MacOS Catalina EFI is blocked even from reading, so access to EFI is blocked via adding `efi=noruntime` to kernel args
+
+- `ctrl+x` is not working in GRUB, so if you are trying to change kernel parameters - start your OS by clicking `ctrl+shift+f10` on external keyborad
 
 ## Docs
 
@@ -151,6 +153,7 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 - TouchBar driver: <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
 - Kernel patches (all are mentioned in github issue above): <https://github.com/aunali1/linux-mbp-arch>
 - ArchLinux kernel patches: <https://github.com/ppaulweber/linux-mba>
+- ArchLinux installation guide: <https://gist.github.com/TRPB/437f663b545d23cc8a2073253c774be3>
 
 ## Credits
 

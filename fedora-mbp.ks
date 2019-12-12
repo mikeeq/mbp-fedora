@@ -2,7 +2,7 @@
 repo --name=fedora-mbp --baseurl=http://fedora-mbp-repo.herokuapp.com/
 
 ### Selinux in permissive mode
-bootloader --append="enforcing=1 efi=noruntime modprobe.blacklist=thunderbolt"
+bootloader --append="enforcing=0 efi=noruntime pcie_ports=compat modprobe.blacklist=thunderbolt"
 
 ### Accepting EULA
 eula --agreed
@@ -82,6 +82,10 @@ mkdir -p ${INSTALL_ROOT}/usr/share/alsa/cards/
 cp -rfv /tmp/kickstart_files/audio/AppleT2.conf ${INSTALL_ROOT}/usr/share/alsa/cards/AppleT2.conf
 cp -rfv /tmp/kickstart_files/audio/apple-t2.conf ${INSTALL_ROOT}/usr/share/pulseaudio/alsa-mixer/profile-sets/apple-t2.conf
 cp -rfv /tmp/kickstart_files/audio/91-pulseaudio-custom.rules ${INSTALL_ROOT}/usr/lib/udev/rules.d/91-pulseaudio-custom.rules
+
+### Copy suspend fix
+cp -rfv /tmp/kickstart_files/suspend/rmmod_tb.sh ${INSTALL_ROOT}/lib/systemd/system-sleep/rmmod_tb.sh
+chmod +x ${INSTALL_ROOT}/lib/systemd/system-sleep/rmmod_tb.sh
 
 %end
 
