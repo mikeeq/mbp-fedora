@@ -1,3 +1,4 @@
+# https://raw.githubusercontent.com/rhinstaller/anaconda/master/pyanaconda/bootloader/efi.py
 #
 # Copyright (C) 2019 Red Hat, Inc.
 #
@@ -21,8 +22,8 @@ import re
 from pyanaconda.bootloader.base import BootLoaderError
 from pyanaconda.bootloader.grub2 import GRUB2
 from pyanaconda.core import util
+from pyanaconda.core.kernel import kernel_arguments
 from pyanaconda.core.configuration.anaconda import conf
-from pyanaconda.flags import flags
 from pyanaconda.product import productName
 
 from pyanaconda.anaconda_loggers import get_module_logger
@@ -43,7 +44,7 @@ class EFIBase(object):
             log.info("Skipping efibootmgr for image/directory install.")
             return ""
 
-        if "noefi" in flags.cmdline:
+        if "noefi" in kernel_arguments:
             log.info("Skipping efibootmgr for noefi")
             return ""
 
@@ -65,12 +66,11 @@ class EFIBase(object):
         boot_disk = partition.disk
         boot_part_num = str(partition.parted_partition.number)
 
-        # Disable writing to efi nvram
         # rc = self.efibootmgr(
         #     "-c", "-w", "-L", productName.split("-")[0],  # pylint: disable=no-member
         #     "-d", boot_disk.path, "-p", boot_part_num,
         #     "-l", self.efi_dir_as_efifs_dir + self._efi_binary,  # pylint: disable=no-member
-        #     root=util.getSysroot()
+        #     root=conf.target.system_root
         # )
         rc = self.efibootmgr()
         if rc:

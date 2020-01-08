@@ -15,11 +15,12 @@ gcc
 gcc-c++
 make
 iwd
-kernel-5.3.15-300.mbp.fc31.x86_64
-kernel-core-5.3.15-300.mbp.fc31.x86_64
-kernel-devel-5.3.15-300.mbp.fc31.x86_64
-kernel-modules-5.3.15-300.mbp.fc31.x86_64
-kernel-modules-extra-5.3.15-300.mbp.fc31.x86_64
+kernel-5.4.8-200.mbp.fc31.x86_64
+kernel-core-5.4.8-200.mbp.fc31.x86_64
+kernel-devel-5.4.8-200.mbp.fc31.x86_64
+kernel-modules-5.4.8-200.mbp.fc31.x86_64
+kernel-modules-extra-5.4.8-200.mbp.fc31.x86_64
+kernel-modules-internal-5.4.8-200.mbp.fc31.x86_64
 
 %end
 
@@ -28,7 +29,7 @@ kernel-modules-extra-5.3.15-300.mbp.fc31.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.3.15-300.mbp.fc31.x86_64
+KERNEL_VERSION=5.4.8-200.mbp.fc31.x86_64
 BCE_DRIVER_GIT_URL=https://github.com/MCMrARM/mbp2018-bridge-drv.git
 BCE_DRIVER_BRANCH_NAME=master
 BCE_DRIVER_COMMIT_HASH=7330e638b9a32b4ae9ea97857f33838b5613cad3
@@ -43,10 +44,6 @@ rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi |
 mkdir -p /opt/drivers
 git clone --single-branch --branch ${BCE_DRIVER_BRANCH_NAME} ${BCE_DRIVER_GIT_URL} /opt/drivers/bce
 git -C /opt/drivers/bce/ checkout ${BCE_DRIVER_COMMIT_HASH}
-
-### Patch bce for kernel 5.3
-curl -sL https://raw.githubusercontent.com/mikeeq/mbp-fedora/f31/files/patches/bce_5_3.patch -o /opt/drivers/bce_5_3.patch
-git -C /opt/drivers/bce apply /opt/drivers/bce_5_3.patch
 
 git clone --single-branch --branch ${APPLE_IB_DRIVER_BRANCH_NAME} ${APPLE_IB_DRIVER_GIT_URL} /opt/drivers/touchbar
 git -C /opt/drivers/touchbar/ checkout ${APPLE_IB_DRIVER_COMMIT_HASH}
@@ -67,13 +64,16 @@ dnf remove -y kernel-headers
 rm -rf /opt/drivers
 rm -rf /etc/resolv.conf
 
-sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra' /etc/yum.repos.d/fedora*.repo
+sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal' /etc/yum.repos.d/fedora*.repo
 echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
 echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.conf
 %end
 
 
 %post --nochroot
+### Remove efibootmgr part from bootloader installation step in anaconda
+cp -rfv /tmp/kickstart_files/anaconda/efi.py ${INSTALL_ROOT}/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
+
 ### Post install anaconda scripts - Reformatting HFS+ EFI partition to FAT32
 cp -rfv /tmp/kickstart_files/post-install-kickstart/*.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
 

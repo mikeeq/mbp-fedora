@@ -98,10 +98,6 @@ MacOS Mojave: 10.14.6 (18G103)
 
       ```
       ## Run all commands as root
-      # install NetworkManager with iwd support
-      dnf copr enable nyk/networkmanager-iwd
-      dnf update NetworkManager
-
       # Change wifi backend which NetworkManager is using
       vi /etc/NetworkManager/conf.d/wifi_backend.conf
 

@@ -3,7 +3,7 @@
 EFI_DEV=$(df | grep '/boot/efi' | awk '{print $1}')
 EFI_PARTITION=${EFI_DEV#/dev/nvme0n1p}
 
-if cat /etc/fstab | grep hfsplus ; then
+if cat ${ANA_INSTALL_PATH}/etc/fstab | grep hfsplus ; then
   ### HFS+ boot partition reformatting to FAT32
   mkdir -p ${ANA_INSTALL_PATH}/opt/efi_backup
   cp -rfv ${ANA_INSTALL_PATH}/boot/efi/* ${ANA_INSTALL_PATH}/opt/efi_backup/
