@@ -55,10 +55,12 @@ MacOS Mojave: 10.14.6 (18G103)
   - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 
   ```
-  # to manually change audio profile via PulseAudio cli execute
-  pacmd set-card-profile 0 output:codec-output+input:codec-input
-  # list available audio profiles
-  pacmd list-cards
+  ## to manually change audio profile via PulseAudio cli execute
+  # to headphones output
+  pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
+
+  # to speakers output
+  pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:builtin-speaker+input:builtin-mic
   ```
 
 - disable iBridge network interface (awkward internal Ethernet device?)

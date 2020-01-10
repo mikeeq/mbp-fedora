@@ -15,12 +15,12 @@ gcc
 gcc-c++
 make
 iwd
-kernel-5.4.8-200.mbp.fc31.x86_64
-kernel-core-5.4.8-200.mbp.fc31.x86_64
-kernel-devel-5.4.8-200.mbp.fc31.x86_64
-kernel-modules-5.4.8-200.mbp.fc31.x86_64
-kernel-modules-extra-5.4.8-200.mbp.fc31.x86_64
-kernel-modules-internal-5.4.8-200.mbp.fc31.x86_64
+kernel-5.4.10-200.mbp.fc31.x86_64
+kernel-core-5.4.10-200.mbp.fc31.x86_64
+kernel-devel-5.4.10-200.mbp.fc31.x86_64
+kernel-modules-5.4.10-200.mbp.fc31.x86_64
+kernel-modules-extra-5.4.10-200.mbp.fc31.x86_64
+kernel-modules-internal-5.4.10-200.mbp.fc31.x86_64
 
 %end
 
@@ -29,7 +29,7 @@ kernel-modules-internal-5.4.8-200.mbp.fc31.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.4.8-200.mbp.fc31.x86_64
+KERNEL_VERSION=5.4.10-200.mbp.fc31.x86_64
 BCE_DRIVER_GIT_URL=https://github.com/MCMrARM/mbp2018-bridge-drv.git
 BCE_DRIVER_BRANCH_NAME=master
 BCE_DRIVER_COMMIT_HASH=7330e638b9a32b4ae9ea97857f33838b5613cad3
@@ -72,7 +72,7 @@ echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.c
 
 %post --nochroot
 ### Remove efibootmgr part from bootloader installation step in anaconda
-cp -rfv /tmp/kickstart_files/anaconda/efi.py ${INSTALL_ROOT}/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
+#cp -rfv /tmp/kickstart_files/anaconda/efi.py ${INSTALL_ROOT}/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
 
 ### Post install anaconda scripts - Reformatting HFS+ EFI partition to FAT32
 cp -rfv /tmp/kickstart_files/post-install-kickstart/*.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
