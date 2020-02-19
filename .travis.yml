@@ -35,11 +35,8 @@ jobs:
           shellcheck ./*.sh
         '
     - stage: build_deploy
-      name: "Build Fedora"
+      name: "Build Fedora and Deploy to GitHub Releases"
       script: ./build_in_docker.sh
-    - stage: build_deploy
-      name: "Deploy to Github Releases"
-      script: skip
       deploy:
         provider: releases
         api_key: "$GITHUB_TOKEN"
