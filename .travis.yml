@@ -13,26 +13,32 @@ services:
 
 stages:
   - test
-  - build
-  - deploy
+  - build_deploy
 
 jobs:
   include:
     - stage: test
-      name: "Lint"
+      name: "YamlLint"
       script: |
         docker run --rm -v $(pwd):/repo -it alpine:latest /bin/sh -c '
           cd /repo
-          apk add --no-cache shellcheck python3 bash
+          apk add --no-cache python3
           pip3 install yamllint
           yamllint .
+        '
+    - stage: test
+      name: "ShellCheck"
+      script: |
+        docker run --rm -v $(pwd):/repo -it alpine:latest /bin/sh -c '
+          cd /repo
+          apk add --no-cache shellcheck bash
           shellcheck ./*.sh
         '
-    - stage: build
+    - stage: build_deploy
       name: "Build Fedora"
       script: ./build_in_docker.sh
-    - stage: deploy
-      name: Deploy to Github Releases
+    - stage: build_deploy
+      name: "Deploy to Github Releases"
       script: skip
       deploy:
         provider: releases
