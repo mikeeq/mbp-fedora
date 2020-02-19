@@ -21,7 +21,8 @@ jobs:
     - stage: test
       name: "Lint"
       script: |
-        docker run -it alpine:latest /bin/sh -c '
+        docker run --rm -v $(pwd):/repo -it alpine:latest /bin/sh -c '
+          cd /repo
           apk add --no-cache shellcheck python3 bash
           pip3 install yamllint
           yamllint .
