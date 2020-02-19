@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -eu -o pipefail
 
 DOCKER_IMAGE=fedora:31
 
@@ -7,6 +9,6 @@ docker run \
   --privileged \
   --rm \
   -t \
-  -v $(pwd):/repo \
+  -v "$(pwd)":/repo \
   ${DOCKER_IMAGE} \
   /bin/bash -c 'cd /repo && ./build.sh'

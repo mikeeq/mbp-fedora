@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+
+set -eu -o pipefail
 
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f31
-FEDORA_KICKSTARTS_COMMIT_HASH=8ea142456d5152a864056c48b1e3298eda29037e
+FEDORA_KICKSTARTS_COMMIT_HASH=8ea142456d5152a864056c48b1e3298eda29037e        # https://pagure.io/fedora-kickstarts/commits/f31
 LIVECD_CACHE_PATH=/var/cache/live
 
 ### Debug commands
@@ -11,7 +13,7 @@ echo "FEDORA_KICKSTARTS_COMMIT_HASH=${FEDORA_KICKSTARTS_COMMIT_HASH}"
 pwd
 ls
 echo "CPU threads: $(nproc --all)"
-cat /proc/cpuinfo | grep 'model name' | uniq
+grep 'model name' /proc/cpuinfo | uniq
 
 ### Dependencies
 dnf install -y git livecd-tools zip
@@ -43,10 +45,10 @@ livecd_exitcode=$?
 
 ### Zip iso and split it into multiple parts - github max size of release attachment is 2GB, where ISO is sometimes bigger than that
 mkdir -p ./output_zip
-zip -s 1500m ./output_zip/livecd.zip *.iso
+zip -s 1500m ./output_zip/livecd.zip ./*.iso
 
 ### Calculate sha256 sums of built ISO
-sha256sum *.iso > ./output_zip/sha256
+sha256sum ./*.iso > ./output_zip/sha256
 
 find ./ | grep ".iso"
 find ./ | grep ".zip"

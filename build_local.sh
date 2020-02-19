@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -eu -o pipefail
 
 # DOCKER_IMAGE=fedora:31
 DOCKER_IMAGE=fedora_iso:31
@@ -9,7 +11,7 @@ docker run \
   --privileged \
   --rm \
   -t \
-  -v $(pwd):/repo \
+  -v "$(pwd)":/repo \
   -v /dev:/dev \
   -v ${LIVECD_CACHE_PATH}:${LIVECD_CACHE_PATH} \
   ${DOCKER_IMAGE} \

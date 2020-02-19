@@ -11,14 +11,33 @@ services:
 #   only:
 #     - master
 
-script:
-  - ./build_in_docker.sh
+stages:
+  - test
+  - build
+  - deploy
 
-deploy:
-  provider: releases
-  api_key: "$GITHUB_TOKEN"
-  file_glob: true
-  file: "fedora-kickstarts/output_zip/*"
-  skip_cleanup: true
-  on:
-    tags: true
+jobs:
+  include:
+    - stage: test
+      name: "Lint"
+      script: |
+        docker run -it alpine:latest /bin/sh -c '
+          apk add --no-cache shellcheck python3 bash
+          pip3 install yamllint
+          yamllint .
+          shellcheck ./*.sh
+        '
+    - stage: build
+      name: "Build Fedora"
+      script: ./build_in_docker.sh
+    - stage: deploy
+      name: Deploy to Github Releases
+      script: skip
+      deploy:
+        provider: releases
+        api_key: "$GITHUB_TOKEN"
+        file_glob: true
+        file: "fedora-kickstarts/output_zip/*"
+        skip_cleanup: true
+        on:
+          tags: true

@@ -42,6 +42,7 @@ MacOS Mojave: 10.14.6 (18G103)
 - Put wifi firmware files to `/lib/firmware/brcm/`
   - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
+- After login you can update kernel by running `sudo update_kernel_mbp`
 
 ## Not working
 
@@ -131,7 +132,8 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 
 ## Docs
 
-- Discord: <https://discord.gg/39Rmjh>
+- Discord: <https://discord.gg/Uw56rqW>
+- WiFi firmware: <https://packages.aunali1.com/apple/wifi-fw/18G2022>
 
 ### Fedora
 
