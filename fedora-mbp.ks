@@ -15,12 +15,12 @@ gcc
 gcc-c++
 make
 iwd
-kernel-5.4.20-200.mbp.fc31.x86_64
-kernel-core-5.4.20-200.mbp.fc31.x86_64
-kernel-devel-5.4.20-200.mbp.fc31.x86_64
-kernel-modules-5.4.20-200.mbp.fc31.x86_64
-kernel-modules-extra-5.4.20-200.mbp.fc31.x86_64
-kernel-modules-internal-5.4.20-200.mbp.fc31.x86_64
+kernel-5.5.5-200.mbp.fc31.x86_64
+kernel-core-5.5.5-200.mbp.fc31.x86_64
+kernel-devel-5.5.5-200.mbp.fc31.x86_64
+kernel-modules-5.5.5-200.mbp.fc31.x86_64
+kernel-modules-extra-5.5.5-200.mbp.fc31.x86_64
+kernel-modules-internal-5.5.5-200.mbp.fc31.x86_64
 
 %end
 
@@ -29,7 +29,7 @@ kernel-modules-internal-5.4.20-200.mbp.fc31.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.4.20-200.mbp.fc31.x86_64
+KERNEL_VERSION=5.5.5-200.mbp.fc31.x86_64
 BCE_DRIVER_GIT_URL=https://github.com/MCMrARM/mbp2018-bridge-drv.git
 BCE_DRIVER_BRANCH_NAME=master
 BCE_DRIVER_COMMIT_HASH=b43fcc069da73e051072fde24af4014c9c487286
@@ -68,8 +68,8 @@ sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,ke
 echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
 echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.conf
 
-curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.4-f31/update_kernel_mbp.sh -o /usr/local/bin/update_kernel_mbp
-chmod +x /usr/local/bin/update_kernel_mbp
+curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.5-f31/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
+chmod +x /usr/bin/update_kernel_mbp
 
 %end
 
