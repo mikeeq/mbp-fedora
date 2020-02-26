@@ -39,6 +39,19 @@ MacOS Mojave: 10.14.6 (18G103)
     - /boot/efi - 1024MB Linux HFS+ ESP
     - /boot - 1024MB EXT4
     - / - xxxGB EXT4
+  - There will be an error on `Installing bootloader...` step, click Yes - It's related to `efi=noruntime` kernel arg
+  ![bootloader issue](screenshots/bootloader.png)
+  ```
+  # /tmp/anaconda.log
+  13:39:49,173 INF bootloader.grub2: bootloader.py: used boot args: resume=UUID=8a64abbd-b1a3-4d4a-85c3-b73800e46a1e rd.lvm.lv=fedora_localhost-live/root rd.lvm.lv=fedora_localhost-live/swap rhgb quiet
+  13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
+  13:39:54,657 WRN misc: /usr/lib64/python3.7/site-packages/pyanaconda/ui/gui/__init__.py:924: PyGTKDeprecationWarning: The keyword(s) "message_format" have been deprecated in favor of "text" respectively. See: https://wiki.gnome.org/PyGObject/InitializerDeprecations
+    message_format=message)
+
+  13:39:54,658 WRN misc: /usr/lib64/python3.7/site-packages/pyanaconda/ui/gui/__init__.py:924: PyGTKDeprecationWarning: The "flags" argument for dialog construction is deprecated. Please use initializer keywords: modal=True and/or destroy_with_parent=True. See: https://wiki.gnome.org/PyGObject/InitializerDeprecations
+    message_format=message)
+  ```
+
 - Put wifi firmware files to `/lib/firmware/brcm/`
   - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`

@@ -59,6 +59,10 @@ echo -e 'add_drivers+="hid_apple snd-seq bce"\nforce_drivers+="hid_apple snd-seq
 /usr/sbin/depmod -a ${KERNEL_VERSION}
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 
+### Add update_kernel_mbp script
+curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.5-f31/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
+chmod +x /usr/bin/update_kernel_mbp
+
 ### Remove temporary
 dnf remove -y kernel-headers
 rm -rf /opt/drivers
@@ -67,9 +71,6 @@ rm -rf /etc/resolv.conf
 sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal' /etc/yum.repos.d/fedora*.repo
 echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
 echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.conf
-
-curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.5-f31/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
-chmod +x /usr/bin/update_kernel_mbp
 
 %end
 
