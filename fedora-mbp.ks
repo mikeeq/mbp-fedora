@@ -15,12 +15,12 @@ gcc
 gcc-c++
 make
 iwd
-kernel-5.5.5-200.mbp.fc31.x86_64
-kernel-core-5.5.5-200.mbp.fc31.x86_64
-kernel-devel-5.5.5-200.mbp.fc31.x86_64
-kernel-modules-5.5.5-200.mbp.fc31.x86_64
-kernel-modules-extra-5.5.5-200.mbp.fc31.x86_64
-kernel-modules-internal-5.5.5-200.mbp.fc31.x86_64
+kernel-5.5.6-201.mbp.fc31.x86_64
+kernel-core-5.5.6-201.mbp.fc31.x86_64
+kernel-devel-5.5.6-201.mbp.fc31.x86_64
+kernel-modules-5.5.6-201.mbp.fc31.x86_64
+kernel-modules-extra-5.5.6-201.mbp.fc31.x86_64
+kernel-modules-internal-5.5.6-201.mbp.fc31.x86_64
 
 %end
 
@@ -29,7 +29,7 @@ kernel-modules-internal-5.5.5-200.mbp.fc31.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.5.5-200.mbp.fc31.x86_64
+KERNEL_VERSION=5.5.6-201.mbp.fc31.x86_64
 BCE_DRIVER_GIT_URL=https://github.com/MCMrARM/mbp2018-bridge-drv.git
 BCE_DRIVER_BRANCH_NAME=master
 BCE_DRIVER_COMMIT_HASH=b43fcc069da73e051072fde24af4014c9c487286
