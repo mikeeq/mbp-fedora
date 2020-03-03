@@ -15,12 +15,13 @@ gcc
 gcc-c++
 make
 iwd
-kernel-5.5.6-201.mbp.fc31.x86_64
-kernel-core-5.5.6-201.mbp.fc31.x86_64
-kernel-devel-5.5.6-201.mbp.fc31.x86_64
-kernel-modules-5.5.6-201.mbp.fc31.x86_64
-kernel-modules-extra-5.5.6-201.mbp.fc31.x86_64
-kernel-modules-internal-5.5.6-201.mbp.fc31.x86_64
+wpa_supplicant
+kernel-5.5.7-200.mbp.fc31.x86_64
+kernel-core-5.5.7-200.mbp.fc31.x86_64
+kernel-devel-5.5.7-200.mbp.fc31.x86_64
+kernel-modules-5.5.7-200.mbp.fc31.x86_64
+kernel-modules-extra-5.5.7-200.mbp.fc31.x86_64
+kernel-modules-internal-5.5.7-200.mbp.fc31.x86_64
 
 %end
 
@@ -29,7 +30,7 @@ kernel-modules-internal-5.5.6-201.mbp.fc31.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.5.6-201.mbp.fc31.x86_64
+KERNEL_VERSION=5.5.7-200.mbp.fc31.x86_64
 BCE_DRIVER_GIT_URL=https://github.com/MCMrARM/mbp2018-bridge-drv.git
 BCE_DRIVER_BRANCH_NAME=master
 BCE_DRIVER_COMMIT_HASH=b43fcc069da73e051072fde24af4014c9c487286
@@ -71,6 +72,7 @@ rm -rf /etc/resolv.conf
 sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal' /etc/yum.repos.d/fedora*.repo
 echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
 echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.conf
+systemctl enable iwd.service
 
 %end
 
@@ -78,6 +80,10 @@ echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.c
 %post --nochroot
 ### Remove efibootmgr part from bootloader installation step in anaconda
 #cp -rfv /tmp/kickstart_files/anaconda/efi.py ${INSTALL_ROOT}/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
+
+### Copy grub config without finding macos partition
+cp -rfv /tmp/kickstart_files/grub/30_os-prober ${INSTALL_ROOT}/etc/grub.d/30_os-prober
+chmod 755 ${INSTALL_ROOT}/etc/grub.d/30_os-prober
 
 ### Post install anaconda scripts - Reformatting HFS+ EFI partition to FAT32
 cp -rfv /tmp/kickstart_files/post-install-kickstart/*.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/

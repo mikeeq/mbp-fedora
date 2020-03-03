@@ -18,7 +18,7 @@ Drivers:
 
 ```
 Boot ROM Version:	220.270.99.0.0 (iBridge: 16.16.6571.0.0,0)
-MacOS Mojave: 10.14.6 (18G103)
+macOS Mojave: 10.14.6 (18G103)
 ```
 
 ## How to install
@@ -33,8 +33,10 @@ MacOS Mojave: 10.14.6 (18G103)
   - fedora media writer (custom image option)- <https://getfedora.org/en/workstation/download/>
   - don't use `livecd-iso-to-disk`, because it's overwriting grub settings
 - Install Fedora
-  - Boot directly from MacOS boot manager. (You can boot into it by pressing and holding option key after clicking power-on button).
+  - Boot directly from macOS boot manager. (You can boot into it by pressing and holding option key after clicking the power-on button).
     - There will be three boot options available, usually the third one works for me. (There are three of them, because there are three partitions in ISO: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
+  - I recommend to shrink (resize) macOS APFS partition and not removing macOS installation entirely from your MacBook, because it's the only way to keep your device up-to-date. macOS OS updates also contains security patches to EFI/Apple T2
+    - HowTo: <https://www.anyrecover.com/hard-drive-recovery-data/resize-partition-mac/> # Steps to Resize Mac Partition
   - You should use standard partition layout during partitioning your Disk in anaconda, because i haven't tested LVM scenario yet. <https://github.com/mikeeq/mbp-fedora/issues/2>
     - /boot/efi - 1024MB Linux HFS+ ESP
     - /boot - 1024MB EXT4
@@ -45,11 +47,6 @@ MacOS Mojave: 10.14.6 (18G103)
   # /tmp/anaconda.log
   13:39:49,173 INF bootloader.grub2: bootloader.py: used boot args: resume=UUID=8a64abbd-b1a3-4d4a-85c3-b73800e46a1e rd.lvm.lv=fedora_localhost-live/root rd.lvm.lv=fedora_localhost-live/swap rhgb quiet
   13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
-  13:39:54,657 WRN misc: /usr/lib64/python3.7/site-packages/pyanaconda/ui/gui/__init__.py:924: PyGTKDeprecationWarning: The keyword(s) "message_format" have been deprecated in favor of "text" respectively. See: https://wiki.gnome.org/PyGObject/InitializerDeprecations
-    message_format=message)
-
-  13:39:54,658 WRN misc: /usr/lib64/python3.7/site-packages/pyanaconda/ui/gui/__init__.py:924: PyGTKDeprecationWarning: The "flags" argument for dialog construction is deprecated. Please use initializer keywords: modal=True and/or destroy_with_parent=True. See: https://wiki.gnome.org/PyGObject/InitializerDeprecations
-    message_format=message)
   ```
 
 - Put wifi firmware files to `/lib/firmware/brcm/`
@@ -113,6 +110,8 @@ MacOS Mojave: 10.14.6 (18G103)
       - or you can change your wifi backend to iwd (it's less problematic, it's crashing sometimes, but it's more stable than wpa_supplicant [with broadcom wifi])
 
       ```
+      ### iwd is now installed by default installation instructions mentioned below are for older Fedora installations
+
       ## Run all commands as root
       # Change wifi backend which NetworkManager is using
       vi /etc/NetworkManager/conf.d/wifi_backend.conf
@@ -127,6 +126,9 @@ MacOS Mojave: 10.14.6 (18G103)
       /usr/libexec/iwd
       systemctl start iwd
       systemctl restart NetworkManager
+
+      ## If you want to switch back to wpa_supplicant just remove/rename `/etc/NetworkManager/conf.d/wifi_backend.conf` file, i.e.:
+      mv /etc/NetworkManager/conf.d/wifi_backend.conf /etc/NetworkManager/conf.d/wifi_backend.conf_iwd
       ```
 
 - Macbooks with Apple T2 can't boot EFI binaries from HFS+ formatted ESP - only FAT32 (FAT32 have to be labelled as msftdata).
@@ -135,18 +137,19 @@ MacOS Mojave: 10.14.6 (18G103)
 
 - efibootmgr write command freezes Mac (it's executed in Anaconda during `Install bootloader...` step) - nvram is blocked from writing
 
-  - since MacOS Catalina EFI is blocked even from reading, so access to EFI is blocked via adding `efi=noruntime` to kernel args
+  - since macOS Catalina EFI is blocked even from reading, so access to EFI is blocked via adding `efi=noruntime` to kernel args
 
 ```
 efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 ```
 
-- `ctrl+x` is not working in GRUB, so if you are trying to change kernel parameters - start your OS by clicking `ctrl+shift+f10` on external keyborad
+- `ctrl+x` is not working in GRUB, so if you are trying to change kernel parameters - start your OS by clicking `ctrl+shift+f10` on external keyboard
 
 ## Docs
 
 - Discord: <https://discord.gg/Uw56rqW>
 - WiFi firmware: <https://packages.aunali1.com/apple/wifi-fw/18G2022>
+- blog `Installing Fedora 31 on a 2018 Mac mini`: <https://linuxwit.ch/blog/2020/01/installing-fedora-on-mac-mini/>
 
 ### Fedora
 
@@ -167,6 +170,7 @@ efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
 - Kernel patches (all are mentioned in github issue above): <https://github.com/aunali1/linux-mbp-arch>
 - ArchLinux kernel patches: <https://github.com/ppaulweber/linux-mba>
 - ArchLinux installation guide: <https://gist.github.com/TRPB/437f663b545d23cc8a2073253c774be3>
+- hid-apple-patched module for changing mappings of ctrl, fn, option keys: <https://github.com/free5lot/hid-apple-patched>
 
 ## Credits
 
