@@ -53,11 +53,21 @@ macOS Mojave: 10.14.6 (18G103)
   - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
 - After login you can update kernel by running `sudo update_kernel_mbp`
+- You can change mappings of ctrl, fn, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
+```
+# /etc/modprobe.d/hid_apple.conf
+options hid_apple swap_fn_leftctrl=1
+options hid_apple swap_opt_cmd=1
+
+grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+```
 
 ## Not working
 
 - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 - TouchID - (@MCMrARM is working on it - https://github.com/Dunedan/mbp-2016-linux/issues/71#issuecomment-528545490)
+- Thunderbolt (is disabled, because driver was causing kernel panics (not tested with 5.5 kernel))
+- Microphone (it's recognised with new apple t2 sound driver, but there is a low mic volume amp)
 
 ## TODO
 
