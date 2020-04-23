@@ -4,3 +4,4 @@ extends: default
 rules:
   line-length:
     max: 10000
+  truthy: disable

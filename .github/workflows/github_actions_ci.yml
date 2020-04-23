@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - f3*
-      - feature/*
 
   pull_request:
     branches:
@@ -24,26 +23,26 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    - name: "Print Agent info"
-      run: ./agent-info.sh
+      - name: "Print Agent info"
+        run: ./agent-info.sh
 
-    - name: "YamlLint"
-      run: |
-        docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
-          cd /repo
-          apk add --no-cache python3
-          pip3 install yamllint
-          yamllint .
-        '
-    - name: "ShellCheck"
-      run: |
-        docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
-          cd /repo
-          apk add --no-cache shellcheck bash
-          shellcheck ./*.sh
-        '
-    - name: "Build Fedora and Deploy to GitHub Releases"
-      run: ./build_in_docker.sh
+      - name: "YamlLint"
+        run: |
+          docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
+            cd /repo
+            apk add --no-cache python3
+            pip3 install yamllint
+            yamllint .
+          '
+      - name: "ShellCheck"
+        run: |
+          docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
+            cd /repo
+            apk add --no-cache shellcheck bash
+            shellcheck ./*.sh
+          '
+      - name: "Build Fedora and Deploy to GitHub Releases"
+        run: ./build_in_docker.sh

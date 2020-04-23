@@ -26,6 +26,7 @@ jobs:
           pip3 install yamllint
           yamllint .
         '
+
     - stage: test
       name: "ShellCheck"
       script: |
