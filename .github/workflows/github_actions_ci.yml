@@ -6,12 +6,12 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: 
+    branches:
       - f3*
       - feature/*
-    
+
   pull_request:
-    branches: 
+    branches:
       - f3*
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -26,9 +26,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: "Print Agent info"
+      run: ./agent-info.sh
+
     - name: "YamlLint"
       run: |
-        docker run --rm -v $(pwd):/repo -it alpine:latest /bin/sh -c '
+        docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
           cd /repo
           apk add --no-cache python3
           pip3 install yamllint
@@ -36,7 +39,7 @@ jobs:
         '
     - name: "ShellCheck"
       run: |
-        docker run --rm -v $(pwd):/repo -it alpine:latest /bin/sh -c '
+        docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
           cd /repo
           apk add --no-cache shellcheck bash
           shellcheck ./*.sh
