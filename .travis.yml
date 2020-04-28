@@ -18,18 +18,24 @@ stages:
 jobs:
   include:
     - stage: test
+      name: "AgentInfo"
+      script: |
+        ./agent-info.sh
+
+    - stage: test
       name: "YamlLint"
       script: |
-        docker run --rm -v $(pwd):/repo -it alpine:latest /bin/sh -c '
+        docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
           cd /repo
           apk add --no-cache python3
           pip3 install yamllint
           yamllint .
         '
+
     - stage: test
       name: "ShellCheck"
       script: |
-        docker run --rm -v $(pwd):/repo -it alpine:latest /bin/sh -c '
+        docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
           cd /repo
           apk add --no-cache shellcheck bash
           shellcheck ./*.sh
