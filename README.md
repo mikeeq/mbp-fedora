@@ -53,7 +53,7 @@ macOS Mojave: 10.14.6 (18G103)
   - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
 - After login you can update kernel by running `sudo update_kernel_mbp`
-- You can change mappings of ctrl, fn, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
+- You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
 ```
 # /etc/modprobe.d/hid_apple.conf
 options hid_apple swap_fn_leftctrl=1
@@ -61,6 +61,9 @@ options hid_apple swap_opt_cmd=1
 
 grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 ```
+- To change function key mappings for models with touchbar see `modinfo apple_ib_tb` and use
+  `echo 2 > /sys/class/input/*/device/fnmode` instead of the `hid_apple` options. See
+  [this issue](https://github.com/mikeeq/mbp-fedora-kernel/issues/12)
 
 ## Not working
 
