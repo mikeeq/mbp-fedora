@@ -16,12 +16,12 @@ gcc-c++
 make
 iwd
 wpa_supplicant
-kernel-5.6.13-300.mbp.fc32.x86_64
-kernel-core-5.6.13-300.mbp.fc32.x86_64
-kernel-devel-5.6.13-300.mbp.fc32.x86_64
-kernel-modules-5.6.13-300.mbp.fc32.x86_64
-kernel-modules-extra-5.6.13-300.mbp.fc32.x86_64
-kernel-modules-internal-5.6.13-300.mbp.fc32.x86_64
+kernel-5.6.19-300.mbp.fc32.x86_64
+kernel-core-5.6.19-300.mbp.fc32.x86_64
+kernel-devel-5.6.19-300.mbp.fc32.x86_64
+kernel-modules-5.6.19-300.mbp.fc32.x86_64
+kernel-modules-extra-5.6.19-300.mbp.fc32.x86_64
+kernel-modules-internal-5.6.19-300.mbp.fc32.x86_64
 
 %end
 
@@ -30,7 +30,7 @@ kernel-modules-internal-5.6.13-300.mbp.fc32.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.6.13-300.mbp.fc32.x86_64
+KERNEL_VERSION=5.6.19-300.mbp.fc32.x86_64
 BCE_DRIVER_GIT_URL=https://github.com/MCMrARM/mbp2018-bridge-drv.git
 BCE_DRIVER_BRANCH_NAME=master
 BCE_DRIVER_COMMIT_HASH=b43fcc069da73e051072fde24af4014c9c487286
@@ -56,12 +56,12 @@ cp -rf /opt/drivers/touchbar/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 ### Add custom drivers to be loaded at boot
 echo -e 'hid-apple\nbcm5974\nsnd-seq\nbce\napple_ibridge\napple_ib_tb' > /etc/modules-load.d/bce.conf
 echo -e 'blacklist thunderbolt' > /etc/modprobe.d/blacklist.conf
-echo -e 'add_drivers+="hid_apple snd-seq bce"\nforce_drivers+="hid_apple snd-seq bce"' > /etc/dracut.conf
+echo -e 'add_drivers+=" hid_apple snd-seq bce "\nforce_drivers+=" hid_apple snd-seq bce "' > /etc/dracut.conf
 /usr/sbin/depmod -a ${KERNEL_VERSION}
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 
 ### Add update_kernel_mbp script
-curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.6-f32/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
+curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.7-f32/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
 chmod +x /usr/bin/update_kernel_mbp
 
 ### Remove temporary
@@ -70,7 +70,7 @@ rm -rf /opt/drivers
 rm -rf /etc/resolv.conf
 
 sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal' /etc/yum.repos.d/fedora*.repo
-echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
+# echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
 echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.conf
 systemctl enable iwd.service
 

@@ -4,7 +4,7 @@ set -eu -o pipefail
 
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f32
-FEDORA_KICKSTARTS_COMMIT_HASH=75e662166f3649efbdd898a78ef46799c4564057        # https://pagure.io/fedora-kickstarts/commits/f32
+FEDORA_KICKSTARTS_COMMIT_HASH=57e13a1b8970c2e15d0c310aa871e4737781a23f        # https://pagure.io/fedora-kickstarts/commits/f32
 LIVECD_CACHE_PATH=/var/cache/live
 
 ### Debug commands
