@@ -25,9 +25,9 @@ jobs:
     - stage: test
       name: "YamlLint"
       script: |
-        docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
+        docker run --rm -v $(pwd):/repo -t alpine:3.12 /bin/sh -c '
           cd /repo
-          apk add --no-cache python3
+          apk add --no-cache shellcheck py-pip python3 bash
           pip3 install yamllint
           yamllint .
         '
@@ -35,9 +35,9 @@ jobs:
     - stage: test
       name: "ShellCheck"
       script: |
-        docker run --rm -v $(pwd):/repo -t alpine:latest /bin/sh -c '
+        docker run --rm -v $(pwd):/repo -t alpine:3.12 /bin/sh -c '
           cd /repo
-          apk add --no-cache shellcheck bash
+          apk add --no-cache shellcheck py-pip python3 bash
           shellcheck ./*.sh
         '
     - stage: build_deploy
