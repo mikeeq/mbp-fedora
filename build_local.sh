@@ -2,8 +2,8 @@
 
 set -eu -o pipefail
 
-# DOCKER_IMAGE=fedora:32
-DOCKER_IMAGE=fedora_iso:32
+DOCKER_IMAGE=fedora:33
+# DOCKER_IMAGE=fedora_iso:33
 LIVECD_CACHE_PATH=/var/cache/live
 
 docker pull ${DOCKER_IMAGE}
