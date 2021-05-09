@@ -49,8 +49,7 @@ macOS Mojave: 10.14.6 (18G103)
   13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
   ```
 
-- Put wifi firmware files to `/lib/firmware/brcm/`
-  - tutorial - <https://github.com/mikeeq/mbp-fedora-kernel/#working-with-mbp-fedora-kernel>
+- Setup wifi <https://wiki.t2linux.org/guides/wifi/>
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
 - After login you can update kernel by running `sudo update_kernel_mbp`
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
@@ -109,40 +108,6 @@ grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 - Anaconda sometimes could not finish installation process and it's freezing on `Network Configuration` step, probably due to iBridge internal network interface
 
 > workaround - it's a final step of installation, just reboot your Mac (installation is complete)
-
-- Wifi could have problems with connecting to secure networks (WPA2)
-  - wpa_supplicant error - `CTRL-EVENT-ASSOC-REJECT bssid= status_code=16`
-    - there are two workaround available:
-      - you can stick with wpa_supplicant as wifi backend and you will need to reload broadcom module every time you connect to network
-
-      ```
-      ## Run as root
-      modprobe -r brcmfmac; modprobe brcmfmac
-      ```
-
-      - or you can change your wifi backend to iwd (it's less problematic, it's crashing sometimes, but it's more stable than wpa_supplicant [with broadcom wifi])
-
-      ```
-      ### iwd is now installed by default installation instructions mentioned below are for older Fedora installations
-
-      ## Run all commands as root
-      # Change wifi backend which NetworkManager is using
-      vi /etc/NetworkManager/conf.d/wifi_backend.conf
-
-      [device]
-      wifi.backend=iwd
-
-      # enable iwd autostart
-      systemctl enable iwd
-
-      # start iwd
-      /usr/libexec/iwd
-      systemctl start iwd
-      systemctl restart NetworkManager
-
-      ## If you want to switch back to wpa_supplicant just remove/rename `/etc/NetworkManager/conf.d/wifi_backend.conf` file, i.e.:
-      mv /etc/NetworkManager/conf.d/wifi_backend.conf /etc/NetworkManager/conf.d/wifi_backend.conf_iwd
-      ```
 
 - Macbooks with Apple T2 can't boot EFI binaries from HFS+ formatted ESP - only FAT32 (FAT32 have to be labelled as msftdata).
 
