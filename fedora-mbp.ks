@@ -31,12 +31,12 @@ kernel-modules-internal-5.7.6-201.mbp.fc32.x86_64
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
 KERNEL_VERSION=5.7.6-201.mbp.fc32.x86_64
-BCE_DRIVER_GIT_URL=https://github.com/MCMrARM/mbp2018-bridge-drv.git
-BCE_DRIVER_BRANCH_NAME=master
-BCE_DRIVER_COMMIT_HASH=b43fcc069da73e051072fde24af4014c9c487286
-APPLE_IB_DRIVER_GIT_URL=https://github.com/roadrunner2/macbook12-spi-driver.git
+BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
+BCE_DRIVER_BRANCH_NAME=aur
+BCE_DRIVER_COMMIT_HASH=c884d9ca731f2118a58c28bb78202a0007935998
+APPLE_IB_DRIVER_GIT_URL=https://github.com/t2linux/apple-ib-drv
 APPLE_IB_DRIVER_BRANCH_NAME=mbp15
-APPLE_IB_DRIVER_COMMIT_HASH=90cea3e8e32db60147df8d39836bd1d2a5161871
+APPLE_IB_DRIVER_COMMIT_HASH=fc9aefa5a564e6f2f2bb0326bffb0cef0446dc05
 
 ### Remove not compatible kernels
 rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi | grep -v mbp)
