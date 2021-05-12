@@ -54,14 +54,14 @@ cp -rf /opt/drivers/bce/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 cp -rf /opt/drivers/touchbar/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 
 ### Add custom drivers to be loaded at boot
-echo -e 'hid-apple\nbcm5974\nsnd-seq\nbce\napple_ibridge\napple_ib_tb' > /etc/modules-load.d/bce.conf
+echo -e 'hid-apple\nbcm5974\nsnd-seq\napple_bce\napple_ibridge\napple_ib_tb' > /etc/modules-load.d/apple_bce.conf
 echo -e 'blacklist thunderbolt' > /etc/modprobe.d/blacklist.conf
-echo -e 'add_drivers+=" hid_apple snd-seq bce "\nforce_drivers+=" hid_apple snd-seq bce "' > /etc/dracut.conf
+echo -e 'add_drivers+=" hid_apple snd-seq apple_bce "\nforce_drivers+=" hid_apple snd-seq bce "' > /etc/dracut.conf
 /usr/sbin/depmod -a ${KERNEL_VERSION}
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 
 ### Add update_kernel_mbp script
-curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.7-f32/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
+curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.10-f34/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
 chmod +x /usr/bin/update_kernel_mbp
 
 ### Remove temporary
