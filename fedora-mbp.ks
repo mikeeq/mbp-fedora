@@ -16,12 +16,12 @@ gcc-c++
 make
 iwd
 wpa_supplicant
-kernel-5.7.6-201.mbp.fc32.x86_64
-kernel-core-5.7.6-201.mbp.fc32.x86_64
-kernel-devel-5.7.6-201.mbp.fc32.x86_64
-kernel-modules-5.7.6-201.mbp.fc32.x86_64
-kernel-modules-extra-5.7.6-201.mbp.fc32.x86_64
-kernel-modules-internal-5.7.6-201.mbp.fc32.x86_64
+kernel-5.11.16-300.mbp.fc33.x86_64
+kernel-core-5.11.16-300.mbp.fc33.x86_64
+kernel-devel-5.11.16-300.mbp.fc33.x86_64
+kernel-modules-5.11.16-300.mbp.fc33.x86_64
+kernel-modules-extra-5.11.16-300.mbp.fc33.x86_64
+kernel-modules-internal-5.11.16-300.mbp.fc33.x86_64
 
 %end
 
@@ -30,7 +30,7 @@ kernel-modules-internal-5.7.6-201.mbp.fc32.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.7.6-201.mbp.fc32.x86_64
+KERNEL_VERSION=5.11.16-300.mbp.fc33.x86_64
 BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
 BCE_DRIVER_BRANCH_NAME=aur
 BCE_DRIVER_COMMIT_HASH=c884d9ca731f2118a58c28bb78202a0007935998
