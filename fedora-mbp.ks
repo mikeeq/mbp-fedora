@@ -16,8 +16,12 @@ gcc-c++
 make
 iwd
 wpa_supplicant
--kernel-5*.fc34.x86_64
+-kernel-5.*.fc34.x86_64
 -kernel-core-5.*.fc34.x86_64
+-kernel-devel-5.*.fc34.x86_64
+-kernel-modules-5.*.fc34.x86_64
+-kernel-modules-extra-5.*.fc34.x86_64
+-kernel-modules-internal-5.*.fc34.x86_64
 kernel-5.11.16-300.mbp.fc33.x86_64
 kernel-core-5.11.16-300.mbp.fc33.x86_64
 kernel-devel-5.11.16-300.mbp.fc33.x86_64
