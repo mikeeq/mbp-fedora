@@ -1,6 +1,7 @@
 ### Add rpm repo hosted on heroku https://github.com/mikeeq/mbp-fedora-kernel/releases
 repo --name=fedora-mbp --baseurl=http://fedora-mbp-repo.herokuapp.com/
 repo --name=fedora --excludepkgs kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal
+repo --name=updates --excludepkgs kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal
 
 ### Selinux in permissive mode
 bootloader --append="enforcing=0 efi=noruntime pcie_ports=compat modprobe.blacklist=thunderbolt"
