@@ -1,7 +1,5 @@
 ### Add rpm repo hosted on heroku https://github.com/mikeeq/mbp-fedora-kernel/releases
 repo --name=fedora-mbp --baseurl=http://fedora-mbp-repo.herokuapp.com/
-repo --name=fedora --excludepkgs=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal
-repo --name=updates --excludepkgs=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal
 
 ### Selinux in permissive mode
 bootloader --append="enforcing=0 efi=noruntime pcie_ports=compat modprobe.blacklist=thunderbolt"
@@ -18,6 +16,8 @@ gcc-c++
 make
 iwd
 wpa_supplicant
+-kernel-5*.fc34.x86_64
+-kernel-core-5.*.fc34.x86_64
 kernel-5.11.16-300.mbp.fc33.x86_64
 kernel-core-5.11.16-300.mbp.fc33.x86_64
 kernel-devel-5.11.16-300.mbp.fc33.x86_64
