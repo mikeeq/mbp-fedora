@@ -22,12 +22,12 @@ wpa_supplicant
 -kernel-modules-5.*.fc34.x86_64
 -kernel-modules-extra-5.*.fc34.x86_64
 -kernel-modules-internal-5.*.fc34.x86_64
-kernel-5.11.16-300.mbp.fc33.x86_64
-kernel-core-5.11.16-300.mbp.fc33.x86_64
-kernel-devel-5.11.16-300.mbp.fc33.x86_64
-kernel-modules-5.11.16-300.mbp.fc33.x86_64
-kernel-modules-extra-5.11.16-300.mbp.fc33.x86_64
-kernel-modules-internal-5.11.16-300.mbp.fc33.x86_64
+kernel-5.12.11-300.mbp.fc33.x86_64
+kernel-core-5.12.11-300.mbp.fc33.x86_64
+kernel-devel-5.12.11-300.mbp.fc33.x86_64
+kernel-modules-5.12.11-300.mbp.fc33.x86_64
+kernel-modules-extra-5.12.11-300.mbp.fc33.x86_64
+kernel-modules-internal-5.12.11-300.mbp.fc33.x86_64
 
 %end
 
@@ -36,10 +36,10 @@ kernel-modules-internal-5.11.16-300.mbp.fc33.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.11.16-300.mbp.fc33.x86_64
+KERNEL_VERSION=5.12.11-300.mbp.fc33.x86_64
 BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
 BCE_DRIVER_BRANCH_NAME=aur
-BCE_DRIVER_COMMIT_HASH=c884d9ca731f2118a58c28bb78202a0007935998
+BCE_DRIVER_COMMIT_HASH=f93c6566f98b3c95677de8010f7445fa19f75091
 APPLE_IB_DRIVER_GIT_URL=https://github.com/t2linux/apple-ib-drv
 APPLE_IB_DRIVER_BRANCH_NAME=mbp15
 APPLE_IB_DRIVER_COMMIT_HASH=fc9aefa5a564e6f2f2bb0326bffb0cef0446dc05
@@ -67,7 +67,7 @@ echo -e 'add_drivers+=" hid_apple snd-seq apple_bce "\nforce_drivers+=" hid_appl
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 
 ### Add update_kernel_mbp script
-curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.11-f34/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
+curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.12-f34/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
 chmod +x /usr/bin/update_kernel_mbp
 
 ### Downgrade grub2
