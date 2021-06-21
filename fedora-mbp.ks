@@ -137,5 +137,4 @@ chmod +x ${INSTALL_ROOT}/lib/systemd/system-sleep/rmmod_tb.sh
 
 %end
 
-
 %include fedora-live-workstation.ks
