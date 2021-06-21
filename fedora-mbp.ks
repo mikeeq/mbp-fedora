@@ -70,12 +70,45 @@ dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.11-f34/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
 chmod +x /usr/bin/update_kernel_mbp
 
+### Downgrade grub2
+
+grub_pkgs_x86_64=(
+  grub2-efi-ia32
+  grub2-efi-ia32-cdboot
+  grub2-efi-x64
+  grub2-efi-x64-cdboot
+  grub2-pc
+  grub2-tools
+  grub2-tools-efi
+  grub2-tools-extra
+  grub2-tools-minimal
+)
+
+grub_pkgs_noarch=(
+  grub2-common
+  grub2-pc-modules
+)
+
+rm -rf /tmp/grub2
+mkdir -p /tmp/grub2
+cd /tmp/grub2
+
+for i in ${grub_pkgs_x86_64[@]}; do
+  curl -Ls https://kojipkgs.fedoraproject.org//packages/grub2/2.04/34.fc34/x86_64/${i}-2.04-34.fc34.x86_64.rpm -O
+done
+
+for i in ${grub_pkgs_noarch[@]}; do
+  curl -Ls https://kojipkgs.fedoraproject.org//packages/grub2/2.04/34.fc34/noarch/${i}-2.04-34.fc34.noarch.rpm -O
+done
+
+dnf install -y --allowerasing grub2-*.rpm
+
 ### Remove temporary
 dnf remove -y kernel-headers
 rm -rf /opt/drivers
 rm -rf /etc/resolv.conf
 
-sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal' /etc/yum.repos.d/fedora*.repo
+sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal,grub2-*' /etc/yum.repos.d/fedora*.repo
 # echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
 
 %end
