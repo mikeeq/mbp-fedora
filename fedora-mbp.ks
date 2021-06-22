@@ -16,6 +16,7 @@ gcc-c++
 make
 iwd
 wpa_supplicant
+-grub2-*-2.06-*-fc34.x86_64
 -kernel-5.*.fc34.x86_64
 -kernel-core-5.*.fc34.x86_64
 -kernel-devel-5.*.fc34.x86_64
@@ -69,39 +70,6 @@ dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 ### Add update_kernel_mbp script
 curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.12-f34/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
 chmod +x /usr/bin/update_kernel_mbp
-
-### Downgrade grub2
-
-grub_pkgs_x86_64=(
-  grub2-efi-ia32
-  grub2-efi-ia32-cdboot
-  grub2-efi-x64
-  grub2-efi-x64-cdboot
-  grub2-pc
-  grub2-tools
-  grub2-tools-efi
-  grub2-tools-extra
-  grub2-tools-minimal
-)
-
-grub_pkgs_noarch=(
-  grub2-common
-  grub2-pc-modules
-)
-
-rm -rf /tmp/grub2
-mkdir -p /tmp/grub2
-cd /tmp/grub2
-
-for i in ${grub_pkgs_x86_64[@]}; do
-  curl -Ls https://kojipkgs.fedoraproject.org//packages/grub2/2.04/34.fc34/x86_64/${i}-2.04-34.fc34.x86_64.rpm -O
-done
-
-for i in ${grub_pkgs_noarch[@]}; do
-  curl -Ls https://kojipkgs.fedoraproject.org//packages/grub2/2.04/34.fc34/noarch/${i}-2.04-34.fc34.noarch.rpm -O
-done
-
-dnf install -y --allowerasing grub2-*.rpm
 
 ### Remove temporary
 dnf remove -y kernel-headers
