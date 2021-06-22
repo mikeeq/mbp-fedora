@@ -16,29 +16,6 @@ gcc-c++
 make
 iwd
 wpa_supplicant
--grub2-efi-ia32-2.06*.fc34.x86_64
--grub2-efi-ia32-cdboot-2.06*.fc34.x86_64
--grub2-efi-x64-2.06*.fc34.x86_64
--grub2-efi-x64-cdboot-2.06*.fc34.x86_64
--grub2-pc-2.06*.fc34.x86_64
--grub2-tools-2.06*.fc34.x86_64
--grub2-tools-efi-2.06*.fc34.x86_64
--grub2-tools-extra-2.06*.fc34.x86_64
--grub2-tools-minimal-2.06*.fc34.x86_64
--grub2-common-2.06*.fc34.x86_64
--grub2-pc-modules-2.06*.fc34.x86_64
--kernel-5.*.fc34.x86_64
--kernel-core-5.*.fc34.x86_64
--kernel-devel-5.*.fc34.x86_64
--kernel-modules-5.*.fc34.x86_64
--kernel-modules-extra-5.*.fc34.x86_64
--kernel-modules-internal-5.*.fc34.x86_64
-kernel-5.12.11-300.mbp.fc33.x86_64
-kernel-core-5.12.11-300.mbp.fc33.x86_64
-kernel-devel-5.12.11-300.mbp.fc33.x86_64
-kernel-modules-5.12.11-300.mbp.fc33.x86_64
-kernel-modules-extra-5.12.11-300.mbp.fc33.x86_64
-kernel-modules-internal-5.12.11-300.mbp.fc33.x86_64
 
 %end
 
