@@ -16,7 +16,7 @@ echo "CPU threads: $(nproc --all)"
 grep 'model name' /proc/cpuinfo | uniq
 
 ### Dependencies
-dnf install -y git livecd-tools zip
+dnf install -y git livecd-tools-27.1-9.fc34.x86_64 zip
 
 ### Copy efibootmgr fix for anaconda
 mkdir -p /tmp/kickstart_files/
