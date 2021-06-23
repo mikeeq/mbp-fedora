@@ -14,7 +14,7 @@ Drivers:
 - Apple SMC - <https://github.com/MCMrARM/mbp2018-etc>
 - Touchbar - <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
 
-> Tested on: Macbook Pro 15,2 13" 2019 i5 TouchBar Z0WQ000AR MV972ZE/A/R1
+> Tested on: Macbook Pro 15,2 13" 2019 i5 TouchBar Z0WQ000AR MV972ZE/A/R1 && Macbook Pro 16,2 13" 2020 i5
 
 ```
 Boot ROM Version:	220.270.99.0.0 (iBridge: 16.16.6571.0.0,0)

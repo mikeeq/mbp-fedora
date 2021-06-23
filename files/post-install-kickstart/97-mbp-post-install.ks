@@ -26,7 +26,7 @@ if cat ${ANA_INSTALL_PATH}/etc/fstab | grep hfsplus ; then
   # rm -rf /etc/grub.d/30_os-prober
   # grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 else
-    echo "OS installed on non-Apple device..."
+  echo "OS installed on non-Apple device..."
 fi
 
 %end

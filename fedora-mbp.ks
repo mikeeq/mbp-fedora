@@ -18,17 +18,6 @@ iwd
 wpa_supplicant
 -shim-ia32-15.4-*.x86_64
 -shim-x64-15.4-*.x86_64
--grub2-efi-ia32-2.06*.fc34.x86_64
--grub2-efi-ia32-cdboot-2.06*.fc34.x86_64
--grub2-efi-x64-2.06*.fc34.x86_64
--grub2-efi-x64-cdboot-2.06*.fc34.x86_64
--grub2-pc-2.06*.fc34.x86_64
--grub2-tools-2.06*.fc34.x86_64
--grub2-tools-efi-2.06*.fc34.x86_64
--grub2-tools-extra-2.06*.fc34.x86_64
--grub2-tools-minimal-2.06*.fc34.x86_64
--grub2-common-2.06*.fc34.x86_64
--grub2-pc-modules-2.06*.fc34.x86_64
 -kernel-5.*.fc34.x86_64
 -kernel-core-5.*.fc34.x86_64
 -kernel-devel-5.*.fc34.x86_64
@@ -88,7 +77,7 @@ dnf remove -y kernel-headers
 rm -rf /opt/drivers
 rm -rf /etc/resolv.conf
 
-sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal,grub2-*,shim-*' /etc/yum.repos.d/fedora*.repo
+sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal,shim-*' /etc/yum.repos.d/fedora*.repo
 # echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
 
 %end
