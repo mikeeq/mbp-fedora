@@ -78,15 +78,11 @@ rm -rf /opt/drivers
 rm -rf /etc/resolv.conf
 
 sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal,shim-*' /etc/yum.repos.d/fedora*.repo
-# echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
 
 %end
 
 
 %post --nochroot
-### Remove efibootmgr part from bootloader installation step in anaconda
-#cp -rfv /tmp/kickstart_files/anaconda/efi.py ${INSTALL_ROOT}/usr/lib64/python3.7/site-packages/pyanaconda/bootloader/efi.py
-
 ### Copy grub config without finding macos partition
 cp -rfv /tmp/kickstart_files/grub/30_os-prober ${INSTALL_ROOT}/etc/grub.d/30_os-prober
 chmod 755 ${INSTALL_ROOT}/etc/grub.d/30_os-prober

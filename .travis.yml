@@ -7,10 +7,6 @@ os:
 services:
   - docker
 
-# branches:
-#   only:
-#     - master
-
 stages:
   - test
   - build_deploy
