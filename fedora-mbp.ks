@@ -16,12 +16,20 @@ gcc-c++
 make
 iwd
 wpa_supplicant
-kernel-5.7.6-201.mbp.fc32.x86_64
-kernel-core-5.7.6-201.mbp.fc32.x86_64
-kernel-devel-5.7.6-201.mbp.fc32.x86_64
-kernel-modules-5.7.6-201.mbp.fc32.x86_64
-kernel-modules-extra-5.7.6-201.mbp.fc32.x86_64
-kernel-modules-internal-5.7.6-201.mbp.fc32.x86_64
+-shim-ia32-15.4-*.x86_64
+-shim-x64-15.4-*.x86_64
+-kernel-5.*.fc34.x86_64
+-kernel-core-5.*.fc34.x86_64
+-kernel-devel-5.*.fc34.x86_64
+-kernel-modules-5.*.fc34.x86_64
+-kernel-modules-extra-5.*.fc34.x86_64
+-kernel-modules-internal-5.*.fc34.x86_64
+kernel-5.12.11-300.mbp.fc33.x86_64
+kernel-core-5.12.11-300.mbp.fc33.x86_64
+kernel-devel-5.12.11-300.mbp.fc33.x86_64
+kernel-modules-5.12.11-300.mbp.fc33.x86_64
+kernel-modules-extra-5.12.11-300.mbp.fc33.x86_64
+kernel-modules-internal-5.12.11-300.mbp.fc33.x86_64
 
 %end
 
@@ -30,13 +38,13 @@ kernel-modules-internal-5.7.6-201.mbp.fc32.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.7.6-201.mbp.fc32.x86_64
-BCE_DRIVER_GIT_URL=https://github.com/MCMrARM/mbp2018-bridge-drv.git
-BCE_DRIVER_BRANCH_NAME=master
-BCE_DRIVER_COMMIT_HASH=b43fcc069da73e051072fde24af4014c9c487286
-APPLE_IB_DRIVER_GIT_URL=https://github.com/roadrunner2/macbook12-spi-driver.git
+KERNEL_VERSION=5.12.11-300.mbp.fc33.x86_64
+BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
+BCE_DRIVER_BRANCH_NAME=aur
+BCE_DRIVER_COMMIT_HASH=f93c6566f98b3c95677de8010f7445fa19f75091
+APPLE_IB_DRIVER_GIT_URL=https://github.com/t2linux/apple-ib-drv
 APPLE_IB_DRIVER_BRANCH_NAME=mbp15
-APPLE_IB_DRIVER_COMMIT_HASH=90cea3e8e32db60147df8d39836bd1d2a5161871
+APPLE_IB_DRIVER_COMMIT_HASH=fc9aefa5a564e6f2f2bb0326bffb0cef0446dc05
 
 ### Remove not compatible kernels
 rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi | grep -v mbp)
@@ -54,14 +62,14 @@ cp -rf /opt/drivers/bce/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 cp -rf /opt/drivers/touchbar/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 
 ### Add custom drivers to be loaded at boot
-echo -e 'hid-apple\nbcm5974\nsnd-seq\nbce\napple_ibridge\napple_ib_tb' > /etc/modules-load.d/bce.conf
+echo -e 'hid-apple\nbcm5974\nsnd-seq\napple_bce\napple_ibridge\napple_ib_tb' > /etc/modules-load.d/apple_bce.conf
 echo -e 'blacklist thunderbolt' > /etc/modprobe.d/blacklist.conf
-echo -e 'add_drivers+=" hid_apple snd-seq bce "\nforce_drivers+=" hid_apple snd-seq bce "' > /etc/dracut.conf
+echo -e 'add_drivers+=" hid_apple snd-seq apple_bce "\nforce_drivers+=" hid_apple snd-seq apple_bce "' > /etc/dracut.conf
 /usr/sbin/depmod -a ${KERNEL_VERSION}
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 
 ### Add update_kernel_mbp script
-curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.7-f32/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
+curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.12-f34/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
 chmod +x /usr/bin/update_kernel_mbp
 
 ### Remove temporary
@@ -69,10 +77,8 @@ dnf remove -y kernel-headers
 rm -rf /opt/drivers
 rm -rf /etc/resolv.conf
 
-sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal' /etc/yum.repos.d/fedora*.repo
+sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-modules,kernel-modules-extra,kernel-modules-internal,shim-*' /etc/yum.repos.d/fedora*.repo
 # echo -e '[mbp-fedora-kernel]\nname=mbp-fedora-kernel\nbaseurl=http://fedora-mbp-repo.herokuapp.com/\nenabled=1\ngpgcheck=0' > /etc/yum.repos.d/mbp-fedora-kernel.repo
-echo -e '[device]\nwifi.backend=iwd' > /etc/NetworkManager/conf.d/wifi_backend.conf
-systemctl enable iwd.service
 
 %end
 
@@ -99,6 +105,5 @@ cp -rfv /tmp/kickstart_files/suspend/rmmod_tb.sh ${INSTALL_ROOT}/lib/systemd/sys
 chmod +x ${INSTALL_ROOT}/lib/systemd/system-sleep/rmmod_tb.sh
 
 %end
-
 
 %include fedora-live-workstation.ks

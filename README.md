@@ -14,7 +14,7 @@ Drivers:
 - Apple SMC - <https://github.com/MCMrARM/mbp2018-etc>
 - Touchbar - <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
 
-> Tested on: Macbook Pro 15,2 13" 2019 i5 TouchBar Z0WQ000AR MV972ZE/A/R1
+> Tested on: Macbook Pro 15,2 13" 2019 i5 TouchBar Z0WQ000AR MV972ZE/A/R1 && Macbook Pro 16,2 13" 2020 i5
 
 ```
 Boot ROM Version:	220.270.99.0.0 (iBridge: 16.16.6571.0.0,0)
@@ -23,7 +23,7 @@ macOS Mojave: 10.14.6 (18G103)
 
 ## How to install
 
-- Turn off secure boot - <https://support.apple.com/en-us/HT208330>
+- Turn off secure boot and allow booting from external media - <https://support.apple.com/en-us/HT208330>
 - Download .iso from releases section - <https://github.com/mikeeq/mbp-fedora/releases/latest>
   - If it's splitted into multiple zip parts, you need to join splitted files into one and then extract it via `unzip` or extract them directly via `7z x` or `7za x`
     - <https://unix.stackexchange.com/questions/40480/how-to-unzip-a-multipart-spanned-zip-on-linux>
@@ -34,7 +34,7 @@ macOS Mojave: 10.14.6 (18G103)
   - don't use `livecd-iso-to-disk`, because it's overwriting grub settings
 - Install Fedora
   - Boot directly from macOS boot manager. (You can boot into it by pressing and holding option key after clicking the power-on button).
-    - There will be three boot options available, usually the third one works for me. (There are three of them, because there are three partitions in ISO: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
+    - There will be three boot options available, usually the third/last one works for me. (There are three of them, because there are three partitions in ISO: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
   - I recommend to shrink (resize) macOS APFS partition and not removing macOS installation entirely from your MacBook, because it's the only way to keep your device up-to-date. macOS OS updates also contains security patches to EFI/Apple T2
     - HowTo: <https://www.anyrecover.com/hard-drive-recovery-data/resize-partition-mac/> # Steps to Resize Mac Partition
   - You should use standard partition layout during partitioning your Disk in anaconda, because i haven't tested LVM scenario yet. <https://github.com/mikeeq/mbp-fedora/issues/2>
