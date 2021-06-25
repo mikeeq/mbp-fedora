@@ -45,7 +45,7 @@ livecd_exitcode=$?
 
 ### Zip iso and split it into multiple parts - github max size of release attachment is 2GB, where ISO is sometimes bigger than that
 mkdir -p ./output_zip
-zip -s 1500m ./output_zip/livecd.zip ./*.iso
+zip -s 950m ./output_zip/livecd.zip ./*.iso
 
 ### Calculate sha256 sums of built ISO
 sha256sum ./*.iso > ./output_zip/sha256
