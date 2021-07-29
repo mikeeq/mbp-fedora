@@ -25,13 +25,15 @@ macOS Mojave: 10.14.6 (18G103)
 
 - Turn off secure boot and allow booting from external media - <https://support.apple.com/en-us/HT208330>
 - Download .iso from releases section - <https://github.com/mikeeq/mbp-fedora/releases/latest>
-  - If it's splitted into multiple zip parts, you need to join splitted files into one and then extract it via `unzip` or extract them directly via `7z x` or `7za x`
+  - If it's splitted into multiple zip parts, you need to join split files into one and then extract it via `unzip` or extract them directly via `7z x` or `7za x`
     - <https://unix.stackexchange.com/questions/40480/how-to-unzip-a-multipart-spanned-zip-on-linux>
+    - on MacOS you can use the unarchiver from AppStore: <https://apps.apple.com/us/app/the-unarchiver/id425424353?mt=12>
 - Burn the image on USB stick >=8GB via:
-  - dd - `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
-  - rufus (GPT)- <https://rufus.ie/>
-  - fedora media writer (custom image option)- <https://getfedora.org/en/workstation/download/>
-  - don't use `livecd-iso-to-disk`, because it's overwriting grub settings
+  - dd
+    - Linux `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
+    - MacOS `
+  - rufus (GPT)- <https://rufus.ie/>, if prompted use DD mode
+  - Don't use `livecd-iso-to-disk`, because it's overwriting grub settings!!!
 - Install Fedora
   - Boot directly from macOS boot manager. (You can boot into it by pressing and holding option key after clicking the power-on button).
     - There will be three boot options available, usually the third/last one works for me. (There are three of them, because there are three partitions in ISO: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
@@ -43,7 +45,8 @@ macOS Mojave: 10.14.6 (18G103)
     - / - xxxGB EXT4
   - There will be an error on `Installing bootloader...` step, click Yes - It's related to `efi=noruntime` kernel arg
   ![bootloader issue](screenshots/bootloader.png)
-  ```
+
+  ```bash
   # /tmp/anaconda.log
   13:39:49,173 INF bootloader.grub2: bootloader.py: used boot args: resume=UUID=8a64abbd-b1a3-4d4a-85c3-b73800e46a1e rd.lvm.lv=fedora_localhost-live/root rd.lvm.lv=fedora_localhost-live/swap rhgb quiet
   13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
@@ -53,13 +56,15 @@ macOS Mojave: 10.14.6 (18G103)
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
 - After login you can update kernel by running `sudo update_kernel_mbp`
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
-```
-# /etc/modprobe.d/hid_apple.conf
-options hid_apple swap_fn_leftctrl=1
-options hid_apple swap_opt_cmd=1
 
-grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
-```
+  ```bash
+  # /etc/modprobe.d/hid_apple.conf
+  options hid_apple swap_fn_leftctrl=1
+  options hid_apple swap_opt_cmd=1
+
+  grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+  ```
+
 - To change function key mappings for models with touchbar see `modinfo apple_ib_tb` and use
   `echo 2 > /sys/class/input/*/device/fnmode` instead of the `hid_apple` options. See
   [this issue](https://github.com/mikeeq/mbp-fedora-kernel/issues/12)
@@ -77,7 +82,7 @@ grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 - alsa/pulseaudio config
   - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 
-  ```
+  ```bash
   ## to manually change audio profile via PulseAudio cli execute
   # to headphones output
   pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
@@ -90,7 +95,7 @@ grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
 
-  ```
+  ```bash
   ➜ ls -l /sys/class/video4linux/
   total 0
   lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video0 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video0
@@ -117,9 +122,9 @@ grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 
   - since macOS Catalina EFI is blocked even from reading, so access to EFI is blocked via adding `efi=noruntime` to kernel args
 
-```
-efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
-```
+  ```bash
+  efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
+  ```
 
 - `ctrl+x` is not working in GRUB, so if you are trying to change kernel parameters - start your OS by clicking `ctrl+shift+f10` on external keyboard
 
