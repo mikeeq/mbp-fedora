@@ -36,11 +36,12 @@ macOS Mojave: 10.14.6 (18G103)
   - please compare it with a value in `sha256` file available in github releases
 - Burn the image on USB stick >=8GB via:
   - `dd`
-    - Linux `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
+    - Linux `sudo dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
     - MacOS
       - try to find under which `/dev/` your USB stick is available `sudo diskutil list`
       - check if any partitions from it are mounted `df -h`, if they are please unmount `sudo diskutil unmount /dev/disk2s1`
-      - exec `dd if=/Users/mikeeq/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/disk2 bs=4m`
+      - exec `sudo dd if=/Users/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/disk2 bs=4m`
+      - if `dd` is not working for you for some reason you can try to install `gdd` via `brew` - `brew install coreutils` and use GNU dd command instead `sudo gdd bs=4M if=/Users/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/disk2 conv=fdatasync status=progress`
   - rufus (GPT)- <https://rufus.ie/>, if prompted use DD mode
   - Don't use `livecd-iso-to-disk`, because it's overwriting grub settings!!!
 - Install Fedora
