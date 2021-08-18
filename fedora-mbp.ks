@@ -39,6 +39,7 @@ kernel-modules-internal-5.13.10-200.mbp16.fc33.x86_64
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
 KERNEL_VERSION=5.13.10-200.mbp16.fc33.x86_64
+UPDATE_SCRIPT_BRANCH=v5.13-f34-mbp16
 BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
 BCE_DRIVER_BRANCH_NAME=aur
 BCE_DRIVER_COMMIT_HASH=f93c6566f98b3c95677de8010f7445fa19f75091
@@ -69,7 +70,7 @@ echo -e 'add_drivers+=" hid_apple snd-seq apple_bce "\nforce_drivers+=" hid_appl
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 
 ### Add update_kernel_mbp script
-curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/v5.12-f34/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
+curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
 chmod +x /usr/bin/update_kernel_mbp
 
 ### Remove temporary
