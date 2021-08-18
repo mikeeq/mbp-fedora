@@ -60,11 +60,11 @@ macOS Mojave: 10.14.6 (18G103)
 
     ![bootloader issue](screenshots/bootloader.png)
 
-  ```bash
-  # /tmp/anaconda.log
-  13:39:49,173 INF bootloader.grub2: bootloader.py: used boot args: resume=UUID=8a64abbd-b1a3-4d4a-85c3-b73800e46a1e rd.lvm.lv=fedora_localhost-live/root rd.lvm.lv=fedora_localhost-live/swap rhgb quiet
-  13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
-  ```
+    ```bash
+    # /tmp/anaconda.log
+    13:39:49,173 INF bootloader.grub2: bootloader.py: used boot args: resume=UUID=8a64abbd-b1a3-4d4a-85c3-b73800e46a1e rd.lvm.lv=fedora_localhost-live/root rd.lvm.lv=fedora_localhost-live/swap rhgb quiet
+    13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
+    ```
 
 - Setup wifi <https://wiki.t2linux.org/guides/wifi/>
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
@@ -96,28 +96,28 @@ macOS Mojave: 10.14.6 (18G103)
 - alsa/pulseaudio config
   - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 
-  ```bash
-  ## to manually change audio profile via PulseAudio cli execute
-  # to headphones output
-  pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
+    ```bash
+    ## to manually change audio profile via PulseAudio cli execute
+    # to headphones output
+    pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
 
-  # to speakers output
-  pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:builtin-speaker+input:builtin-mic
-  ```
+    # to speakers output
+    pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:builtin-speaker+input:builtin-mic
+    ```
 
 - disable iBridge network interface (awkward internal Ethernet device?)
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
 
-  ```bash
-  ➜ ls -l /sys/class/video4linux/
-  total 0
-  lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video0 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video0
-  lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video1 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video1
-  ➜ cat /sys/class/video4linux/*/dev
-  81:0
-  81:1
-  ```
+    ```bash
+    ➜ ls -l /sys/class/video4linux/
+    total 0
+    lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video0 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video0
+    lrwxrwxrwx. 1 root root 0 Aug 23 15:14 video1 -> ../../devices/pci0000:00/0000:00:1d.4/0000:02:00.1/bce/bce/bce-vhci/usb7/7-2/7-2:1.0/video4linux/video1
+    ➜ cat /sys/class/video4linux/*/dev
+    81:0
+    81:1
+    ```
 
 - verify `brcmf_chip_tcm_rambase` returns
 
@@ -136,9 +136,9 @@ macOS Mojave: 10.14.6 (18G103)
 
   - since macOS Catalina EFI is blocked even from reading, so access to EFI is blocked via adding `efi=noruntime` to kernel args
 
-  ```bash
-  efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
-  ```
+    ```bash
+    efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
+    ```
 
 - `ctrl+x` is not working in GRUB, so if you are trying to change kernel parameters - start your OS by clicking `ctrl+shift+f10` on external keyboard
 
