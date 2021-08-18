@@ -48,6 +48,7 @@ macOS Mojave: 10.14.6 (18G103)
         brew install coreutils
         ```
 
+      - don't worry if `dd` command execution is slow on MacOS, it can take a while due to XNU's poor I/O performance
   - rufus (GPT)- <https://rufus.ie/>, if prompted use DD mode
   - Don't use `livecd-iso-to-disk`, because it's overwriting grub settings!!!
 - Install Fedora
