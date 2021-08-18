@@ -27,11 +27,20 @@ macOS Mojave: 10.14.6 (18G103)
 - Download .iso from releases section - <https://github.com/mikeeq/mbp-fedora/releases/latest>
   - If it's splitted into multiple zip parts, you need to join split files into one and then extract it via `unzip` or extract them directly via `7z x` or `7za x`
     - <https://unix.stackexchange.com/questions/40480/how-to-unzip-a-multipart-spanned-zip-on-linux>
-    - on MacOS you can use the unarchiver from AppStore: <https://apps.apple.com/us/app/the-unarchiver/id425424353?mt=12>
+    - on MacOS you can use the `unarchiver` from AppStore: <https://apps.apple.com/us/app/the-unarchiver/id425424353?mt=12>
+      - or you can install `p7zip` via `brew` `brew install p7zip` and use `7za x livecd.zip` command mentioned above
+      - to install `brew` follow this tutorial: <https://brew.sh/>
+- Next you can check the SHA256 checksum of extracted .ISO to verify if your extraction process went well
+  - MacOS: `shasum -a 256 livecd-fedora-mbp.iso`
+  - Linux `sha256sum livecd-fedora-mbp.iso`
+  - please compare it with a value in `sha256` file available in github releases
 - Burn the image on USB stick >=8GB via:
-  - dd
+  - `dd`
     - Linux `dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
-    - MacOS `
+    - MacOS
+      - try to find under which `/dev/` your USB stick is available `sudo diskutil list`
+      - check if any partitions from it are mounted `df -h`, if they are please unmount `sudo diskutil unmount /dev/disk2s1`
+      - exec `dd if=/Users/mikeeq/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/disk2 bs=4m`
   - rufus (GPT)- <https://rufus.ie/>, if prompted use DD mode
   - Don't use `livecd-iso-to-disk`, because it's overwriting grub settings!!!
 - Install Fedora
