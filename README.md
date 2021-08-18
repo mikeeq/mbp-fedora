@@ -48,12 +48,17 @@ macOS Mojave: 10.14.6 (18G103)
     - There will be three boot options available, usually the third/last one works for me. (There are three of them, because there are three partitions in ISO: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
   - I recommend to shrink (resize) macOS APFS partition and not removing macOS installation entirely from your MacBook, because it's the only way to keep your device up-to-date. macOS OS updates also contains security patches to EFI/Apple T2
     - HowTo: <https://www.anyrecover.com/hard-drive-recovery-data/resize-partition-mac/> # Steps to Resize Mac Partition
-  - You should use standard partition layout during partitioning your Disk in anaconda, because i haven't tested LVM scenario yet. <https://github.com/mikeeq/mbp-fedora/issues/2>
-    - /boot/efi - 1024MB Linux HFS+ ESP
-    - /boot - 1024MB EXT4
-    - / - xxxGB EXT4
+  - I recommend using standard partition layout during partitioning your Disk in anaconda (Fedora Installer) as I haven't tested other scenarios yet. <https://github.com/mikeeq/mbp-fedora/issues/2>
+
+    ```bash
+      /boot/efi - 1024MB Linux HFS+ ESP
+      /boot - 1024MB EXT4
+      / - xxxGB EXT4
+    ```
+
   - There will be an error on `Installing bootloader...` step, click Yes - It's related to `efi=noruntime` kernel arg
-  ![bootloader issue](screenshots/bootloader.png)
+
+    ![bootloader issue](screenshots/bootloader.png)
 
   ```bash
   # /tmp/anaconda.log
@@ -63,7 +68,7 @@ macOS Mojave: 10.14.6 (18G103)
 
 - Setup wifi <https://wiki.t2linux.org/guides/wifi/>
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
-- After login you can update kernel by running `sudo update_kernel_mbp`
+- After login you can update kernel by running `sudo update_kernel_mbp`, more info here: <https://github.com/mikeeq/mbp-fedora-kernel#how-to-update-kernel-mbp>
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
 
   ```bash
