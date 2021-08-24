@@ -105,6 +105,12 @@ macOS Mojave: 10.14.6 (18G103)
   - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 
   ```
+  ## to fix pipewire configs on current mbp-fedora installations
+  sudo -i
+  curl -Ls https://raw.githubusercontent.com/mikeeq/mbp-fedora/cdc2fa6e7ef53f995041f1b86d50f34587d7b738/files/audio/apple-t2.conf -o /usr/share/alsa-card-profile/mixer/profile-sets/apple-t2.conf
+  curl -Ls https://raw.githubusercontent.com/mikeeq/mbp-fedora/cdc2fa6e7ef53f995041f1b86d50f34587d7b738/files/audio/91-pulseaudio-custom.rules -o /usr/lib/udev/rules.d/91-pulseaudio-custom.rules
+  reboot
+
   ## to manually change audio profile via PulseAudio cli execute
   # to headphones output
   pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:codec-output+input:codec-input
