@@ -104,7 +104,6 @@ macOS Mojave: 10.14.6 (18G103)
 - alsa/pulseaudio config
   - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 
-<<<<<<< HEAD
   ```
   ## to manually change audio profile via PulseAudio cli execute
   # to headphones output
@@ -116,16 +115,6 @@ macOS Mojave: 10.14.6 (18G103)
   ## to manually adjust built-in mic volume
   pactl set-source-volume $(pactl list sources | grep -B3 "Built-in Mic" | head -n1 | cut -d"#" -f2) 300000
   ```
-=======
-    ```bash
-    ## to manually change audio profile via PulseAudio cli execute
-    # to headphones output
-    pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
-
-    # to speakers output
-    pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:builtin-speaker+input:builtin-mic
-    ```
->>>>>>> 227ccc1fc6194c43ad9242381c9413db8119e5d3
 
 - disable iBridge network interface (awkward internal Ethernet device?)
 - disable not working camera device
