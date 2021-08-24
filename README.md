@@ -80,10 +80,13 @@ grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
   ```
   ## to manually change audio profile via PulseAudio cli execute
   # to headphones output
-  pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
+  pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:codec-output+input:codec-input
 
   # to speakers output
-  pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:builtin-speaker+input:builtin-mic
+  pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:builtin-speaker+input:builtin-mic
+
+  ## to manually adjust built-in mic volume
+  pactl set-source-volume $(pactl list sources | grep -B3 "Built-in Mic" | head -n1 | cut -d"#" -f2) 300000
   ```
 
 - disable iBridge network interface (awkward internal Ethernet device?)
