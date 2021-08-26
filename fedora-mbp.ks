@@ -24,12 +24,12 @@ wpa_supplicant
 -kernel-modules-5.*.fc34.x86_64
 -kernel-modules-extra-5.*.fc34.x86_64
 -kernel-modules-internal-5.*.fc34.x86_64
-kernel-5.13.12-200.mbp16.fc33.x86_64
-kernel-core-5.13.12-200.mbp16.fc33.x86_64
-kernel-devel-5.13.12-200.mbp16.fc33.x86_64
-kernel-modules-5.13.12-200.mbp16.fc33.x86_64
-kernel-modules-extra-5.13.12-200.mbp16.fc33.x86_64
-kernel-modules-internal-5.13.12-200.mbp16.fc33.x86_64
+kernel-5.13.12-200.mbp15.fc33.x86_64
+kernel-core-5.13.12-200.mbp15.fc33.x86_64
+kernel-devel-5.13.12-200.mbp15.fc33.x86_64
+kernel-modules-5.13.12-200.mbp15.fc33.x86_64
+kernel-modules-extra-5.13.12-200.mbp15.fc33.x86_64
+kernel-modules-internal-5.13.12-200.mbp15.fc33.x86_64
 
 %end
 
@@ -38,7 +38,7 @@ kernel-modules-internal-5.13.12-200.mbp16.fc33.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.13.12-200.mbp16.fc33.x86_64
+KERNEL_VERSION=5.13.12-200.mbp15.fc33.x86_64
 UPDATE_SCRIPT_BRANCH=v5.13-f34-mbp16
 BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
 BCE_DRIVER_BRANCH_NAME=aur
