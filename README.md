@@ -1,6 +1,6 @@
 # mbp-fedora
 
-[![Build Status](https://travis-ci.com/mikeeq/mbp-fedora.svg?branch=master)](https://travis-ci.com/mikeeq/mbp-fedora)
+[![Build Status](https://github.com/mikeeq/mbp-fedora-kernel/actions/workflows/build-iso.yml/badge.svg)](https://github.com/mikeeq/mbp-fedora-kernel/actions/workflows/build-iso.yml)
 
 Fedora ISO with Apple T2 patches built-in (Macbooks produced >= 2018).
 

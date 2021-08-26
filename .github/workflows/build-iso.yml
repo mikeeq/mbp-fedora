@@ -1,5 +1,5 @@
 ---
-name: Update yum repo on heroku
+name: Build Fedora ISO
 
 on: [push, pull_request]
 
