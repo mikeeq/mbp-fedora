@@ -32,7 +32,7 @@ jobs:
       script: |
         docker run --rm -w /repo -v $(pwd):/repo -t alpine:3.13 /bin/sh -c '
           apk add --no-cache shellcheck bash
-          shellcheck ./*.sh
+          shellcheck $(find . -type f -name "*.sh" |  tr '\n' ' ')
         '
     - stage: build_deploy
       name: "Build Fedora and Deploy to GitHub Releases"
