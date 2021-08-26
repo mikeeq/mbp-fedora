@@ -25,16 +25,27 @@ macOS Mojave: 10.14.6 (18G103)
 
 - Turn off secure boot and allow booting from external media - <https://support.apple.com/en-us/HT208330>
 - Download .iso from releases section - <https://github.com/mikeeq/mbp-fedora/releases/latest>
-  - If it's splitted into multiple zip parts, you need to join split files into one and then extract it via `unzip` or extract them directly via `7z x` or `7za x`
-    - <https://unix.stackexchange.com/questions/40480/how-to-unzip-a-multipart-spanned-zip-on-linux>
-    - on MacOS you can use the `unarchiver` from AppStore: <https://apps.apple.com/us/app/the-unarchiver/id425424353?mt=12>
-      - or you can install `p7zip` via `brew` `brew install p7zip` and use `7za x livecd.zip` command mentioned above
-      - to install `brew` follow this tutorial: <https://brew.sh/>
+  - If it's split into multiple zip parts, i.e.: `livecd.zip` and `livecd.z01` you need to download all zip parts and then
+    - join split files into one and then extract it via `unzip`
+      - <https://unix.stackexchange.com/questions/40480/how-to-unzip-a-multipart-spanned-zip-on-linux>
+    - or extract downloaded zip parts directly using:
+      - on Windows `winrar` or other supported tool like `7zip`
+      - on Linux you can use `p7zip`, `dnf install p7zip` and then to extract `7za x livecd.zip`
+      - on MacOS you can use
+        - `the unarchiver` from AppStore: <https://apps.apple.com/us/app/the-unarchiver/id425424353?mt=12>
+        - or you can install `p7zip` via `brew` `brew install p7zip` and use `7za x livecd.zip` command mentioned above
+          - to install `brew` follow this tutorial: <https://brew.sh/>
 - Next you can check the SHA256 checksum of extracted .ISO to verify if your extraction process went well
   - MacOS: `shasum -a 256 livecd-fedora-mbp.iso`
   - Linux `sha256sum livecd-fedora-mbp.iso`
   - please compare it with a value in `sha256` file available in github releases
 - Burn the image on USB stick >=8GB via:
+  - Fedora Media Writer
+    - Download: <https://getfedora.org/en/workstation/download/>
+      - MacOS <https://getfedora.org/fmw/FedoraMediaWriter-osx-latest.dmg>
+        - if you're prompted that application is insecure/from unknown developer, check <https://support.apple.com/en-us/HT202491>
+      - Windows <https://getfedora.org/fmw/FedoraMediaWriter-win32-latest.exe>
+    - Please use Custom Image option when burning the downloaded and extracted ISO to USB drive
   - `dd`
     - Linux `sudo dd bs=4M if=/home/user/Downloads/livecd-fedora-mbp-201908181858.iso of=/dev/sdc conv=fdatasync status=progress`
     - MacOS
@@ -49,13 +60,13 @@ macOS Mojave: 10.14.6 (18G103)
         ```
 
       - don't worry if `dd` command execution is slow on MacOS, it can take a while due to XNU's poor I/O performance
-  - rufus (GPT)- <https://rufus.ie/>, if prompted use DD mode
-  - Don't use `livecd-iso-to-disk`, because it's overwriting grub settings!!!
+  - `Rufus` (GPT)- <https://rufus.ie/>, if prompted use DD mode
+  - Please don't use `livecd-iso-to-disk` as it's overwriting ISO default grub settings and Fedora will not boot correctly!
 - Install Fedora
-  - Boot directly from macOS boot manager. (You can boot into it by pressing and holding option key after clicking the power-on button).
-    - There will be three boot options available, usually the third/last one works for me. (There are three of them, because there are three partitions in ISO: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
-  - I recommend to shrink (resize) macOS APFS partition and not removing macOS installation entirely from your MacBook, because it's the only way to keep your device up-to-date. macOS OS updates also contains security patches to EFI/Apple T2
+  - First of all I recommend to shrink (resize) macOS APFS partition and not removing macOS installation entirely from your MacBook, because it's the only way to keep your device up-to-date. macOS OS updates also contains security patches to EFI/Apple T2
     - HowTo: <https://www.anyrecover.com/hard-drive-recovery-data/resize-partition-mac/> # Steps to Resize Mac Partition
+  - Boot Fedora Installer from USB drive directly from macOS boot manager. (You can boot into it by pressing and holding Option key (ALT key) after clicking the power-on button when your computer was turned off or on restart/reboot when Apple logo is shown on the screen).
+    - There will be two/three boot options available, usually the last one works for me. (There are multiple boot options, because there are three different partitions in the ISO to make the ISO bootable on different set of computers: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
   - I recommend using standard partition layout during partitioning your Disk in anaconda (Fedora Installer) as I haven't tested other scenarios yet. <https://github.com/mikeeq/mbp-fedora/issues/2>
 
     ```bash
@@ -74,7 +85,6 @@ macOS Mojave: 10.14.6 (18G103)
     13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
     ```
 
-- Setup wifi <https://wiki.t2linux.org/guides/wifi/>
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
 - After login you can update kernel by running `sudo update_kernel_mbp`, more info here: <https://github.com/mikeeq/mbp-fedora-kernel#how-to-update-kernel-mbp>
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
@@ -84,12 +94,14 @@ macOS Mojave: 10.14.6 (18G103)
   options hid_apple swap_fn_leftctrl=1
   options hid_apple swap_opt_cmd=1
 
-  grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+  sudo -i
+  # Refresh grub and dracut config by executing update_kernel_mbp script
+  update_kernel_mbp
   ```
 
-- To change function key mappings for models with touchbar see `modinfo apple_ib_tb` and use
-  `echo 2 > /sys/class/input/*/device/fnmode` instead of the `hid_apple` options. See
-  [this issue](https://github.com/mikeeq/mbp-fedora-kernel/issues/12)
+- To change function key mappings for models with touchbar see `modinfo apple_ib_tb` and use `echo 2 > /sys/class/input/*/device/fnmode` instead of the `hid_apple` options. See
+    [this issue](https://github.com/mikeeq/mbp-fedora-kernel/issues/12)
+- Setup wifi and other model specific devices by following guides on `wiki.t2linux.org` - <https://wiki.t2linux.org/guides/wifi/>
 
 ## Not working
 
@@ -151,7 +163,7 @@ macOS Mojave: 10.14.6 (18G103)
 - Kernel/Mac related issues are mentioned in kernel repo
 - Anaconda sometimes could not finish installation process and it's freezing on `Network Configuration` step, probably due to iBridge internal network interface
 
-> workaround - it's a final step of installation, just reboot your Mac (installation is complete)
+> workaround - it's a final step of installation, just reboot your Mac (installation is completed)
 
 - Macbooks with Apple T2 can't boot EFI binaries from HFS+ formatted ESP - only FAT32 (FAT32 have to be labelled as msftdata).
 
