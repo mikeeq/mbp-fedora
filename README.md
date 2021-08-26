@@ -104,14 +104,23 @@ macOS Mojave: 10.14.6 (18G103)
 - alsa/pulseaudio config
   - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 
-    ```bash
-    ## to manually change audio profile via PulseAudio cli execute
-    # to headphones output
-    pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
+  ```
+  ## to fix pipewire configs on current mbp-fedora installations
+  sudo -i
+  curl -Ls https://raw.githubusercontent.com/mikeeq/mbp-fedora/cdc2fa6e7ef53f995041f1b86d50f34587d7b738/files/audio/apple-t2.conf -o /usr/share/alsa-card-profile/mixer/profile-sets/apple-t2.conf
+  curl -Ls https://raw.githubusercontent.com/mikeeq/mbp-fedora/cdc2fa6e7ef53f995041f1b86d50f34587d7b738/files/audio/91-pulseaudio-custom.rules -o /usr/lib/udev/rules.d/91-pulseaudio-custom.rules
+  reboot
 
-    # to speakers output
-    pacmd set-card-profile $(pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:builtin-speaker+input:builtin-mic
-    ```
+  ## to manually change audio profile via PulseAudio cli execute
+  # to headphones output
+  pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:codec-output+input:codec-input
+
+  # to speakers output
+  pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:builtin-speaker+input:builtin-mic
+
+  ## to manually adjust built-in mic volume
+  pactl set-source-volume $(pactl list sources | grep -B3 "Built-in Mic" | head -n1 | cut -d"#" -f2) 300000
+  ```
 
 - disable iBridge network interface (awkward internal Ethernet device?)
 - disable not working camera device
