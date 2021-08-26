@@ -46,6 +46,7 @@ jobs:
         run: ./build_in_docker.sh
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
