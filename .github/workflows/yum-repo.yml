@@ -1,11 +1,6 @@
 ---
 name: Update yum repo on heroku
 
-# on:
-#   push:
-#     branches:
-#       - master
-
 on: [push, pull_request]
 
 jobs:
@@ -14,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: "AgentInfo"
-        run: ./agent-info.sh
+        run: ./.github/agent-info.sh
       - name: "YamlLint"
         run: |
           docker run \
@@ -46,7 +41,7 @@ jobs:
         run: ./build_in_docker.sh
       - name: Release
         uses: softprops/action-gh-release@v1
-        # if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
