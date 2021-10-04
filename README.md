@@ -86,7 +86,7 @@ macOS Mojave: 10.14.6 (18G103)
     ```
 
 - To install additional languages, install appropriate langpack via dnf `dnf search langpack`
-- After login you can update kernel by running `sudo update_kernel_mbp`, more info here: <https://github.com/mikeeq/mbp-fedora-kernel#how-to-update-kernel-mbp>
+- After login you can update kernel by running `sudo update_kernel_mbp`, more info here: <https://github.com/mikeeq/mbp-fedora-kernel#how-to-update-kernel-mbp> (to enable Wi-Fi on 16 inch models you need to pass extra parameters, this link has the details).
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
 
   ```bash
