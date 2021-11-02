@@ -4,7 +4,7 @@ set -eu -o pipefail
 
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f35
-FEDORA_KICKSTARTS_COMMIT_HASH=410251a8a5854d978e22ca8fc902cc8763a72038        # https://pagure.io/fedora-kickstarts/commits/f34
+FEDORA_KICKSTARTS_COMMIT_HASH=410251a8a5854d978e22ca8fc902cc8763a72038        # https://pagure.io/fedora-kickstarts/commits/f35
 LIVECD_CACHE_PATH=/var/cache/live
 
 ### Debug commands
@@ -16,7 +16,8 @@ echo "CPU threads: $(nproc --all)"
 grep 'model name' /proc/cpuinfo | uniq
 
 ### Dependencies
-dnf install -y git livecd-tools-27.1-9.fc34.x86_64 zip
+# https://bodhi.fedoraproject.org/updates/?search=livecd-tools&releases=F35
+dnf install -y git livecd-tools-28.3-3.fc35.x86_64 zip
 
 ### Copy efibootmgr fix for anaconda
 mkdir -p /tmp/kickstart_files/
