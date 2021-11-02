@@ -14,7 +14,9 @@ if cat ${ANA_INSTALL_PATH}/etc/fstab | grep hfsplus ; then
   cp -rfv ${ANA_INSTALL_PATH}/opt/efi_backup/* ${ANA_INSTALL_PATH}/boot/efi/
   cp -rfv ${ANA_INSTALL_PATH}/opt/efi_backup/.VolumeIcon.icns ${ANA_INSTALL_PATH}/boot/efi/
   cp -rfv ${ANA_INSTALL_PATH}/boot/efi/EFI/fedora/.disk_label ${ANA_INSTALL_PATH}/boot/efi/System/Library/CoreServices/
-  parted /dev/nvme0n1 set ${EFI_PARTITION} msftdata on
+  EFI_PARTITION_DISK_DEV=/dev/$(lsblk -no pkname ${EFI_PARTITION})
+  EFI_PARTITION_NUM=$(cat $(sed "s#^/dev/\(.*\)\$#/sys/class/block/\1/partition#" <<< $EFI_PARTITION))
+  parted ${EFI_PARTITION_DISK_DEV} set ${EFI_PARTITION_NUM} msftdata on
   rm -rfv ${ANA_INSTALL_PATH}/opt/efi_backup
 
   ### Change fstab
