@@ -2,7 +2,7 @@
 
 set -eu -o pipefail
 
-DOCKER_IMAGE=fedora:35
+DOCKER_IMAGE=fedora:34
 # DOCKER_IMAGE=fedora_iso:34
 LIVECD_CACHE_PATH=/var/cache/live
 

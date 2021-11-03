@@ -17,8 +17,7 @@ echo "CPU threads: $(nproc --all)"
 grep 'model name' /proc/cpuinfo | uniq
 
 ### Dependencies
-# https://bodhi.fedoraproject.org/updates/?search=livecd-tools&releases=F35
-dnf install -y git livecd-tools-28.3-3.fc35.x86_64 zip
+dnf install -y git curl livecd-tools-27.1-9.fc34.x86_64 zip
 
 ### Copy efibootmgr fix for anaconda
 mkdir -p /tmp/kickstart_files/
