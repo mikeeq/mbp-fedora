@@ -6,6 +6,7 @@ FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f35
 FEDORA_KICKSTARTS_COMMIT_HASH=410251a8a5854d978e22ca8fc902cc8763a72038        # https://pagure.io/fedora-kickstarts/commits/f35
 LIVECD_CACHE_PATH=/var/cache/live
+ARTIFACT_NAME="livecd-mbp-${FEDORA_KICKSTARTS_BRANCH_NAME}-$(date '%Y%m%d').zip"
 
 ### Debug commands
 echo "FEDORA_KICKSTARTS_BRANCH_NAME=${FEDORA_KICKSTARTS_BRANCH_NAME}"
@@ -46,7 +47,7 @@ livecd_exitcode=$?
 
 ### Zip iso and split it into multiple parts - github max size of release attachment is 2GB, where ISO is sometimes bigger than that
 mkdir -p ./output_zip
-zip -s 1000m ./output_zip/livecd.zip ./*.iso
+zip -s 1000m ./output_zip/"${ARTIFACT_NAME}" ./*.iso
 
 ### Calculate sha256 sums of built ISO
 sha256sum ./output_zip/* > ./output_zip/sha256
