@@ -24,12 +24,12 @@ wpa_supplicant
 -kernel-modules-5.*.fc35.x86_64
 -kernel-modules-extra-5.*.fc35.x86_64
 -kernel-modules-internal-5.*.fc35.x86_64
-kernel-5.13.12-200.mbp15.fc33.x86_64
-kernel-core-5.13.12-200.mbp15.fc33.x86_64
-kernel-devel-5.13.12-200.mbp15.fc33.x86_64
-kernel-modules-5.13.12-200.mbp15.fc33.x86_64
-kernel-modules-extra-5.13.12-200.mbp15.fc33.x86_64
-kernel-modules-internal-5.13.12-200.mbp15.fc33.x86_64
+kernel-5.14.14-300.mbp.fc33.x86_64
+kernel-core-5.14.14-300.mbp.fc33.x86_64
+kernel-devel-5.14.14-300.mbp.fc33.x86_64
+kernel-modules-5.14.14-300.mbp.fc33.x86_64
+kernel-modules-extra-5.14.14-300.mbp.fc33.x86_64
+kernel-modules-internal-5.14.14-300.mbp.fc33.x86_64
 
 %end
 
@@ -38,14 +38,14 @@ kernel-modules-internal-5.13.12-200.mbp15.fc33.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.13.12-200.mbp15.fc33.x86_64
-UPDATE_SCRIPT_BRANCH=v5.13-f34-mbp16
+KERNEL_VERSION=5.14.14-300.mbp.fc33.x86_64
+UPDATE_SCRIPT_BRANCH=v5.14-f35
 BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
 BCE_DRIVER_BRANCH_NAME=aur
 BCE_DRIVER_COMMIT_HASH=f93c6566f98b3c95677de8010f7445fa19f75091
 APPLE_IB_DRIVER_GIT_URL=https://github.com/t2linux/apple-ib-drv
 APPLE_IB_DRIVER_BRANCH_NAME=mbp15
-APPLE_IB_DRIVER_COMMIT_HASH=fc9aefa5a564e6f2f2bb0326bffb0cef0446dc05
+APPLE_IB_DRIVER_COMMIT_HASH=d8411ad1d87db8491e53887e36c3d37f445203eb
 
 ### Remove not compatible kernels
 rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi | grep -v mbp)
