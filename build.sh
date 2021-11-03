@@ -2,6 +2,7 @@
 
 set -eu -o pipefail
 
+FEDORA_VERSION=35
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f35
 FEDORA_KICKSTARTS_COMMIT_HASH=410251a8a5854d978e22ca8fc902cc8763a72038        # https://pagure.io/fedora-kickstarts/commits/f35
@@ -41,7 +42,7 @@ done &
 bgPID=$!
 
 ### Generate LiveCD iso
-livecd-creator --verbose --config=fedora-mbp.ks --cache=${LIVECD_CACHE_PATH}
+livecd-creator --verbose --releasever=${FEDORA_VERSION} --config=fedora-mbp.ks --cache=${LIVECD_CACHE_PATH}
 livecd_exitcode=$?
 
 ### Zip iso and split it into multiple parts - github max size of release attachment is 2GB, where ISO is sometimes bigger than that
