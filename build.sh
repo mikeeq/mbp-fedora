@@ -6,7 +6,7 @@ FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f35
 FEDORA_KICKSTARTS_COMMIT_HASH=410251a8a5854d978e22ca8fc902cc8763a72038        # https://pagure.io/fedora-kickstarts/commits/f35
 LIVECD_CACHE_PATH=/var/cache/live
-ARTIFACT_NAME="livecd-mbp-${FEDORA_KICKSTARTS_BRANCH_NAME}-$(date '%Y%m%d').zip"
+ARTIFACT_NAME="livecd-mbp-${FEDORA_KICKSTARTS_BRANCH_NAME}-$(date +'%Y%m%d').zip"
 
 ### Debug commands
 echo "FEDORA_KICKSTARTS_BRANCH_NAME=${FEDORA_KICKSTARTS_BRANCH_NAME}"
