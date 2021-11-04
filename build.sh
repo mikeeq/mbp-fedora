@@ -30,6 +30,8 @@ dnf install -y \
   livecd-tools
 
 ### Install livecd-tools fix
+[ -x "$(command -v python)" ] || ln -s /usr/bin/python3 /usr/bin/python
+
 git clone --single-branch --branch ${LIVECD_TOOLS_GIT_BRANCH_NAME} ${LIVECD_TOOLS_GIT_URL} /tmp/livecd-tools
 cd /tmp/livecd-tools
 make install
