@@ -1,1 +1,3 @@
 fedora-kickstarts
+**.iso
+output_zip/*
