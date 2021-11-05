@@ -2,11 +2,12 @@
 
 set -eu -o pipefail
 
-DOCKER_IMAGE=fedora:34
-# DOCKER_IMAGE=fedora_iso:34
+# docker build -t fedora_iso:34 .
+# DOCKER_IMAGE=fedora:34
+DOCKER_IMAGE=fedora_iso:34
 LIVECD_CACHE_PATH=/var/cache/live
 
-docker pull ${DOCKER_IMAGE}
+# docker pull ${DOCKER_IMAGE}
 docker run \
   --privileged \
   --rm \

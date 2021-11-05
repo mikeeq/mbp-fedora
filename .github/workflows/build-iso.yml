@@ -1,7 +1,7 @@
 ---
 name: Build Fedora ISO
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   tests:
@@ -47,6 +47,6 @@ jobs:
           name: Release ${{ github.ref }}
           draft: true
           files: |
-            ./fedora-kickstarts/output_zip/*
+            ./output_zip/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # You don't need to add this in secrets it's by default.
