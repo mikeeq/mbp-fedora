@@ -1,7 +1,16 @@
 %post --nochroot
 
 EFI_DEV=$(df | grep '/boot/efi' | awk '{print $1}')
-EFI_PARTITION=${EFI_DEV#/dev/nvme0n1p}
+if [[ $EFI_DEV =~ "/dev/nvme" ]]; then
+  EFI_DISK=${EFI_DEV%??}
+elif [[ $EFI_DEV =~ "/dev/sd" ]]; then
+  EFI_DISK=${EFI_DEV%?}
+elif [[ $EFI_DEV =~ "/dev/vd" ]]; then
+  EFI_DISK=${EFI_DEV%?}
+else
+  echo >&2 "Not supported disk, skipping reformatting..."; exit 0;
+fi
+EFI_PARTITION=${EFI_DEV: -1}
 
 if cat ${ANA_INSTALL_PATH}/etc/fstab | grep hfsplus ; then
   ### HFS+ boot partition reformatting to FAT32
@@ -14,9 +23,7 @@ if cat ${ANA_INSTALL_PATH}/etc/fstab | grep hfsplus ; then
   cp -rfv ${ANA_INSTALL_PATH}/opt/efi_backup/* ${ANA_INSTALL_PATH}/boot/efi/
   cp -rfv ${ANA_INSTALL_PATH}/opt/efi_backup/.VolumeIcon.icns ${ANA_INSTALL_PATH}/boot/efi/
   cp -rfv ${ANA_INSTALL_PATH}/boot/efi/EFI/fedora/.disk_label ${ANA_INSTALL_PATH}/boot/efi/System/Library/CoreServices/
-  EFI_PARTITION_DISK_DEV=/dev/$(lsblk -no pkname ${EFI_PARTITION})
-  EFI_PARTITION_NUM=$(cat $(sed "s#^/dev/\(.*\)\$#/sys/class/block/\1/partition#" <<< $EFI_PARTITION))
-  parted ${EFI_PARTITION_DISK_DEV} set ${EFI_PARTITION_NUM} msftdata on
+  parted ${EFI_DISK} set ${EFI_PARTITION} msftdata on
   rm -rfv ${ANA_INSTALL_PATH}/opt/efi_backup
 
   ### Change fstab
