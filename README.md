@@ -136,7 +136,6 @@ dnf clean all
 
 - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 - TouchID - (@MCMrARM is working on it - https://github.com/Dunedan/mbp-2016-linux/issues/71#issuecomment-528545490)
-- Thunderbolt (is disabled, because driver was causing kernel panics (not tested with 5.5 kernel))
 - Microphone (it's recognised with new apple t2 sound driver, but there is a low mic volume amp)
 
 ## TODO

@@ -2,7 +2,7 @@
 repo --name=fedora-mbp --baseurl=http://fedora-mbp-repo.herokuapp.com/
 
 ### Selinux in permissive mode
-bootloader --append="enforcing=0 efi=noruntime pcie_ports=compat modprobe.blacklist=thunderbolt"
+bootloader --append="enforcing=0 efi=noruntime pcie_ports=compat"
 
 ### Accepting EULA
 eula --agreed
@@ -24,12 +24,12 @@ wpa_supplicant
 -kernel-modules-5.*.fc35.x86_64
 -kernel-modules-extra-5.*.fc35.x86_64
 -kernel-modules-internal-5.*.fc35.x86_64
-kernel-5.14.14-300.mbp.fc33.x86_64
-kernel-core-5.14.14-300.mbp.fc33.x86_64
-kernel-devel-5.14.14-300.mbp.fc33.x86_64
-kernel-modules-5.14.14-300.mbp.fc33.x86_64
-kernel-modules-extra-5.14.14-300.mbp.fc33.x86_64
-kernel-modules-internal-5.14.14-300.mbp.fc33.x86_64
+kernel-5.17.1-300.mbp.fc33.x86_64
+kernel-core-5.17.1-300.mbp.fc33.x86_64
+kernel-devel-5.17.1-300.mbp.fc33.x86_64
+kernel-modules-5.17.1-300.mbp.fc33.x86_64
+kernel-modules-extra-5.17.1-300.mbp.fc33.x86_64
+kernel-modules-internal-5.17.1-300.mbp.fc33.x86_64
 
 %end
 
@@ -38,14 +38,14 @@ kernel-modules-internal-5.14.14-300.mbp.fc33.x86_64
 ### Add dns server configuration
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 
-KERNEL_VERSION=5.14.14-300.mbp.fc33.x86_64
-UPDATE_SCRIPT_BRANCH=v5.14-f35
+KERNEL_VERSION=5.17.1-300.mbp.fc33.x86_64
+UPDATE_SCRIPT_BRANCH=v5.17-f35
 BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
 BCE_DRIVER_BRANCH_NAME=aur
 BCE_DRIVER_COMMIT_HASH=f93c6566f98b3c95677de8010f7445fa19f75091
-APPLE_IB_DRIVER_GIT_URL=https://github.com/t2linux/apple-ib-drv
+APPLE_IB_DRIVER_GIT_URL=https://github.com/Redecorating/apple-ib-drv
 APPLE_IB_DRIVER_BRANCH_NAME=mbp15
-APPLE_IB_DRIVER_COMMIT_HASH=d8411ad1d87db8491e53887e36c3d37f445203eb
+APPLE_IB_DRIVER_COMMIT_HASH=467df9b11cb55456f0365f40dd11c9e666623bf3
 
 ### Remove not compatible kernels
 rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi | grep -v mbp)
@@ -63,8 +63,7 @@ cp -rf /opt/drivers/bce/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 cp -rf /opt/drivers/touchbar/*.ko /lib/modules/${KERNEL_VERSION}/extra/
 
 ### Add custom drivers to be loaded at boot
-echo -e 'hid-apple\nbcm5974\nsnd-seq\napple_bce\napple_ibridge\napple_ib_tb' > /etc/modules-load.d/apple_bce.conf
-echo -e 'blacklist thunderbolt' > /etc/modprobe.d/blacklist.conf
+echo -e 'hid-apple\nbcm5974\nsnd-seq\napple_bce' > /etc/modules-load.d/apple_bce.conf
 echo -e 'add_drivers+=" hid_apple snd-seq apple_bce "\nforce_drivers+=" hid_apple snd-seq apple_bce "' > /etc/dracut.conf
 /usr/sbin/depmod -a ${KERNEL_VERSION}
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
