@@ -21,12 +21,14 @@ wpa_supplicant
 -kernel-5.*.fc35.x86_64
 -kernel-core-5.*.fc35.x86_64
 -kernel-devel-5.*.fc35.x86_64
+-kernel-devel-matched-5.*.fc35.x86_64
 -kernel-modules-5.*.fc35.x86_64
 -kernel-modules-extra-5.*.fc35.x86_64
 -kernel-modules-internal-5.*.fc35.x86_64
 kernel-5.17.1-300.mbp.fc33.x86_64
 kernel-core-5.17.1-300.mbp.fc33.x86_64
 kernel-devel-5.17.1-300.mbp.fc33.x86_64
+kernel-devel-matched-5.17.1-300.mbp.fc33.x86_64
 kernel-modules-5.17.1-300.mbp.fc33.x86_64
 kernel-modules-extra-5.17.1-300.mbp.fc33.x86_64
 kernel-modules-internal-5.17.1-300.mbp.fc33.x86_64
