@@ -37,14 +37,6 @@ kernel-modules-internal-5.17.1-300.mbp.fc33.x86_64
 
 
 %post
-# Error:
-# Print /etc/resolv.conf
-# cat: /etc/resolv.conf: No such file or directory
-# Listing /etc/resolv.conf
-# lrwxrwxrwx 1 root root 39 Apr 18 11:54 /etc/resolv.conf -> ../run/systemd/resolve/stub-resolv.conf
-# Add Google DNS to /etc/resolv.conf
-# /tmp/ks-script-k54oasui: line 7: /etc/resolv.conf: No such file or directory
-
 ### Add dns server configuration
 echo "===]> Info: Printing PWD"
 pwd
