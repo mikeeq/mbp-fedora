@@ -85,7 +85,7 @@ macOS Mojave: 10.14.6 (18G103)
     13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
     ```
 
-- To install additional languages, install appropriate langpack via dnf `dnf search langpack`
+- To install additional languages (only English is available out of the box), install appropriate langpack via dnf `dnf search langpacks`, i.e.: to install Polish language pack execute: `dnf install langpacks-pl`
 - After login you can update kernel by running `sudo update_kernel_mbp`, more info here: <https://github.com/mikeeq/mbp-fedora-kernel#how-to-update-kernel-mbp>
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
 
@@ -105,13 +105,13 @@ macOS Mojave: 10.14.6 (18G103)
 
 ## How to upgrade current mbp-fedora installations
 
-```
+```bash
 # Docs: https://docs.fedoraproject.org/en-US/quick-docs/dnf-system-upgrade/
 sudo -i
 
 # Upgrade kernel beforehand
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="5.14.14-f35" UPDATE_SCRIPT_BRANCH="v5.14-f35" update_kernel_mbp
+KERNEL_VERSION="5.17.1-f35" UPDATE_SCRIPT_BRANCH="v5.17-f35" update_kernel_mbp
 
 # Upgrade your OS
 dnf upgrade -y --refresh
@@ -136,7 +136,6 @@ dnf clean all
 
 - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 - TouchID - (@MCMrARM is working on it - https://github.com/Dunedan/mbp-2016-linux/issues/71#issuecomment-528545490)
-- Thunderbolt (is disabled, because driver was causing kernel panics (not tested with 5.5 kernel))
 - Microphone (it's recognised with new apple t2 sound driver, but there is a low mic volume amp)
 
 ## TODO
