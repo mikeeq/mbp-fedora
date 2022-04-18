@@ -105,7 +105,7 @@ macOS Mojave: 10.14.6 (18G103)
 
 ## How to upgrade current mbp-fedora installations
 
-```
+```bash
 # Docs: https://docs.fedoraproject.org/en-US/quick-docs/dnf-system-upgrade/
 sudo -i
 
