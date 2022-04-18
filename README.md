@@ -85,7 +85,7 @@ macOS Mojave: 10.14.6 (18G103)
     13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
     ```
 
-- To install additional languages (only English is available out of the box), install appropriate langpack via dnf `dnf search langpacks`, i.e.: for installing Polish `dnf install langpacks-pl`
+- To install additional languages (only English is available out of the box), install appropriate langpack via dnf `dnf search langpacks`, i.e.: to install Polish language pack execute: `dnf install langpacks-pl`
 - After login you can update kernel by running `sudo update_kernel_mbp`, more info here: <https://github.com/mikeeq/mbp-fedora-kernel#how-to-update-kernel-mbp>
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
 
