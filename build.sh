@@ -6,9 +6,9 @@ CURRENT_PWD=$(pwd)
 FEDORA_VERSION=35
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f35
-FEDORA_KICKSTARTS_COMMIT_HASH=410251a8a5854d978e22ca8fc902cc8763a72038        # https://pagure.io/fedora-kickstarts/commits/f35
-LIVECD_TOOLS_GIT_URL=https://github.com/mikeeq/livecd-tools
-LIVECD_TOOLS_GIT_BRANCH_NAME=feature/fix-f35-build
+FEDORA_KICKSTARTS_COMMIT_HASH=3cfe995016eebde3204dab81b30d9768aab0df17        # https://pagure.io/fedora-kickstarts/commits/f35
+LIVECD_TOOLS_GIT_URL=https://github.com/livecd-tools/livecd-tools
+LIVECD_TOOLS_GIT_BRANCH_NAME=main
 LIVECD_CACHE_PATH=/var/cache/live
 ARTIFACT_NAME="livecd-mbp-${FEDORA_KICKSTARTS_BRANCH_NAME}-$(date +'%Y%m%d').zip"
 
