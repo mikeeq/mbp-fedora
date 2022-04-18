@@ -37,6 +37,14 @@ kernel-modules-internal-5.17.1-300.mbp.fc33.x86_64
 
 
 %post
+# Error:
+# Print /etc/resolv.conf
+# cat: /etc/resolv.conf: No such file or directory
+# Listing /etc/resolv.conf
+# lrwxrwxrwx 1 root root 39 Apr 18 11:54 /etc/resolv.conf -> ../run/systemd/resolve/stub-resolv.conf
+# Add Google DNS to /etc/resolv.conf
+# /tmp/ks-script-k54oasui: line 7: /etc/resolv.conf: No such file or directory
+
 ### Add dns server configuration
 echo "===]> Info: Printing PWD"
 pwd
@@ -44,8 +52,8 @@ echo "===]> Info: Printing /etc/resolv.conf"
 cat /etc/resolv.conf
 echo "===]> Info: Listing /etc/resolv.conf"
 ls -la /etc/resolv.conf
-echo "===]> Info: Removing /etc/resolv.conf"
-rm -rfv /etc/resolv.conf
+echo "===]> Info: Renaming default /etc/resolv.conf"
+mv /etc/resolv.conf /etc/resolv.conf_backup
 echo "===]> Info: Add Google DNS to /etc/resolv.conf"
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "===]> Info: Print /etc/resolv.conf"
@@ -88,8 +96,9 @@ chmod +x /usr/bin/update_kernel_mbp
 ### Remove temporary
 dnf remove -y kernel-headers
 rm -rf /opt/drivers
-rm -rf /etc/resolv.conf
+mv /etc/resolv.conf_backup /etc/resolv.conf
 
+### Add kernel RPM packages to YUM/DNF exclusions
 sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-devel-matched,kernel-modules,kernel-modules-extra,kernel-modules-internal,shim-*' /etc/yum.repos.d/fedora*.repo
 
 %end
