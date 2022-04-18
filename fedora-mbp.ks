@@ -40,8 +40,8 @@ kernel-modules-internal-5.17.1-300.mbp.fc33.x86_64
 ### Add dns server configuration
 echo "Print /etc/resolv.conf"
 cat /etc/resolv.conf
-echo "Making sure /etc/ exists"
-mkdir -p /etc
+echo "Listing /etc/resolv.conf"
+ls -la /etc/resolv.conf
 echo "Add Google DNS to /etc/resolv.conf"
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "Print /etc/resolv.conf"
