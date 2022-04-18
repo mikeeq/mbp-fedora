@@ -38,7 +38,12 @@ kernel-modules-internal-5.17.1-300.mbp.fc33.x86_64
 
 %post
 ### Add dns server configuration
+echo "Print /etc/resolv.conf"
+cat /etc/resolv.conf
+echo "Add Google DNS to /etc/resolv.conf"
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+echo "Print /etc/resolv.conf"
+cat /etc/resolv.conf
 
 KERNEL_VERSION=5.17.1-300.mbp.fc33.x86_64
 UPDATE_SCRIPT_BRANCH=v5.17-f35
