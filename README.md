@@ -111,16 +111,16 @@ sudo -i
 
 # Upgrade kernel beforehand
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="5.17.1-f35" UPDATE_SCRIPT_BRANCH="v5.17-f35" update_kernel_mbp
+KERNEL_VERSION="5.17.6-f36" UPDATE_SCRIPT_BRANCH="v5.17-f36" update_kernel_mbp
 
 # Upgrade your OS
 dnf upgrade -y --refresh
 dnf install -y dnf-plugin-system-upgrade
 
 # Exclude official kernel from upgrade to not override mbp-fedora-kernel
-## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35
+## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36
 
-FEDORA_VERSION=35 dnf system-upgrade download -y --releasever=${FEDORA_VERSION} --exclude='kernel*'
+FEDORA_VERSION=36 dnf system-upgrade download -y --releasever=${FEDORA_VERSION} --exclude='kernel*'
 
 # Reboot your Mac
 dnf system-upgrade reboot
