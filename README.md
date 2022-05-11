@@ -67,13 +67,17 @@ macOS Mojave: 10.14.6 (18G103)
     - HowTo: <https://www.anyrecover.com/hard-drive-recovery-data/resize-partition-mac/> # Steps to Resize Mac Partition
   - Boot Fedora Installer from USB drive directly from macOS boot manager. (You can boot into it by pressing and holding Option key (ALT key) after clicking the power-on button when your computer was turned off or on restart/reboot when Apple logo is shown on the screen).
     - There will be two/three boot options available, usually the last one works for me. (There are multiple boot options, because there are three different partitions in the ISO to make the ISO bootable on different set of computers: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
-  - I recommend using standard partition layout during partitioning your Disk in anaconda (Fedora Installer) as I haven't tested other scenarios yet. <https://github.com/mikeeq/mbp-fedora/issues/2>
+  - I recommend using standard partition layout during partitioning your Disk in Anaconda (Fedora Installer) as I haven't tested other scenarios yet. <https://github.com/mikeeq/mbp-fedora/issues/2
+
+    - please create a separate partition for Linux EFI (Linux HFS+ ESP) as Anaconda installer requires separate partition on Mac devices and it'll be reformated to EFI (FAT32) during post-install scripts Anaconda's step (at the end of installation process).
 
     ```bash
       /boot/efi - 1024MB Linux HFS+ ESP
       /boot - 1024MB EXT4
       / - xxxGB EXT4
     ```
+
+    ![anaconda partitioning](screenshots/anaconda-3.png)
 
   - There will be an error on `Installing bootloader...` step, click Yes - It's related to `efi=noruntime` kernel arg
 
@@ -111,16 +115,16 @@ sudo -i
 
 # Upgrade kernel beforehand
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="5.17.1-f35" UPDATE_SCRIPT_BRANCH="v5.17-f35" update_kernel_mbp
+KERNEL_VERSION="5.17.6-f36" UPDATE_SCRIPT_BRANCH="v5.17-f36" update_kernel_mbp
 
 # Upgrade your OS
 dnf upgrade -y --refresh
 dnf install -y dnf-plugin-system-upgrade
 
 # Exclude official kernel from upgrade to not override mbp-fedora-kernel
-## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35
+## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36
 
-FEDORA_VERSION=35 dnf system-upgrade download -y --releasever=${FEDORA_VERSION} --exclude='kernel*'
+FEDORA_VERSION=36 dnf system-upgrade download -y --releasever=${FEDORA_VERSION} --exclude='kernel*'
 
 # Reboot your Mac
 dnf system-upgrade reboot
