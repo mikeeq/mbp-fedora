@@ -75,6 +75,8 @@ macOS Mojave: 10.14.6 (18G103)
       / - xxxGB EXT4
     ```
 
+    ![anaconda partitioning](screenshots/anaconda-3.png)
+
   - There will be an error on `Installing bootloader...` step, click Yes - It's related to `efi=noruntime` kernel arg
 
     ![bootloader issue](screenshots/bootloader.png)
