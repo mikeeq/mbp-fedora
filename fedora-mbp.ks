@@ -25,13 +25,13 @@ wpa_supplicant
 -kernel-modules-5.*.fc36.x86_64
 -kernel-modules-extra-5.*.fc36.x86_64
 -kernel-modules-internal-5.*.fc36.x86_64
-kernel-5.17.1-300.mbp.fc33.x86_64
-kernel-core-5.17.1-300.mbp.fc33.x86_64
-kernel-devel-5.17.1-300.mbp.fc33.x86_64
-kernel-devel-matched-5.17.1-300.mbp.fc33.x86_64
-kernel-modules-5.17.1-300.mbp.fc33.x86_64
-kernel-modules-extra-5.17.1-300.mbp.fc33.x86_64
-kernel-modules-internal-5.17.1-300.mbp.fc33.x86_64
+kernel-5.17.6-300.mbp.fc33.x86_64
+kernel-core-5.17.6-300.mbp.fc33.x86_64
+kernel-devel-5.17.6-300.mbp.fc33.x86_64
+kernel-devel-matched-5.17.6-300.mbp.fc33.x86_64
+kernel-modules-5.17.6-300.mbp.fc33.x86_64
+kernel-modules-extra-5.17.6-300.mbp.fc33.x86_64
+kernel-modules-internal-5.17.6-300.mbp.fc33.x86_64
 
 %end
 
@@ -51,8 +51,8 @@ echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "===]> Info: Print /etc/resolv.conf"
 cat /etc/resolv.conf
 
-KERNEL_VERSION=5.17.1-300.mbp.fc33.x86_64
-UPDATE_SCRIPT_BRANCH=v5.17-f35
+KERNEL_VERSION=5.17.6-300.mbp.fc33.x86_64
+UPDATE_SCRIPT_BRANCH=v5.17-f36
 BCE_DRIVER_GIT_URL=https://github.com/t2linux/apple-bce-drv
 BCE_DRIVER_BRANCH_NAME=aur
 BCE_DRIVER_COMMIT_HASH=f93c6566f98b3c95677de8010f7445fa19f75091
