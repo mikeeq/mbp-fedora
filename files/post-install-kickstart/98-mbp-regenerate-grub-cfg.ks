@@ -2,7 +2,7 @@
 
 GRUB_CMDLINE_VALUE=$(grep -v '#' /etc/default/grub | grep -w GRUB_CMDLINE_LINUX | cut -d'"' -f2)
 
-for i in efi=noruntime pcie_ports=compat modprobe.blacklist=thunderbolt; do
+for i in efi=noruntime pcie_ports=compat; do
   if ! echo "$GRUB_CMDLINE_VALUE" | grep -w $i; then
    GRUB_CMDLINE_VALUE="$GRUB_CMDLINE_VALUE $i"
   fi
