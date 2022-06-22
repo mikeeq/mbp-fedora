@@ -16,22 +16,10 @@ gcc-c++
 make
 iwd
 wpa_supplicant
--shim-ia32-15.4-*.x86_64
--shim-x64-15.4-*.x86_64
+-shim-ia32-15.[0-9]*-[0-9].x86_64
+-shim-x64-15.[0-9]*-[0-9].x86_64
 -kernel-5.*.fc36.x86_64
--kernel-core-5.*.fc36.x86_64
--kernel-devel-5.*.fc36.x86_64
--kernel-devel-matched-5.*.fc36.x86_64
--kernel-modules-5.*.fc36.x86_64
--kernel-modules-extra-5.*.fc36.x86_64
--kernel-modules-internal-5.*.fc36.x86_64
-kernel-5.18.5-200.mbp.fc33.x86_64
-kernel-core-5.18.5-200.mbp.fc33.x86_64
-kernel-devel-5.18.5-200.mbp.fc33.x86_64
-kernel-devel-matched-5.18.5-200.mbp.fc33.x86_64
-kernel-modules-5.18.5-200.mbp.fc33.x86_64
-kernel-modules-extra-5.18.5-200.mbp.fc33.x86_64
-kernel-modules-internal-5.18.5-200.mbp.fc33.x86_64
+kernel-*.*[0-9].mbp.fc36.x86_64
 
 %end
 
