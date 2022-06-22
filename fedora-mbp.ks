@@ -8,18 +8,18 @@ bootloader --append="enforcing=0 efi=noruntime pcie_ports=compat"
 eula --agreed
 
 ### Install kernel from hosted rpm repo
+# https://pykickstart.readthedocs.io/en/latest/kickstart-docs.html#chapter-9-package-selection
 %packages
 
-git
-gcc
-gcc-c++
-make
+curl
 iwd
 wpa_supplicant
 -shim-ia32-15.[0-9]*-[0-9].x86_64
 -shim-x64-15.[0-9]*-[0-9].x86_64
 -kernel-5.*.fc36.x86_64
 kernel-*.*[0-9].mbp.fc36.x86_64
+
+## Install mbp-fedora-kernel and remove newer shim than 15-8
 
 %end
 
