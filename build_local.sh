@@ -11,6 +11,7 @@ LIVECD_CACHE_PATH=/var/cache/live
 docker run \
   --privileged \
   --rm \
+  -e FEDORA_DESKTOP_ENV=${FEDORA_DESKTOP_ENV:-gnome} \
   -t \
   -v "$(pwd)":/repo \
   -v /dev:/dev \

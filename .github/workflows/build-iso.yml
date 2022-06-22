@@ -34,7 +34,7 @@ jobs:
               apk add --no-cache shellcheck bash \
               && shellcheck $(find . -type f -name "*.sh" |  tr '\n' ' ')
             "
-  build:
+  build-gnome:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -51,3 +51,22 @@ jobs:
             ./output_zip/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # You don't need to add this in secrets it's by default.
+          FEDORA_DESKTOP_ENV: gnome
+  build-kde:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Build Fedora ISO"
+        run: ./build_in_docker.sh
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          draft: true
+          files: |
+            ./output_zip/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # You don't need to add this in secrets it's by default.
+          FEDORA_DESKTOP_ENV: kde
