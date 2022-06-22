@@ -11,7 +11,7 @@ LIVECD_TOOLS_GIT_URL=https://github.com/mikeeq/livecd-tools
 LIVECD_TOOLS_GIT_BRANCH_NAME=feature/fix-f35-build
 LIVECD_CACHE_PATH=/var/cache/live
 
-FEDORA_DESKTOP_ENV=${FEDORA_DESKTOP_ENV}
+FEDORA_DESKTOP_ENV="${FEDORA_DESKTOP_ENV}"
 ARTIFACT_NAME="livecd-mbp-${FEDORA_KICKSTARTS_BRANCH_NAME}-$(date +'%Y%m%d').zip"
 
 ### Debug commands
@@ -61,7 +61,7 @@ done &
 bgPID=$!
 
 ### Generate LiveCD iso
-livecd-creator --verbose --releasever=${FEDORA_VERSION} --config=fedora-mbp-${FEDORA_DESKTOP_ENV}.ks --cache=${LIVECD_CACHE_PATH}
+livecd-creator --verbose --releasever=${FEDORA_VERSION} --config="fedora-mbp-${FEDORA_DESKTOP_ENV}.ks" --cache=${LIVECD_CACHE_PATH}
 livecd_exitcode=$?
 
 ### Move iso artifact to repo dir
