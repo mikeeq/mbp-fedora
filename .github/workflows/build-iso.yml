@@ -1,6 +1,7 @@
 ---
 name: Build Fedora ISO
 
+# yamllint disable-line rule:truthy
 on: [push]
 
 jobs:
