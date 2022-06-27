@@ -4,15 +4,10 @@
 
 Fedora ISO with Apple T2 patches built-in (Macbooks produced >= 2018).
 
-All available Apple T2 drivers are integrated with this iso. Most things work, besides those mentioned in [not working section](#not-working).
+All available Apple T2 drivers and patches are integrated into this ISO.
 
-Kernel - <https://github.com/mikeeq/mbp-fedora-kernel>
-
-Drivers:
-
-- Apple T2 (audio, keyboard, touchpad) - <https://github.com/MCMrARM/mbp2018-bridge-drv>
-- Apple SMC - <https://github.com/MCMrARM/mbp2018-etc>
-- Touchbar - <https://github.com/roadrunner2/macbook12-spi-driver/tree/mbp15>
+Kernel: <https://github.com/mikeeq/mbp-fedora-kernel>
+Kernel patches: <https://github.com/AdityaGarg8/linux-t2-patches>
 
 > Tested on: Macbook Pro 15,2 13" 2019 i5 TouchBar Z0WQ000AR MV972ZE/A/R1 && Macbook Pro 16,2 13" 2020 i5
 
@@ -115,7 +110,7 @@ sudo -i
 
 # Upgrade kernel beforehand
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="5.18.5-f36" UPDATE_SCRIPT_BRANCH="v5.18-f36" update_kernel_mbp
+KERNEL_VERSION="5.18.6-f36" UPDATE_SCRIPT_BRANCH="v5.18-f36" update_kernel_mbp
 
 # Upgrade your OS
 dnf upgrade -y --refresh
@@ -138,9 +133,11 @@ dnf clean all
 
 ## Not working
 
-- Dynamic audio input/output change (on connecting/disconnecting headphones jack)
 - TouchID - (@MCMrARM is working on it - https://github.com/Dunedan/mbp-2016-linux/issues/71#issuecomment-528545490)
-- Microphone (it's recognised with new apple t2 sound driver, but there is a low mic volume amp)
+- Audio
+  - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
+    - manual switch works, see here: <https://github.com/mikeeq/mbp-fedora#todo>
+  - Microphone (it's recognized with new apple t2 sound driver, but there is a low mic volume amp)
 
 ## TODO
 
@@ -187,8 +184,6 @@ dnf clean all
     81:0
     81:1
     ```
-
-- verify `brcmf_chip_tcm_rambase` returns
 
 ## Known issues
 
@@ -237,6 +232,7 @@ dnf clean all
 - ArchLinux kernel patches: <https://github.com/ppaulweber/linux-mba>
 - ArchLinux installation guide: <https://gist.github.com/TRPB/437f663b545d23cc8a2073253c774be3>
 - hid-apple-patched module for changing mappings of ctrl, fn, option keys: <https://github.com/free5lot/hid-apple-patched>
+- AdityaGarg8 kernel patches: <https://github.com/AdityaGarg8/linux-t2-patches>
 
 ## Credits
 
@@ -245,3 +241,4 @@ dnf clean all
 - @roadrunner2 - thanks for SPI (touchbar) driver
 - @aunali1 - thanks for ArchLinux Kernel CI
 - @ppaulweber - thanks for keyboard and Macbook Air patches
+- @AdityaGarg8 - thanks for support and upkeeping kernel patches
