@@ -17,7 +17,7 @@ wpa_supplicant
 -shim-ia32-15.[0-9]*-[0-9].x86_64
 -shim-x64-15.[0-9]*-[0-9].x86_64
 -kernel-5.*.fc36.x86_64
-kernel-*.*[0-9].mbp.fc33.x86_64
+kernel-*.*[0-9].mbp.fc34.x86_64
 
 ## Install mbp-fedora-kernel and remove newer shim than 15-8
 
@@ -39,8 +39,8 @@ echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "===]> Info: Print /etc/resolv.conf"
 cat /etc/resolv.conf
 
-KERNEL_VERSION=5.17.6-300.mbp.fc33.x86_64
-UPDATE_SCRIPT_BRANCH=v5.17-f36
+KERNEL_VERSION=5.18.6-200.mbp.fc34.x86_64
+UPDATE_SCRIPT_BRANCH=v5.18-f36
 
 ### Remove not compatible kernels
 rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi | grep -v mbp)
