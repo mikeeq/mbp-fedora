@@ -8,6 +8,7 @@ docker pull ${DOCKER_IMAGE}
 docker run \
   --privileged \
   --rm \
+  -e FEDORA_DESKTOP_ENV="${FEDORA_DESKTOP_ENV:-gnome}" \
   -t \
   -v "$(pwd)":/repo \
   ${DOCKER_IMAGE} \

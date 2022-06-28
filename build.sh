@@ -6,11 +6,13 @@ CURRENT_PWD=$(pwd)
 FEDORA_VERSION=36
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f36
-FEDORA_KICKSTARTS_COMMIT_HASH=a69afdb7e04c06cde624a9de2444d755e95ee8b4        # https://pagure.io/fedora-kickstarts/commits/f36
+FEDORA_KICKSTARTS_COMMIT_HASH=dfbad4bdf5f5b9c6a93b3b192bfe91580ac08915        # https://pagure.io/fedora-kickstarts/commits/f36
 LIVECD_TOOLS_GIT_URL=https://github.com/mikeeq/livecd-tools
 LIVECD_TOOLS_GIT_BRANCH_NAME=feature/fix-f35-build
 LIVECD_CACHE_PATH=/var/cache/live
-ARTIFACT_NAME="livecd-mbp-${FEDORA_KICKSTARTS_BRANCH_NAME}-$(date +'%Y%m%d').zip"
+
+FEDORA_DESKTOP_ENV="${FEDORA_DESKTOP_ENV:-}"
+ARTIFACT_NAME="livecd-mbp-${FEDORA_KICKSTARTS_BRANCH_NAME}-${FEDORA_DESKTOP_ENV}-$(date +'%Y%m%d').zip"
 
 ### Debug commands
 echo "FEDORA_KICKSTARTS_BRANCH_NAME=${FEDORA_KICKSTARTS_BRANCH_NAME}"
@@ -20,7 +22,7 @@ ls
 echo "CPU threads: $(nproc --all)"
 grep 'model name' /proc/cpuinfo | uniq
 
-### Dependencies
+echo >&2 "===]> Info: Installing dependencies..."
 # dnf install -y git zip livecd-tools-27.1-9.fc34.x86_64
 dnf install -y \
   git \
@@ -29,7 +31,7 @@ dnf install -y \
   make \
   livecd-tools
 
-### Install livecd-tools fix
+echo >&2 "===]> Info: Install livecd-tools fix"
 [ -x "$(command -v python)" ] || ln -s /usr/bin/python3 /usr/bin/python
 
 git clone --single-branch --branch ${LIVECD_TOOLS_GIT_BRANCH_NAME} ${LIVECD_TOOLS_GIT_URL} /tmp/livecd-tools
@@ -37,17 +39,17 @@ cd /tmp/livecd-tools
 make install
 cd "${CURRENT_PWD}"
 
-### Copy efibootmgr fix for anaconda
+echo >&2 "===]> Info: Copy efibootmgr fix for anaconda"
 mkdir -p /tmp/kickstart_files/
 cp -rfv files/* /tmp/kickstart_files/
 
-### Clone Fedora kickstarts repo
+echo >&2 "===]> Info: Clone Fedora kickstarts repo"
 git clone --single-branch --branch ${FEDORA_KICKSTARTS_BRANCH_NAME} ${FEDORA_KICKSTARTS_GIT_URL} /tmp/fedora-kickstarts
 cd /tmp/fedora-kickstarts
 git checkout $FEDORA_KICKSTARTS_COMMIT_HASH
 
-### Copy fedora-mbp kickstart file
-cp -rfv "${CURRENT_PWD}"/fedora-mbp.ks ./
+echo >&2 "===]> Info: Copy fedora-mbp kickstart file"
+cp -rfv "${CURRENT_PWD}"/fedora-mbp*.ks ./
 mkdir -p ${LIVECD_CACHE_PATH}
 
 ### Workaround - travis_wait
@@ -58,19 +60,20 @@ do
 done &
 bgPID=$!
 
-### Generate LiveCD iso
-livecd-creator --verbose --releasever=${FEDORA_VERSION} --config=fedora-mbp.ks --cache=${LIVECD_CACHE_PATH}
+echo >&2 "===]> Info: Generate LiveCD iso - fedora-mbp-${FEDORA_DESKTOP_ENV}.ks"
+livecd-creator --verbose --releasever=${FEDORA_VERSION} --config="fedora-mbp-${FEDORA_DESKTOP_ENV}.ks" --cache=${LIVECD_CACHE_PATH}
 livecd_exitcode=$?
 
-### Move iso artifact to repo dir
+echo >&2 "===]> Info: Move iso artifact to repo dir"
 cp -rfv ./*.iso "${CURRENT_PWD}"/
 cd "${CURRENT_PWD}"
 
-### Zip iso and split it into multiple parts - github max size of release attachment is 2GB, where ISO is sometimes bigger than that
+echo >&2 "===]> Info: Zip iso and split it into multiple parts"
+# Github max size of release attachment is 2GB, where ISO is sometimes bigger than that
 mkdir -p ./output_zip
 zip -s 1000m ./output_zip/"${ARTIFACT_NAME}" ./*.iso
 
-### Calculate sha256 sums of built ISO
+echo >&2 "===]> Info: Calculate sha256 sums of built ISO"
 sha256sum ./output_zip/* > ./output_zip/sha256
 sha256sum ./*.iso >> ./output_zip/sha256
 
