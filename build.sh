@@ -74,8 +74,10 @@ mkdir -p ./output_zip
 zip -s 1000m ./output_zip/"${ARTIFACT_NAME}" ./*.iso
 
 echo >&2 "===]> Info: Calculate sha256 sums of built ISO"
-sha256sum ./output_zip/* > ./output_zip/sha256
-sha256sum ./*.iso >> ./output_zip/sha256
+sha256sum ./output_zip/* > "./output_zip/sha256_${FEDORA_DESKTOP_ENV}"
+sha256sum ./*.iso >> "./output_zip/sha256_${FEDORA_DESKTOP_ENV}"
+
+cat "./output_zip/sha256_${FEDORA_DESKTOP_ENV}"
 
 find ./ | grep ".iso"
 find ./ | grep ".zip"
