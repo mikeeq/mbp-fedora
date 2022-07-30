@@ -28,27 +28,8 @@ mbp-fedora-t2-config
 
 
 %post
-### Add dns server configuration
-echo "===]> Info: Printing PWD"
-pwd
-echo "===]> Info: Printing /etc/resolv.conf"
-cat /etc/resolv.conf
-echo "===]> Info: Listing /etc/resolv.conf"
-ls -la /etc/resolv.conf
-echo "===]> Info: Renaming default /etc/resolv.conf"
-mv /etc/resolv.conf /etc/resolv.conf_backup
-echo "===]> Info: Add Google DNS to /etc/resolv.conf"
-echo 'nameserver 8.8.8.8' > /etc/resolv.conf
-echo "===]> Info: Print /etc/resolv.conf"
-cat /etc/resolv.conf
-
-KERNEL_VERSION=5.18.13-200.mbp.fc34.x86_64
-
 ### Remove not compatible kernels
 rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi | grep -v mbp)
-
-### Remove temporary
-mv /etc/resolv.conf_backup /etc/resolv.conf
 
 ### Add kernel RPM packages to YUM/DNF exclusions
 sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-devel-matched,kernel-modules,kernel-modules-extra,kernel-modules-internal,shim-*' /etc/yum.repos.d/fedora*.repo
@@ -62,12 +43,5 @@ chmod 755 ${INSTALL_ROOT}/etc/grub.d/30_os-prober
 
 ### Post install anaconda scripts - Reformatting HFS+ EFI partition to FAT32
 cp -rfv /tmp/kickstart_files/post-install-kickstart/*.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
-
-# TODO: move to config rpm
-### Copy audio config files
-mkdir -p ${INSTALL_ROOT}/usr/share/alsa/cards/
-cp -rfv /tmp/kickstart_files/audio/AppleT2.conf ${INSTALL_ROOT}/usr/share/alsa/cards/AppleT2.conf
-cp -rfv /tmp/kickstart_files/audio/apple-t2.conf ${INSTALL_ROOT}/usr/share/alsa-card-profile/mixer/profile-sets/apple-t2.conf
-cp -rfv /tmp/kickstart_files/audio/91-pulseaudio-custom.rules ${INSTALL_ROOT}/usr/lib/udev/rules.d/91-pulseaudio-custom.rules
 
 %end
