@@ -5,10 +5,14 @@ set -eu -o pipefail
 CURRENT_PWD=$(pwd)
 FEDORA_VERSION=36
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
-FEDORA_KICKSTARTS_BRANCH_NAME=f36
+FEDORA_KICKSTARTS_BRANCH_NAME=f37
 FEDORA_KICKSTARTS_COMMIT_HASH=dfbad4bdf5f5b9c6a93b3b192bfe91580ac08915        # https://pagure.io/fedora-kickstarts/commits/f36
-LIVECD_TOOLS_GIT_URL=https://github.com/mikeeq/livecd-tools
-LIVECD_TOOLS_GIT_BRANCH_NAME=feature/fix-f35-build
+# LIVECD_TOOLS_GIT_URL=https://github.com/mikeeq/livecd-tools
+# LIVECD_TOOLS_GIT_BRANCH_NAME=feature/fix-f35-build
+# LIVECD_CACHE_PATH=/var/cache/live
+LIVECD_TOOLS_GIT_URL=https://github.com/livecd-tools/livecd-tools
+LIVECD_TOOLS_GIT_BRANCH_NAME=main
+LIVECD_TOOLS_GIT_COMMIT_HASH=51bd0fefdfd6c06c03990d46b4e7d838cefc9da4
 LIVECD_CACHE_PATH=/var/cache/live
 
 FEDORA_DESKTOP_ENV="${FEDORA_DESKTOP_ENV:-}"
@@ -36,6 +40,7 @@ echo >&2 "===]> Info: Install livecd-tools fix"
 
 git clone --single-branch --branch ${LIVECD_TOOLS_GIT_BRANCH_NAME} ${LIVECD_TOOLS_GIT_URL} /tmp/livecd-tools
 cd /tmp/livecd-tools
+git checkout $LIVECD_TOOLS_GIT_COMMIT_HASH
 make install
 cd "${CURRENT_PWD}"
 
