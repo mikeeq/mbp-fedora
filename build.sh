@@ -78,7 +78,7 @@ echo >&2 "===]> Info: Zip iso and split it into multiple parts"
 # Github max size of release attachment is 2GB, where ISO is sometimes bigger than that
 mkdir -p ./output_zip
 du -sh ./*.iso
-zip -s 1000m ./output_zip/"${ARTIFACT_NAME}" ./*.iso
+zip -s 800m ./output_zip/"${ARTIFACT_NAME}" ./*.iso
 
 echo >&2 "===]> Info: Calculate sha256 sums of built ISO"
 sha256sum ./output_zip/* > "./output_zip/sha256_${FEDORA_DESKTOP_ENV}"

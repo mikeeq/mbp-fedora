@@ -17,8 +17,8 @@ curl
 wpa_supplicant
 -shim-ia32-15.[0-9]*-[0-9].x86_64
 -shim-x64-15.[0-9]*-[0-9].x86_64
--kernel-5.*.fc36.x86_64
-kernel-*.*[0-9].mbp.fc34.x86_64
+-kernel-5.*.fc37.x86_64
+kernel-*.*[0-9].mbp.fc36.x86_64
 mbp-fedora-t2-config
 
 ## Install mbp-fedora-kernel and remove newer shim than 15-8
@@ -40,7 +40,7 @@ echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "===]> Info: Print /etc/resolv.conf"
 cat /etc/resolv.conf
 
-KERNEL_VERSION=5.18.13-200.mbp.fc34.x86_64
+KERNEL_VERSION=6.0.5-200.mbp.fc36.x86_64
 UPDATE_SCRIPT_BRANCH=v6.0-f36
 
 /usr/sbin/depmod -a ${KERNEL_VERSION}
