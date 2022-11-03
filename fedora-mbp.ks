@@ -4,7 +4,7 @@ repo --name=fedora-mbp --baseurl=https://fedora-mbp-repo.herokuapp.com/
 # TODO: make sure BLS is working
 
 ### Selinux in permissive mode
-bootloader --append="enforcing=0 efi=noruntime pcie_ports=compat"
+bootloader --append="enforcing=0 intel_iommu=on iommu=pt pcie_ports=compat"
 
 ### Accepting EULA
 eula --agreed
@@ -14,7 +14,7 @@ eula --agreed
 %packages
 
 curl
-iwd
+-iwd
 wpa_supplicant
 -shim-ia32-15.[0-9]*-[0-9].x86_64
 -shim-x64-15.[0-9]*-[0-9].x86_64
@@ -26,8 +26,31 @@ mbp-fedora-t2-config
 
 %end
 
-
 %post
+### Add dns server configuration
+echo "===]> Info: Printing PWD"
+pwd
+echo "===]> Info: Printing /etc/resolv.conf"
+cat /etc/resolv.conf
+echo "===]> Info: Listing /etc/resolv.conf"
+ls -la /etc/resolv.conf
+echo "===]> Info: Renaming default /etc/resolv.conf"
+mv /etc/resolv.conf /etc/resolv.conf_backup
+echo "===]> Info: Add Google DNS to /etc/resolv.conf"
+echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+echo "===]> Info: Print /etc/resolv.conf"
+cat /etc/resolv.conf
+
+UPDATE_SCRIPT_BRANCH=v6.0-f36
+
+### Adding fedora-mbp yum repo gpg key
+curl -sSL "https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/yum-repo/fedora-mbp.gpg" > ./fedora-mbp.gpg
+rpm --import ./fedora-mbp.gpg
+rm -rf ./fedora-mbp.gpg
+
+### Remove temporary
+mv /etc/resolv.conf_backup /etc/resolv.conf
+
 ### Remove not compatible kernels
 rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi | grep -v mbp)
 
