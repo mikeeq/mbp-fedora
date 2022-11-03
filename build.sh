@@ -7,9 +7,6 @@ FEDORA_VERSION=37
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f37
 FEDORA_KICKSTARTS_COMMIT_HASH=10450ca67bdf48e9d6180ff9337d2e5ce4b1ea63        # https://pagure.io/fedora-kickstarts/commits/f37
-# LIVECD_TOOLS_GIT_URL=https://github.com/mikeeq/livecd-tools
-# LIVECD_TOOLS_GIT_BRANCH_NAME=feature/fix-f35-build
-# LIVECD_TOOLS_GIT_COMMIT_HASH=692f6518e9003618a6582a0b7e1e175963c544fb
 LIVECD_TOOLS_GIT_URL=https://github.com/livecd-tools/livecd-tools
 LIVECD_TOOLS_GIT_BRANCH_NAME=main
 LIVECD_TOOLS_GIT_COMMIT_HASH=51bd0fefdfd6c06c03990d46b4e7d838cefc9da4
@@ -27,7 +24,6 @@ echo "CPU threads: $(nproc --all)"
 grep 'model name' /proc/cpuinfo | uniq
 
 echo >&2 "===]> Info: Installing dependencies..."
-# dnf install -y git zip livecd-tools-27.1-9.fc34.x86_64
 dnf install -y \
   git \
   curl \
@@ -35,16 +31,17 @@ dnf install -y \
   make \
   livecd-tools
 
-echo >&2 "===]> Info: Install livecd-tools fix"
+
 [ -x "$(command -v python)" ] || ln -s /usr/bin/python3 /usr/bin/python
 
+echo >&2 "===]> Info: Install livecd-tools from git"
 git clone --single-branch --branch ${LIVECD_TOOLS_GIT_BRANCH_NAME} ${LIVECD_TOOLS_GIT_URL} /tmp/livecd-tools
 cd /tmp/livecd-tools
 git checkout $LIVECD_TOOLS_GIT_COMMIT_HASH
 make install
 cd "${CURRENT_PWD}"
 
-echo >&2 "===]> Info: Copy efibootmgr fix for anaconda"
+echo >&2 "===]> Info: Copy files to /tmp/kickstart_files/ path"
 mkdir -p /tmp/kickstart_files/
 cp -rfv files/* /tmp/kickstart_files/
 
