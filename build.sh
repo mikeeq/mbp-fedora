@@ -3,12 +3,13 @@
 set -eu -o pipefail
 
 CURRENT_PWD=$(pwd)
-FEDORA_VERSION=36
+FEDORA_VERSION=37
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
 FEDORA_KICKSTARTS_BRANCH_NAME=f37
 FEDORA_KICKSTARTS_COMMIT_HASH=dfbad4bdf5f5b9c6a93b3b192bfe91580ac08915        # https://pagure.io/fedora-kickstarts/commits/f36
 # LIVECD_TOOLS_GIT_URL=https://github.com/mikeeq/livecd-tools
 # LIVECD_TOOLS_GIT_BRANCH_NAME=feature/fix-f35-build
+# LIVECD_TOOLS_GIT_COMMIT_HASH=692f6518e9003618a6582a0b7e1e175963c544fb
 # LIVECD_CACHE_PATH=/var/cache/live
 LIVECD_TOOLS_GIT_URL=https://github.com/livecd-tools/livecd-tools
 LIVECD_TOOLS_GIT_BRANCH_NAME=main
