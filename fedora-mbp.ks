@@ -15,8 +15,6 @@ eula --agreed
 
 curl
 wpa_supplicant
--shim-ia32-15.[0-9]*-[0-9].x86_64
--shim-x64-15.[0-9]*-[0-9].x86_64
 -kernel-5.*.fc37.x86_64
 kernel-*.*[0-9].mbp.fc36.x86_64
 mbp-fedora-t2-config
