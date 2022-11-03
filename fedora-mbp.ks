@@ -11,12 +11,13 @@ eula --agreed
 # https://pykickstart.readthedocs.io/en/latest/kickstart-docs.html#chapter-9-package-selection
 %packages
 
-## Install mbp-fedora-kernel and mbp-fedora-t2-config
+## Install mbp-fedora-kernel, mbp-fedora-t2-config, mbp-fedora-t2-repo
 curl
 wpa_supplicant
 -kernel-5.*.fc37.x86_64
 kernel-*.*[0-9].mbp.fc36.x86_64
 mbp-fedora-t2-config
+mbp-fedora-t2-repo
 
 %end
 
@@ -45,6 +46,10 @@ dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 curl -sSL "https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/yum-repo/fedora-mbp.gpg" > ./fedora-mbp.gpg
 rpm --import ./fedora-mbp.gpg
 rm -rf ./fedora-mbp.gpg
+
+### Add update_kernel_mbp script
+curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
+chmod +x /usr/bin/update_kernel_mbp
 
 ### Remove temporary files
 mv /etc/resolv.conf_backup /etc/resolv.conf
