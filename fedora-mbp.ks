@@ -1,5 +1,5 @@
 ### Add rpm repo hosted on heroku https://github.com/mikeeq/mbp-fedora-kernel/releases
-repo --name=fedora-mbp --baseurl=https://fedora-mbp-repo.herokuapp.com/
+repo --install --name=fedora-mbp --baseurl=https://fedora-mbp-repo.herokuapp.com/
 
 ### Selinux in permissive mode
 bootloader --append="enforcing=0 intel_iommu=on iommu=pt pcie_ports=compat"
