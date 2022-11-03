@@ -7,6 +7,7 @@ Fedora ISO with Apple T2 patches built-in (Macbooks produced >= 2018).
 All available Apple T2 drivers and patches are integrated into this ISO.
 
 Kernel: <https://github.com/mikeeq/mbp-fedora-kernel>
+
 Kernel patches: <https://github.com/AdityaGarg8/linux-t2-patches>
 
 > Tested on: Macbook Pro 15,2 13" 2019 i5 TouchBar Z0WQ000AR MV972ZE/A/R1 && Macbook Pro 16,2 13" 2020 i5
@@ -94,6 +95,7 @@ macOS Mojave: 10.14.6 (18G103)
   options hid_apple swap_opt_cmd=1
 
   sudo -i
+  # TODO: remove update_kernel_mbp info
   # Refresh grub and dracut config by executing update_kernel_mbp script
   update_kernel_mbp
   ```

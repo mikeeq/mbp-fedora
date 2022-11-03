@@ -14,7 +14,6 @@ eula --agreed
 %packages
 
 curl
--iwd
 wpa_supplicant
 -shim-ia32-15.[0-9]*-[0-9].x86_64
 -shim-x64-15.[0-9]*-[0-9].x86_64
@@ -41,7 +40,11 @@ echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "===]> Info: Print /etc/resolv.conf"
 cat /etc/resolv.conf
 
+KERNEL_VERSION=5.18.13-200.mbp.fc34.x86_64
 UPDATE_SCRIPT_BRANCH=v6.0-f36
+
+/usr/sbin/depmod -a ${KERNEL_VERSION}
+dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
 
 ### Adding fedora-mbp yum repo gpg key
 curl -sSL "https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/yum-repo/fedora-mbp.gpg" > ./fedora-mbp.gpg
