@@ -15,7 +15,7 @@ eula --agreed
 curl
 wpa_supplicant
 -kernel-5.*.fc37.x86_64
-kernel-*.*[0-9].mbp.fc36.x86_64
+kernel-*.*[0-9].mbp.fc37.x86_64
 mbp-fedora-t2-config
 mbp-fedora-t2-repo
 
@@ -36,7 +36,7 @@ echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "===]> Info: Print /etc/resolv.conf"
 cat /etc/resolv.conf
 
-KERNEL_VERSION=6.0.5-200.mbp.fc36.x86_64
+KERNEL_VERSION=6.0.7-300.mbp.fc37.x86_64
 UPDATE_SCRIPT_BRANCH=v6.0-f37
 
 /usr/sbin/depmod -a ${KERNEL_VERSION}
