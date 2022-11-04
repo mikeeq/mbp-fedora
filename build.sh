@@ -3,12 +3,13 @@
 set -eu -o pipefail
 
 CURRENT_PWD=$(pwd)
-FEDORA_VERSION=36
+FEDORA_VERSION=37
 FEDORA_KICKSTARTS_GIT_URL=https://pagure.io/fedora-kickstarts.git
-FEDORA_KICKSTARTS_BRANCH_NAME=f36
-FEDORA_KICKSTARTS_COMMIT_HASH=dfbad4bdf5f5b9c6a93b3b192bfe91580ac08915        # https://pagure.io/fedora-kickstarts/commits/f36
-LIVECD_TOOLS_GIT_URL=https://github.com/mikeeq/livecd-tools
-LIVECD_TOOLS_GIT_BRANCH_NAME=feature/fix-f35-build
+FEDORA_KICKSTARTS_BRANCH_NAME=f37
+FEDORA_KICKSTARTS_COMMIT_HASH=10450ca67bdf48e9d6180ff9337d2e5ce4b1ea63        # https://pagure.io/fedora-kickstarts/commits/f37
+LIVECD_TOOLS_GIT_URL=https://github.com/livecd-tools/livecd-tools
+LIVECD_TOOLS_GIT_BRANCH_NAME=main
+LIVECD_TOOLS_GIT_COMMIT_HASH=51bd0fefdfd6c06c03990d46b4e7d838cefc9da4
 LIVECD_CACHE_PATH=/var/cache/live
 
 FEDORA_DESKTOP_ENV="${FEDORA_DESKTOP_ENV:-}"
@@ -23,7 +24,6 @@ echo "CPU threads: $(nproc --all)"
 grep 'model name' /proc/cpuinfo | uniq
 
 echo >&2 "===]> Info: Installing dependencies..."
-# dnf install -y git zip livecd-tools-27.1-9.fc34.x86_64
 dnf install -y \
   git \
   curl \
@@ -31,15 +31,17 @@ dnf install -y \
   make \
   livecd-tools
 
-echo >&2 "===]> Info: Install livecd-tools fix"
+
 [ -x "$(command -v python)" ] || ln -s /usr/bin/python3 /usr/bin/python
 
+echo >&2 "===]> Info: Install livecd-tools from git"
 git clone --single-branch --branch ${LIVECD_TOOLS_GIT_BRANCH_NAME} ${LIVECD_TOOLS_GIT_URL} /tmp/livecd-tools
 cd /tmp/livecd-tools
+git checkout $LIVECD_TOOLS_GIT_COMMIT_HASH
 make install
 cd "${CURRENT_PWD}"
 
-echo >&2 "===]> Info: Copy efibootmgr fix for anaconda"
+echo >&2 "===]> Info: Copy files to /tmp/kickstart_files/ path"
 mkdir -p /tmp/kickstart_files/
 cp -rfv files/* /tmp/kickstart_files/
 
@@ -71,11 +73,14 @@ cd "${CURRENT_PWD}"
 echo >&2 "===]> Info: Zip iso and split it into multiple parts"
 # Github max size of release attachment is 2GB, where ISO is sometimes bigger than that
 mkdir -p ./output_zip
-zip -s 1000m ./output_zip/"${ARTIFACT_NAME}" ./*.iso
+du -sh ./*.iso
+zip -s 800m ./output_zip/"${ARTIFACT_NAME}" ./*.iso
 
 echo >&2 "===]> Info: Calculate sha256 sums of built ISO"
-sha256sum ./output_zip/* > ./output_zip/sha256
-sha256sum ./*.iso >> ./output_zip/sha256
+sha256sum ./output_zip/* > "./output_zip/sha256_${FEDORA_DESKTOP_ENV}"
+sha256sum ./*.iso >> "./output_zip/sha256_${FEDORA_DESKTOP_ENV}"
+
+cat "./output_zip/sha256_${FEDORA_DESKTOP_ENV}"
 
 find ./ | grep ".iso"
 find ./ | grep ".zip"

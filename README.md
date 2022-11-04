@@ -7,6 +7,7 @@ Fedora ISO with Apple T2 patches built-in (Macbooks produced >= 2018).
 All available Apple T2 drivers and patches are integrated into this ISO.
 
 Kernel: <https://github.com/mikeeq/mbp-fedora-kernel>
+
 Kernel patches: <https://github.com/AdityaGarg8/linux-t2-patches>
 
 > Tested on: Macbook Pro 15,2 13" 2019 i5 TouchBar Z0WQ000AR MV972ZE/A/R1 && Macbook Pro 16,2 13" 2020 i5
@@ -74,28 +75,18 @@ macOS Mojave: 10.14.6 (18G103)
 
     ![anaconda partitioning](screenshots/anaconda-3.png)
 
-  - There will be an error on `Installing bootloader...` step, click Yes - It's related to `efi=noruntime` kernel arg
-
-    ![bootloader issue](screenshots/bootloader.png)
-
-    ```bash
-    # /tmp/anaconda.log
-    13:39:49,173 INF bootloader.grub2: bootloader.py: used boot args: resume=UUID=8a64abbd-b1a3-4d4a-85c3-b73800e46a1e rd.lvm.lv=fedora_localhost-live/root rd.lvm.lv=fedora_localhost-live/swap rhgb quiet
-    13:39:54,649 ERR bootloader.installation: bootloader.write failed: Failed to set new efi boot target. This is most likely a kernel or firmware bug.
-    ```
-
 - To install additional languages (only English is available out of the box), install appropriate langpack via dnf `dnf search langpacks`, i.e.: to install Polish language pack execute: `dnf install langpacks-pl`
-- After login you can update kernel by running `sudo update_kernel_mbp`, more info here: <https://github.com/mikeeq/mbp-fedora-kernel#how-to-update-kernel-mbp>
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
 
   ```bash
+  sudo -i
+  
   # /etc/modprobe.d/hid_apple.conf
   options hid_apple swap_fn_leftctrl=1
   options hid_apple swap_opt_cmd=1
 
-  sudo -i
-  # Refresh grub and dracut config by executing update_kernel_mbp script
-  update_kernel_mbp
+  # Refresh dracut (initramfs)
+  dracut -f
   ```
 
 - To change function key mappings for models with touchbar see `modinfo apple_ib_tb` and use `echo 2 > /sys/class/input/*/device/fnmode` instead of the `hid_apple` options. See
@@ -110,7 +101,7 @@ sudo -i
 
 # Upgrade kernel beforehand
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="5.18.6-f36" UPDATE_SCRIPT_BRANCH="v5.18-f36" update_kernel_mbp
+KERNEL_VERSION="6.0.5-f37" UPDATE_SCRIPT_BRANCH="v6.0-f37" update_kernel_mbp
 
 # Upgrade your OS
 dnf upgrade -y --refresh
@@ -119,7 +110,7 @@ dnf install -y dnf-plugin-system-upgrade
 # Exclude official kernel from upgrade to not override mbp-fedora-kernel
 ## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36
 
-FEDORA_VERSION=36 dnf system-upgrade download -y --releasever=${FEDORA_VERSION} --exclude='kernel*'
+FEDORA_VERSION=37 dnf system-upgrade download -y --releasever=${FEDORA_VERSION} --exclude='kernel*'
 
 # Reboot your Mac
 dnf system-upgrade reboot
@@ -135,41 +126,9 @@ dnf clean all
 
 - TouchID - (@MCMrARM is working on it - https://github.com/Dunedan/mbp-2016-linux/issues/71#issuecomment-528545490)
 - Audio
-  - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
-    - manual switch works, see here: <https://github.com/mikeeq/mbp-fedora#todo>
   - Microphone (it's recognized with new apple t2 sound driver, but there is a low mic volume amp)
 
 ## TODO
-
-- add Fedora icon to usb installer
-- alsa/pulseaudio config
-  - Dynamic audio input/output change (on connecting/disconnecting headphones jack)
-
-  ```bash
-  ## to fix pipewire configs on current mbp-fedora installations
-  sudo -i
-  curl -Ls https://raw.githubusercontent.com/mikeeq/mbp-fedora/cdc2fa6e7ef53f995041f1b86d50f34587d7b738/files/audio/apple-t2.conf -o /usr/share/alsa-card-profile/mixer/profile-sets/apple-t2.conf
-  curl -Ls https://raw.githubusercontent.com/mikeeq/mbp-fedora/cdc2fa6e7ef53f995041f1b86d50f34587d7b738/files/audio/91-pulseaudio-custom.rules -o /usr/lib/udev/rules.d/91-pulseaudio-custom.rules
-  reboot
-
-  ## if you're using MBP16,1 please apply those commands
-  # https://gist.github.com/kevineinarsson/8e5e92664f97508277fefef1b8015fba
-  sudo -i
-  curl -Ls https://gist.github.com/kevineinarsson/8e5e92664f97508277fefef1b8015fba/raw/bb8319991923e1ad10f68f5c345706f2796ede21/AppleT2.conf -o /usr/share/alsa/cards/AppleT2.conf
-  curl -Ls https://gist.github.com/kevineinarsson/8e5e92664f97508277fefef1b8015fba/raw/bb8319991923e1ad10f68f5c345706f2796ede21/apple-t2.conf -o /usr/share/alsa-card-profile/mixer/profile-sets/apple-t2.conf
-  curl -Ls https://raw.githubusercontent.com/mikeeq/mbp-fedora/cdc2fa6e7ef53f995041f1b86d50f34587d7b738/files/audio/91-pulseaudio-custom.rules -o /usr/lib/udev/rules.d/91-pulseaudio-custom.rules
-  reboot
-
-  ## to manually change audio profile via PulseAudio cli execute
-  # to headphones output
-  pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:codec-output+input:codec-input
-
-  # to speakers output
-  pactl set-card-profile $(pactl list cards | grep -B10 "Apple T2 Audio" | head -n1 | cut -d "#" -f2) output:builtin-speaker+input:builtin-mic
-
-  ## to manually adjust built-in mic volume
-  pactl set-source-volume $(pactl list sources | grep -B3 "Built-in Mic" | head -n1 | cut -d"#" -f2) 300000
-  ```
 
 - disable iBridge network interface (awkward internal Ethernet device?)
 - disable not working camera device
@@ -195,14 +154,6 @@ dnf clean all
 - Macbooks with Apple T2 can't boot EFI binaries from HFS+ formatted ESP - only FAT32 (FAT32 have to be labelled as msftdata).
 
 > workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`
-
-- efibootmgr write command freezes Mac (it's executed in Anaconda during `Install bootloader...` step) - nvram is blocked from writing
-
-  - since macOS Catalina EFI is blocked even from reading, so access to EFI is blocked via adding `efi=noruntime` to kernel args
-
-    ```bash
-    efibootmgr --c -w -L Fedora /d /dev/nvme0n1 -p 3 -l \EFI\fedora\shimx64.efi
-    ```
 
 - `ctrl+x` is not working in GRUB, so if you are trying to change kernel parameters - start your OS by clicking `ctrl+shift+f10` on external keyboard
 

@@ -2,7 +2,7 @@
 
 set -eu -o pipefail
 
-DOCKER_IMAGE=fedora:34
+DOCKER_IMAGE=fedora:37
 
 docker pull ${DOCKER_IMAGE}
 docker run \
@@ -11,5 +11,6 @@ docker run \
   -e FEDORA_DESKTOP_ENV="${FEDORA_DESKTOP_ENV:-gnome}" \
   -t \
   -v "$(pwd)":/repo \
+  -w /repo \
   ${DOCKER_IMAGE} \
-  /bin/bash -c 'cd /repo && ./build.sh'
+  /bin/bash -c './build.sh'

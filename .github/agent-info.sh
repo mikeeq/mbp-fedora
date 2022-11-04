@@ -20,6 +20,10 @@ echo -e '\n'
 info "Egress Public IP: $(curl -4 -s ifconfig.co)"
 echo -e '\n'
 
+info "pwd"
+pwd
+echo -e '\n'
+
 info "df -h"
 df -h
 echo -e '\n'
