@@ -79,13 +79,13 @@ macOS Mojave: 10.14.6 (18G103)
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
 
   ```bash
+  sudo -i
+  
   # /etc/modprobe.d/hid_apple.conf
   options hid_apple swap_fn_leftctrl=1
   options hid_apple swap_opt_cmd=1
 
-  sudo -i
-  # Refresh grub config and dracut (initramfs)
-  grub2-mkconfig -o /boot/grub2/grub.cfg
+  # Refresh dracut (initramfs)
   dracut -f
   ```
 
