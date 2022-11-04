@@ -2,7 +2,7 @@
 repo --name=fedora-mbp --baseurl=https://fedora-mbp-repo.herokuapp.com/
 
 ### Selinux in permissive mode
-bootloader --append="enforcing=0 intel_iommu=on iommu=pt pcie_ports=compat"
+bootloader --append="intel_iommu=on iommu=pt pcie_ports=compat"
 
 ### Accepting EULA
 eula --agreed
@@ -13,7 +13,6 @@ eula --agreed
 
 ## Install mbp-fedora-kernel, mbp-fedora-t2-config, mbp-fedora-t2-repo
 curl
-wpa_supplicant
 -kernel-5.*.fc37.x86_64
 kernel-*.*[0-9].mbp.fc37.x86_64
 mbp-fedora-t2-config
@@ -41,11 +40,6 @@ UPDATE_SCRIPT_BRANCH=v6.0-f37
 
 /usr/sbin/depmod -a ${KERNEL_VERSION}
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
-
-### Adding fedora-mbp yum repo gpg key
-curl -sSL "https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/yum-repo/fedora-mbp.gpg" > ./fedora-mbp.gpg
-rpm --import ./fedora-mbp.gpg
-rm -rf ./fedora-mbp.gpg
 
 ### Add update_kernel_mbp script
 curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
