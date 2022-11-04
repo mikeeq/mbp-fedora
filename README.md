@@ -101,7 +101,7 @@ sudo -i
 
 # Upgrade kernel beforehand
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="6.0.5-f37" UPDATE_SCRIPT_BRANCH="v6.0-f37" update_kernel_mbp
+KERNEL_VERSION="6.0.7-f37" UPDATE_SCRIPT_BRANCH="v6.0-f37" update_kernel_mbp
 
 # Upgrade your OS
 dnf upgrade -y --refresh
