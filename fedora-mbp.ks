@@ -1,5 +1,5 @@
 ### Add rpm repo hosted on heroku https://github.com/mikeeq/mbp-fedora-kernel/releases
-repo --install --name=fedora-mbp --baseurl=https://fedora-mbp-repo.herokuapp.com/
+repo --name=fedora-mbp --baseurl=https://fedora-mbp-repo.herokuapp.com/
 
 ### Selinux in permissive mode
 bootloader --append="enforcing=0 intel_iommu=on iommu=pt pcie_ports=compat"
@@ -37,7 +37,7 @@ echo "===]> Info: Print /etc/resolv.conf"
 cat /etc/resolv.conf
 
 KERNEL_VERSION=6.0.5-200.mbp.fc36.x86_64
-UPDATE_SCRIPT_BRANCH=v6.0-f36
+UPDATE_SCRIPT_BRANCH=v6.0-f37
 
 /usr/sbin/depmod -a ${KERNEL_VERSION}
 dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION

@@ -2,7 +2,7 @@
 
 set -eu -o pipefail
 
-DOCKER_IMAGE=fedora:36
+DOCKER_IMAGE=fedora:37
 
 docker pull ${DOCKER_IMAGE}
 docker run \
