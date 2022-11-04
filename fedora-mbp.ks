@@ -38,9 +38,6 @@ cat /etc/resolv.conf
 KERNEL_VERSION=6.0.7-300.mbp.fc37.x86_64
 UPDATE_SCRIPT_BRANCH=v6.0-f37
 
-/usr/sbin/depmod -a ${KERNEL_VERSION}
-dracut -f /boot/initramfs-$KERNEL_VERSION.img $KERNEL_VERSION
-
 ### Add update_kernel_mbp script
 curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp
 chmod +x /usr/bin/update_kernel_mbp
