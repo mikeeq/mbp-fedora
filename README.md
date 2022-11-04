@@ -80,7 +80,7 @@ macOS Mojave: 10.14.6 (18G103)
 
   ```bash
   sudo -i
-  
+
   # /etc/modprobe.d/hid_apple.conf
   options hid_apple swap_fn_leftctrl=1
   options hid_apple swap_opt_cmd=1
@@ -110,7 +110,7 @@ dnf install -y dnf-plugin-system-upgrade
 # Exclude official kernel from upgrade to not override mbp-fedora-kernel
 ## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36
 
-FEDORA_VERSION=37 dnf system-upgrade download -y --releasever=${FEDORA_VERSION} --exclude='kernel*'
+dnf system-upgrade download -y --releasever=37 --exclude='kernel*'
 
 # Reboot your Mac
 dnf system-upgrade reboot
