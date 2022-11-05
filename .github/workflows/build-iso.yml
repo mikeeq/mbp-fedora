@@ -6,7 +6,7 @@ on: [push]
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
       - name: "AgentInfo"
@@ -35,10 +35,10 @@ jobs:
               && shellcheck $(find . -type f -name "*.sh" |  tr '\n' ' ')
             "
   build-gnome:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - name: "Build Fedora ISO"
+      - name: "Build Fedora Gnome ISO"
         run: ./build_in_docker.sh
         env:
           FEDORA_DESKTOP_ENV: gnome
@@ -53,11 +53,13 @@ jobs:
             ./output_zip/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # You don't need to add this in secrets it's by default.
+      - name: "AgentInfo"
+        run: ./.github/agent-info.sh
   build-kde:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - name: "Build Fedora ISO"
+      - name: "Build Fedora KDE ISO"
         run: ./build_in_docker.sh
         env:
           FEDORA_DESKTOP_ENV: kde
@@ -72,3 +74,5 @@ jobs:
             ./output_zip/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # You don't need to add this in secrets it's by default.
+      - name: "AgentInfo"
+        run: ./.github/agent-info.sh
