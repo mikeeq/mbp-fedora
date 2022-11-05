@@ -65,13 +65,14 @@ macOS Mojave: 10.14.6 (18G103)
     - There will be two/three boot options available, usually the last one works for me. (There are multiple boot options, because there are three different partitions in the ISO to make the ISO bootable on different set of computers: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
   - I recommend using standard partition layout during partitioning your Disk in Anaconda (Fedora Installer) as I haven't tested other scenarios yet. <https://github.com/mikeeq/mbp-fedora/issues/2
 
-    - please create a separate partition for Linux EFI (Linux HFS+ ESP) as Anaconda installer requires separate partition on Mac devices and it'll be reformated to EFI (FAT32) during post-install scripts Anaconda's step (at the end of installation process).
+    - please create a separate partition for Linux EFI (Linux HFS+ ESP) as Anaconda installer requires separate partition on Mac devices, and it'll be reformatted to EFI (FAT32) during post-install scripts Anaconda's step (at the end of installation process).
 
     ```bash
-      /boot/efi - 1024MB Linux HFS+ ESP
-      /boot - 1024MB EXT4
-      / - xxxGB EXT4
+      /boot/efi - 600MiB Linux HFS+ ESP
+      /boot - 2GiB EXT4
+      / - xxxGiB EXT4
     ```
+    > You can leave the capacity value empty for the last partition, Anaconda will allocate all free disk space to that partition when defining it.
 
     ![anaconda partitioning](screenshots/anaconda-3.png)
 
