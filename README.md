@@ -72,7 +72,7 @@ macOS Mojave: 10.14.6 (18G103)
       /boot - 2GiB EXT4
       / - xxxGiB EXT4
     ```
-    > You can leave the capacity value empty for the last partition, Anaconda will allocate all free disk space to that partition when defining it.
+    > You can leave the desired capacity value empty for the last partition, Anaconda will allocate all free disk space to that partition when defining it.
 
     ![anaconda partitioning](screenshots/anaconda-3.png)
 
