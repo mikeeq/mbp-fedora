@@ -147,6 +147,13 @@ reboot
 ## TODO
 
 - disable iBridge network interface (awkward internal Ethernet device?)
+
+  ```bash
+  echo "# Disable Unused Apple Ethernet
+  blacklist cdc_ncm
+  blacklist cdc_mbim" | sudo tee -a /etc/modprobe.d/blacklist.conf
+  ```
+
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
 
