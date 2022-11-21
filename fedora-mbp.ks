@@ -1,5 +1,5 @@
 ### Add rpm repo hosted on heroku https://github.com/mikeeq/mbp-fedora-kernel/releases
-repo --name=fedora-mbp --baseurl=https://fedora-mbp-repo.herokuapp.com/
+repo --name=mbp-fedora --baseurl=https://mbp-fedora-repo.herokuapp.com/
 
 ### Selinux in permissive mode
 bootloader --append="intel_iommu=on iommu=pt pcie_ports=compat"
@@ -21,6 +21,8 @@ mbp-fedora-t2-repo
 %end
 
 %post
+UPDATE_SCRIPT_BRANCH=v6.0-f37
+
 ### Add dns server configuration
 echo "===]> Info: Printing PWD"
 pwd
@@ -34,9 +36,6 @@ echo "===]> Info: Add Google DNS to /etc/resolv.conf"
 echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "===]> Info: Print /etc/resolv.conf"
 cat /etc/resolv.conf
-
-KERNEL_VERSION=6.0.9-300.mbp.fc37.x86_64
-UPDATE_SCRIPT_BRANCH=v6.0-f37
 
 ### Add update_kernel_mbp script
 curl -L https://raw.githubusercontent.com/mikeeq/mbp-fedora-kernel/${UPDATE_SCRIPT_BRANCH}/update_kernel_mbp.sh -o /usr/bin/update_kernel_mbp

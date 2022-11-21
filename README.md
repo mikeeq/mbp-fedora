@@ -100,27 +100,41 @@ macOS Mojave: 10.14.6 (18G103)
 # Docs: https://docs.fedoraproject.org/en-US/quick-docs/dnf-system-upgrade/
 sudo -i
 
-# Upgrade kernel beforehand
+# 1. Make sure your OS is up to date
+dnf update -y --refresh
+reboot
+
+# 2. Update mbp-fedora-kernel
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
 KERNEL_VERSION="6.0.9-f37" UPDATE_SCRIPT_BRANCH="v6.0-f37" update_kernel_mbp
 
-# Upgrade your OS
-dnf upgrade -y --refresh
+# 3. Update your OS to include all changes made in mbp-fedora-t2-config RPM
+dnf update -y --refresh
+reboot
+
+# 4. Install dnf-plugin-system-upgrade
 dnf install -y dnf-plugin-system-upgrade
 
-# Exclude official kernel from upgrade to not override mbp-fedora-kernel
-## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36
+# 5. Upgrade to new OS version
+## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36, 36 -> 37, by changing the number in `--releasever` argument
 
-dnf system-upgrade download -y --releasever=37 --exclude='kernel*'
+dnf system-upgrade download -y --releasever=37
 
-# Reboot your Mac
+# 6. Reboot your Mac
 dnf system-upgrade reboot
 
-# After reboot clean old packages
+# 7. After reboot clean old packages
 dnf clean packages
 
-## or clean all dnf cache
+## 7.1 Clean all dnf cache
 dnf clean all
+
+## 8. Clean all unneeded packages
+dnf autoremove -y
+
+## 9. Update your new version of Fedora
+dnf update -y --refresh
+reboot
 ```
 
 ## Not working
@@ -132,6 +146,13 @@ dnf clean all
 ## TODO
 
 - disable iBridge network interface (awkward internal Ethernet device?)
+
+  ```bash
+  echo "# Disable Unused Apple Ethernet
+  blacklist cdc_ncm
+  blacklist cdc_mbim" | sudo tee -a /etc/modprobe.d/blacklist.conf
+  ```
+
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
 
