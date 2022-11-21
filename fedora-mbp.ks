@@ -35,7 +35,7 @@ echo 'nameserver 8.8.8.8' > /etc/resolv.conf
 echo "===]> Info: Print /etc/resolv.conf"
 cat /etc/resolv.conf
 
-KERNEL_VERSION=6.0.7-300.mbp.fc37.x86_64
+KERNEL_VERSION=6.0.9-300.mbp.fc37.x86_64
 UPDATE_SCRIPT_BRANCH=v6.0-f37
 
 ### Add update_kernel_mbp script
