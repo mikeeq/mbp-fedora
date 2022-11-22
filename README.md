@@ -141,8 +141,13 @@ reboot
 ## Not working
 
 - TouchID - (@MCMrARM is working on it - https://github.com/Dunedan/mbp-2016-linux/issues/71#issuecomment-528545490)
-- Audio
-  - Microphone (it's recognized with new apple t2 sound driver, but there is a low mic volume amp)
+- Internal Microphone (it's recognized with new apple t2 sound driver, but there is a low mic volume amp)
+
+## Partially working
+
+- Suspend - really unstable, I recommend disabling it. If you would stuck in sleep mode, try to keep pressing power off button for a while to force poweroff and then turn on the Macbook.
+- Keyboard Backlight - it's working for older 15,x models, currently not working for 16,x - you can check Ubuntu build as it's working in it.
+- Touch Bar, if you encounter any issues, I recommend reboot to MacOS/Windows to initialize TouchBar and then back to Linux - it should fix the problem.
 
 ## TODO
 
