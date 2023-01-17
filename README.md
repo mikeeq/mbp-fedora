@@ -106,7 +106,7 @@ reboot
 
 # 2. Update mbp-fedora-kernel
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="6.0.9-f37" UPDATE_SCRIPT_BRANCH="v6.0-f37" update_kernel_mbp
+KERNEL_VERSION="6.1.5-f37" UPDATE_SCRIPT_BRANCH="v6.1-f37" update_kernel_mbp
 reboot
 
 # 3. Update your OS to include all changes made in mbp-fedora-t2-config RPM

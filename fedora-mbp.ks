@@ -1,5 +1,5 @@
 ### Add rpm repo hosted on heroku https://github.com/mikeeq/mbp-fedora-kernel/releases
-repo --name=mbp-fedora --baseurl=https://mbp-fedora-repo.herokuapp.com/
+repo --name=mbp-fedora --baseurl=https://mikeeq.github.io/mbp-fedora-kernel/
 
 ### Selinux in permissive mode
 bootloader --append="intel_iommu=on iommu=pt pcie_ports=compat"
@@ -21,7 +21,7 @@ mbp-fedora-t2-repo
 %end
 
 %post
-UPDATE_SCRIPT_BRANCH=v6.0-f37
+UPDATE_SCRIPT_BRANCH=v6.1-f37
 
 ### Add dns server configuration
 echo "===]> Info: Printing PWD"
