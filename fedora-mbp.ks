@@ -13,7 +13,7 @@ eula --agreed
 
 ## Install mbp-fedora-kernel, mbp-fedora-t2-config, mbp-fedora-t2-repo
 curl
--kernel-5.*.fc37.x86_64
+-kernel-6.*.fc37.x86_64
 kernel-*.*[0-9].mbp.fc37.x86_64
 mbp-fedora-t2-config
 mbp-fedora-t2-repo
@@ -21,7 +21,7 @@ mbp-fedora-t2-repo
 %end
 
 %post
-UPDATE_SCRIPT_BRANCH=v6.1-f37
+UPDATE_SCRIPT_BRANCH=v6.2-f37
 
 ### Add dns server configuration
 echo "===]> Info: Printing PWD"
