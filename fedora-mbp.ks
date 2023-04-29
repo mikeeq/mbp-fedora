@@ -58,7 +58,4 @@ sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-devel-matc
 cp -rfv /tmp/kickstart_files/grub/30_os-prober ${INSTALL_ROOT}/etc/grub.d/30_os-prober
 chmod 755 ${INSTALL_ROOT}/etc/grub.d/30_os-prober
 
-### Post install anaconda scripts - Reformatting HFS+ EFI partition to FAT32 and rebuilding grub config
-cp -rfv /tmp/kickstart_files/post-install-kickstart/*.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
-
 %end
