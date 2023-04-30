@@ -64,7 +64,7 @@ macOS Mojave: 10.14.6 (18G103)
   - Boot Fedora Installer from USB drive directly from macOS boot manager. (You can boot into it by pressing and holding Option key (ALT key) after clicking the power-on button when your computer was turned off or on restart/reboot when Apple logo is shown on the screen).
     - There will be two/three boot options available, usually the last one works for me. (There are multiple boot options, because there are three different partitions in the ISO to make the ISO bootable on different set of computers: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
   - I recommend using standard partition layout during partitioning your Disk in Anaconda (Fedora Installer) as I haven't tested other scenarios yet. <https://github.com/mikeeq/mbp-fedora/issues/2
-
+    <!-- TODO: change according to upstream changes -->
     - please create a separate partition for Linux EFI (Linux HFS+ ESP) as Anaconda installer requires separate partition on Mac devices, and it'll be reformatted to EFI (FAT32) during post-install scripts Anaconda's step (at the end of installation process).
 
     ```bash
@@ -146,18 +146,9 @@ reboot
 ## Partially working
 
 - Suspend - really unstable, I recommend disabling it. If you would stuck in sleep mode, try to keep pressing power off button for a while to force poweroff and then turn on the Macbook.
-- Keyboard Backlight - it's working for older 15,x models, currently not working for 16,x - you can check Ubuntu build as it's working in it.
 - Touch Bar, if you encounter any issues, I recommend reboot to MacOS/Windows to initialize TouchBar and then back to Linux - it should fix the problem.
 
 ## TODO
-
-- disable iBridge network interface (awkward internal Ethernet device?)
-
-  ```bash
-  echo "# Disable Unused Apple Ethernet
-  blacklist cdc_ncm
-  blacklist cdc_mbim" | sudo tee -a /etc/modprobe.d/blacklist.conf
-  ```
 
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
@@ -175,15 +166,24 @@ reboot
 ## Known issues
 
 - Kernel/Mac related issues are mentioned in kernel repo
-- Anaconda sometimes could not finish installation process and it's freezing on `Network Configuration` step, probably due to iBridge internal network interface
+- internal iBridge network interface
+  - Anaconda sometimes could not finish installation process and it's freezing on `Network Configuration` step, probably due to iBridge internal network interface
+  - internal iBridge network interface is getting discovered and causing slow OS boot
 
-> workaround - it's a final step of installation, just reboot your Mac (installation is completed)
+> workaround - two kernel modules responsible for loading it are disabled by default in mbp-fedora
+
+  ```bash
+  echo "# Disable Unused Apple Ethernet
+  blacklist cdc_ncm
+  blacklist cdc_mbim" | sudo tee -a /etc/modprobe.d/apple_internal_eth_blacklist.conf
+  ```
 
 - Macbooks with Apple T2 can't boot EFI binaries from HFS+ formatted ESP - only FAT32 (FAT32 have to be labelled as msftdata).
 
-> workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`
+> ~~workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`~~ fixed in upstream
 
 - `ctrl+x` is not working in GRUB, so if you are trying to change kernel parameters - start your OS by clicking `ctrl+shift+f10` on external keyboard
+
 
 ## Docs
 

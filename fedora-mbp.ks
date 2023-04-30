@@ -14,7 +14,6 @@ eula --agreed
 ## Install mbp-fedora-kernel, mbp-fedora-t2-config, mbp-fedora-t2-repo
 curl
 -kernel-6.*.fc38.x86_64
-# TODO: change
 kernel-*.*[0-9].mbp.fc38.x86_64
 mbp-fedora-t2-config
 mbp-fedora-t2-repo
@@ -57,5 +56,8 @@ sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-devel-matc
 ### Copy grub config without finding macos partition to fix failure reading sector error
 cp -rfv /tmp/kickstart_files/grub/30_os-prober ${INSTALL_ROOT}/etc/grub.d/30_os-prober
 chmod 755 ${INSTALL_ROOT}/etc/grub.d/30_os-prober
+
+### Post install anaconda scripts - Reformatting HFS+ EFI partition to FAT32 and rebuilding grub config
+cp -rfv /tmp/kickstart_files/post-install-kickstart/*.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
 
 %end
