@@ -15,7 +15,7 @@ eula --agreed
 curl
 -kernel-6.*.fc38.x86_64
 # TODO: change
-kernel-*.*[0-9].mbp.fc37.x86_64
+kernel-*.*[0-9].mbp.fc38.x86_64
 mbp-fedora-t2-config
 mbp-fedora-t2-repo
 
