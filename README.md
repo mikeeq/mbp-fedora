@@ -63,7 +63,7 @@ macOS Mojave: 10.14.6 (18G103)
     - HowTo: <https://www.anyrecover.com/hard-drive-recovery-data/resize-partition-mac/> # Steps to Resize Mac Partition
   - Boot Fedora Installer from USB drive directly from macOS boot manager. (You can boot into it by pressing and holding Option key (ALT key) after clicking the power-on button when your computer was turned off or on restart/reboot when Apple logo is shown on the screen).
     - Usually there will be two/three (can be one in newer versions of mbp-fedora) USB boot options available, usually the last one works for me. (There are multiple boot options, because there are three different partitions in the ISO to make the ISO bootable on different set of computers: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
-  - I recommend using standard partition layout during partitioning your Disk in Anaconda (Fedora Installer) as I haven't tested other scenarios yet. <https://github.com/mikeeq/mbp-fedora/issues/2
+  - I recommend using standard partition layout during partitioning your Disk in Anaconda (Fedora Installer)
 
     ```bash
       /boot/efi - 600MiB EFI FAT32
