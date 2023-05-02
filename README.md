@@ -62,19 +62,22 @@ macOS Mojave: 10.14.6 (18G103)
   - First of all I recommend to shrink (resize) macOS APFS partition and not removing macOS installation entirely from your MacBook, because it's the only way to keep your device up-to-date. macOS OS updates also contains security patches to EFI/Apple T2
     - HowTo: <https://www.anyrecover.com/hard-drive-recovery-data/resize-partition-mac/> # Steps to Resize Mac Partition
   - Boot Fedora Installer from USB drive directly from macOS boot manager. (You can boot into it by pressing and holding Option key (ALT key) after clicking the power-on button when your computer was turned off or on restart/reboot when Apple logo is shown on the screen).
-    - There will be two/three boot options available, usually the last one works for me. (There are multiple boot options, because there are three different partitions in the ISO to make the ISO bootable on different set of computers: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
-  - I recommend using standard partition layout during partitioning your Disk in Anaconda (Fedora Installer) as I haven't tested other scenarios yet. <https://github.com/mikeeq/mbp-fedora/issues/2
-
-    - please create a separate partition for Linux EFI (Linux HFS+ ESP) as Anaconda installer requires separate partition on Mac devices, and it'll be reformatted to EFI (FAT32) during post-install scripts Anaconda's step (at the end of installation process).
+    - Usually there will be two/three (can be one in newer versions of mbp-fedora) USB boot options available, usually the last one works for me. (There are multiple boot options, because there are three different partitions in the ISO to make the ISO bootable on different set of computers: 1) ISO9660: with installer data, 2) fat32, 3) hfs+)
+  - I recommend using standard partition layout during partitioning your Disk in Anaconda (Fedora Installer)
 
     ```bash
-      /boot/efi - 600MiB Linux HFS+ ESP
+      /boot/efi - 600MiB EFI FAT32
       /boot - 2GiB EXT4
       / - xxxGiB EXT4
     ```
+
     > You can leave the desired capacity value empty for the last partition, Anaconda will allocate all free disk space to that partition when defining it.
 
     ![anaconda partitioning](screenshots/anaconda-3.png)
+
+    > You can also encrypt your main partition using LUKS
+
+    ![anaconda luks](screenshots/anaconda-luks.png)
 
 - To install additional languages (only English is available out of the box), install appropriate langpack via dnf `dnf search langpacks`, i.e.: to install Polish language pack execute: `dnf install langpacks-pl`
 - You can change mappings of ctrl, option keys (PC keyboard mappings) by creating `/etc/modprobe.d/hid_apple.conf` file and recreating grub config. All available modifications could be found here: <https://github.com/free5lot/hid-apple-patched>
@@ -106,7 +109,7 @@ reboot
 
 # 2. Update mbp-fedora-kernel
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="6.1.5-f37" UPDATE_SCRIPT_BRANCH="v6.1-f37" update_kernel_mbp
+KERNEL_VERSION="6.2.13-f38" UPDATE_SCRIPT_BRANCH="v6.2-f38" update_kernel_mbp
 reboot
 
 # 3. Update your OS to include all changes made in mbp-fedora-t2-config RPM
@@ -117,9 +120,9 @@ reboot
 dnf install -y dnf-plugin-system-upgrade
 
 # 5. Upgrade to new OS version
-## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36, 36 -> 37, by changing the number in `--releasever` argument
+## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36, 36 -> 37 -> 38, by changing the number in `--releasever` argument
 
-dnf system-upgrade download -y --releasever=37
+dnf system-upgrade download -y --releasever=38
 
 # 6. Reboot your Mac
 dnf system-upgrade reboot
@@ -146,18 +149,9 @@ reboot
 ## Partially working
 
 - Suspend - really unstable, I recommend disabling it. If you would stuck in sleep mode, try to keep pressing power off button for a while to force poweroff and then turn on the Macbook.
-- Keyboard Backlight - it's working for older 15,x models, currently not working for 16,x - you can check Ubuntu build as it's working in it.
 - Touch Bar, if you encounter any issues, I recommend reboot to MacOS/Windows to initialize TouchBar and then back to Linux - it should fix the problem.
 
 ## TODO
-
-- disable iBridge network interface (awkward internal Ethernet device?)
-
-  ```bash
-  echo "# Disable Unused Apple Ethernet
-  blacklist cdc_ncm
-  blacklist cdc_mbim" | sudo tee -a /etc/modprobe.d/blacklist.conf
-  ```
 
 - disable not working camera device
   - there are two video devices (web cameras) initialized/discovered, don't know why yet
@@ -175,15 +169,24 @@ reboot
 ## Known issues
 
 - Kernel/Mac related issues are mentioned in kernel repo
-- Anaconda sometimes could not finish installation process and it's freezing on `Network Configuration` step, probably due to iBridge internal network interface
+- internal iBridge network interface
+  - Anaconda sometimes could not finish installation process and it's freezing on `Network Configuration` step, probably due to iBridge internal network interface
+  - internal iBridge network interface is getting discovered and causing slow OS boot
 
-> workaround - it's a final step of installation, just reboot your Mac (installation is completed)
+> workaround - two kernel modules responsible for loading it are disabled by default in mbp-fedora
+
+  ```bash
+  echo "# Disable Unused Apple Ethernet
+  blacklist cdc_ncm
+  blacklist cdc_mbim" | sudo tee -a /etc/modprobe.d/apple_internal_eth_blacklist.conf
+  ```
 
 - Macbooks with Apple T2 can't boot EFI binaries from HFS+ formatted ESP - only FAT32 (FAT32 have to be labelled as msftdata).
 
-> workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`
+> ~~workaround applied - HFS+ ESP is reformatted to FAT32 in post-scripts step and labelled as `msftdata`~~ fixed in upstream
 
 - `ctrl+x` is not working in GRUB, so if you are trying to change kernel parameters - start your OS by clicking `ctrl+shift+f10` on external keyboard
+
 
 ## Docs
 

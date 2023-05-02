@@ -13,15 +13,15 @@ eula --agreed
 
 ## Install mbp-fedora-kernel, mbp-fedora-t2-config, mbp-fedora-t2-repo
 curl
--kernel-6.*.fc37.x86_64
-kernel-*.*[0-9].mbp.fc37.x86_64
+-kernel-6.*.fc38.x86_64
+kernel-*.*[0-9].mbp.fc38.x86_64
 mbp-fedora-t2-config
 mbp-fedora-t2-repo
 
 %end
 
 %post
-UPDATE_SCRIPT_BRANCH=v6.2-f37
+UPDATE_SCRIPT_BRANCH=v6.2-f38
 
 ### Add dns server configuration
 echo "===]> Info: Printing PWD"
@@ -57,7 +57,9 @@ sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-devel-matc
 cp -rfv /tmp/kickstart_files/grub/30_os-prober ${INSTALL_ROOT}/etc/grub.d/30_os-prober
 chmod 755 ${INSTALL_ROOT}/etc/grub.d/30_os-prober
 
-### Post install anaconda scripts - Reformatting HFS+ EFI partition to FAT32 and rebuilding grub config
+### Post install anaconda scripts - Adding Fedora icon and label to Mac boot entry
+mkdir -p ${INSTALL_ROOT}/usr/share/anaconda/mac_extras
+cp -rfv /tmp/kickstart_files/usb/.* ${INSTALL_ROOT}/usr/share/anaconda/mac_extras/
 cp -rfv /tmp/kickstart_files/post-install-kickstart/*.ks ${INSTALL_ROOT}/usr/share/anaconda/post-scripts/
 
 %end
