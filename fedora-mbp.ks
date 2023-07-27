@@ -21,11 +21,11 @@ mbp-fedora-t2-repo
 %end
 
 %post
-UPDATE_SCRIPT_BRANCH=v6.2-f38
+UPDATE_SCRIPT_BRANCH=v6.4-f38
 
 ### Add dns server configuration
 echo "===]> Info: Printing PWD"
-pwd
+pwds
 echo "===]> Info: Printing /etc/resolv.conf"
 cat /etc/resolv.conf
 echo "===]> Info: Listing /etc/resolv.conf"
