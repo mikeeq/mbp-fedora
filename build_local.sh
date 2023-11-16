@@ -2,9 +2,9 @@
 
 set -eu -o pipefail
 
-docker build -t fedora_iso:38 .
+docker build -t fedora_iso:39 .
 
-DOCKER_IMAGE=fedora_iso:38
+DOCKER_IMAGE=fedora_iso:39
 LIVECD_CACHE_PATH=/var/cache/live
 
 docker run \
