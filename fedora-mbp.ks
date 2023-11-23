@@ -48,7 +48,7 @@ mv /etc/resolv.conf_backup /etc/resolv.conf
 rpm -e $(rpm -qa | grep kernel | grep -v headers | grep -v oops | grep -v wifi | grep -v mbp)
 
 ### Add kernel RPM packages to YUM/DNF exclusions
-sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-devel-matched,kernel-modules,kernel-modules-extra,kernel-modules-internal' /etc/yum.repos.d/fedora*.repo
+sed -i '/^type=rpm.*/a exclude=kernel,kernel-core,kernel-devel,kernel-devel-matched,kernel-modules,kernel-modules-core,kernel-modules-extra,kernel-modules-internal,kernel-uki-virt' /etc/yum.repos.d/fedora*.repo
 
 %end
 
