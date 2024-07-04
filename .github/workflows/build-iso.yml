@@ -5,10 +5,11 @@ name: Build Fedora ISO
 on: [push]
 
 jobs:
-  tests:
-    runs-on: ubuntu-22.04
+  test:
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: "AgentInfo"
         run: ./.github/agent-info.sh
       - name: "YamlLint"
@@ -18,9 +19,9 @@ jobs:
             -w /repo \
             -v $(pwd):/repo \
             -t \
-            alpine:3.16 /bin/sh -c " \
+            alpine:3.20 /bin/sh -c " \
               apk add --no-cache py-pip python3 bash \
-              && pip3 install yamllint \
+              && pip3 install --break-system-packages yamllint \
               && yamllint -s . \
             "
       - name: "ShellCheck"
@@ -30,14 +31,16 @@ jobs:
             -w /repo \
             -v $(pwd):/repo \
             -t \
-            alpine:3.16 /bin/sh -c " \
+            alpine:3.20 /bin/sh -c " \
               apk add --no-cache shellcheck bash \
               && shellcheck $(find . -type f -name "*.sh" |  tr '\n' ' ')
             "
   build-gnome:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
+    needs: test
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: "Build Fedora Gnome ISO"
         run: ./build_in_docker.sh
         env:
@@ -56,9 +59,11 @@ jobs:
       - name: "AgentInfo"
         run: ./.github/agent-info.sh
   build-kde:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
+    needs: test
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
       - name: "Build Fedora KDE ISO"
         run: ./build_in_docker.sh
         env:
