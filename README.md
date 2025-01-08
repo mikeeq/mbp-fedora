@@ -14,9 +14,10 @@ sudo -i
 
 ### Execute as root
 
-## Create yum repo and change $releasever to latest one available here: https://copr.fedorainfracloud.org/coprs/sharpenedblade/t2linux
+## Create yum repo and change $releasever in baseurl= line to the latest one available here (i.e.: 41): https://copr.fedorainfracloud.org/coprs/sharpenedblade/t2linux
 vi /etc/yum.repos.d/t2linux.repo
 
+#########
 [copr:copr.fedorainfracloud.org:sharpenedblade:t2linux]
 name=Copr repo for t2linux owned by sharpenedblade
 baseurl=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/fedora-$releasever-$basearch/
@@ -28,6 +29,22 @@ repo_gpgcheck=0
 enabled=1
 enabled_metadata=1
 priority=80
+#########
+
+### i.e.:
+#########
+[copr:copr.fedorainfracloud.org:sharpenedblade:t2linux]
+name=Copr repo for t2linux owned by sharpenedblade
+baseurl=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/fedora-41-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+priority=80
+#########
 
 ##
 
@@ -38,7 +55,19 @@ dnf install t2linux-config
 ```
 
 2. Update to the latest version of Fedora once again by following the tutorial from down below (starting from the point 3, we don't need to update mbp-fedora-kernel as we are now using t2linux fedora kernel) (section: [How to upgrade current mbp-fedora installations](#how-to-upgrade-current-mbp-fedora-installations))
+3. Cleanup manual changes and install all t2linux packages:
 
+```bash
+dnf remove t2linux-config
+dnf install t2linux-release t2linux-repos
+rm -rf /etc/yum.repos.d/t2linux.repo
+
+reboot
+```
+
+4. To modify TouchBar configuration go to: `/usr/share/tiny-dfr/config.toml`
+   1. i.e. to enable media keys as default modify line: `MediaLayerDefault = false` to `MediaLayerDefault = true` and restart tiny-dfr service `systemctl restart tiny-dfr.service`
+   2. or to come back to stock stop tiny-dfr service: `systemctl disable tiny-dfr`
 
 ## mbp-fedora - DEPRECATED
 
