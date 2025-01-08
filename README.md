@@ -1,4 +1,4 @@
-*This project has reached the end of its development. Please start using packages/readmes co-authored by t2linux group*
+*This project has reached the end of its development. Please start using packages/readmes co-authored by t2linux group.*
 
 - https://wiki.t2linux.org/distributions/fedora/installation/
 - https://github.com/t2linux
