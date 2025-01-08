@@ -1,4 +1,45 @@
-# mbp-fedora
+*This project has reached the end of its development. Please start using packages/readmes co-authored by t2linux group*
+
+- https://wiki.t2linux.org/distributions/fedora/installation/
+- https://github.com/t2linux
+- https://github.com/orgs/t2linux/teams/fedora-maintainers/repositories
+
+# Migration to t2linux/fedora
+
+1. First update your mbp-fedora installation to the latest (possible) version of Fedora by following the tutorial from down below (section: [How to upgrade current mbp-fedora installations](#how-to-upgrade-current-mbp-fedora-installations))
+   1. I was able to only update mbp-fedora to F39 with the latest version of mbp-fedora-kernel
+
+```bash
+sudo -i
+
+### Execute as root
+
+## Create yum repo and change $releasever to latest one available here: https://copr.fedorainfracloud.org/coprs/sharpenedblade/t2linux
+vi /etc/yum.repos.d/t2linux.repo
+
+[copr:copr.fedorainfracloud.org:sharpenedblade:t2linux]
+name=Copr repo for t2linux owned by sharpenedblade
+baseurl=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+priority=80
+
+##
+
+dnf remove mbp-fedora-t2-config
+dnf upgrade --refresh
+dnf install t2linux-config
+```
+
+2. Update to the latest version of Fedora once again by following the tutorial from down below (starting from the point 3, we don't need to update mbp-fedora-kernel as we are now using t2linux fedora kernel) (section: [How to upgrade current mbp-fedora installations](#how-to-upgrade-current-mbp-fedora-installations))
+
+
+## mbp-fedora - DEPRECATED
 
 [![Build Status](https://github.com/mikeeq/mbp-fedora/actions/workflows/build-iso.yml/badge.svg)](https://github.com/mikeeq/mbp-fedora/actions/workflows/build-iso.yml)
 
