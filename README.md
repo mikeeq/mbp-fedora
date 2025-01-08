@@ -31,7 +31,8 @@ priority=80
 
 ##
 
-dnf remove mbp-fedora-t2-config
+dnf remove mbp-fedora-t2-config mbp-fedora-t2-repo
+rm -rf /etc/yum.repos.d/mbp-fedora.repo
 dnf upgrade --refresh
 dnf install t2linux-config
 ```
@@ -150,7 +151,7 @@ reboot
 
 # 2. Update mbp-fedora-kernel
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="6.4.4-f38" UPDATE_SCRIPT_BRANCH="v6.4-f38" update_kernel_mbp
+KERNEL_VERSION="6.4.16-f38" UPDATE_SCRIPT_BRANCH="v6.4-f38" update_kernel_mbp
 reboot
 
 # 3. Update your OS to include all changes made in mbp-fedora-t2-config RPM
@@ -161,9 +162,9 @@ reboot
 dnf install -y dnf-plugin-system-upgrade
 
 # 5. Upgrade to new OS version
-## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36, 36 -> 37 -> 38, by changing the number in `--releasever` argument
+## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 36 -> 37 -> 38, 38 -> 39 by changing the number passed to `--releasever` argument
 
-dnf system-upgrade download -y --releasever=38
+dnf system-upgrade download -y --releasever=39
 
 # 6. Reboot your Mac
 dnf system-upgrade reboot
