@@ -9,6 +9,8 @@
 1. First update your mbp-fedora installation to the latest (possible) version of Fedora by following the tutorial from down below (section: [How to upgrade current mbp-fedora installations](#how-to-upgrade-current-mbp-fedora-installations))
    1. I was able to only update mbp-fedora to F39 with the latest version of mbp-fedora-kernel
 
+2. Add t2linux copr repo and install newer kernel and config packages
+
 ```bash
 sudo -i
 
@@ -46,7 +48,7 @@ enabled_metadata=1
 priority=80
 #########
 
-##
+## remove mbp-fedora-t2 packages and proceed with t2linux ones
 
 dnf remove mbp-fedora-t2-config mbp-fedora-t2-repo
 rm -rf /etc/yum.repos.d/mbp-fedora.repo
@@ -54,8 +56,8 @@ dnf upgrade --refresh
 dnf install t2linux-config
 ```
 
-2. Update to the latest version of Fedora once again by following the tutorial from down below (starting from the point 3, we don't need to update mbp-fedora-kernel as we are now using t2linux fedora kernel) (section: [How to upgrade current mbp-fedora installations](#how-to-upgrade-current-mbp-fedora-installations))
-3. Cleanup manual changes and install all t2linux packages:
+3. Update to the latest version of Fedora once again by following the tutorial from down below (starting from the point 3, we don't need to update mbp-fedora-kernel as we are now using t2linux fedora kernel) (section: [How to upgrade current mbp-fedora installations](#how-to-upgrade-current-mbp-fedora-installations))
+4. Cleanup manual changes and install all t2linux packages:
 
 ```bash
 dnf remove t2linux-config
@@ -65,7 +67,7 @@ rm -rf /etc/yum.repos.d/t2linux.repo
 reboot
 ```
 
-4. To modify TouchBar configuration go to: `/usr/share/tiny-dfr/config.toml`
+5. To modify TouchBar configuration go to: `/usr/share/tiny-dfr/config.toml`
    1. i.e. to enable media keys as default modify line: `MediaLayerDefault = false` to `MediaLayerDefault = true` and restart tiny-dfr service `systemctl restart tiny-dfr.service`
    2. or to come back to stock stop tiny-dfr service: `systemctl disable tiny-dfr`
 
