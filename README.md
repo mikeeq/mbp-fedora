@@ -1,4 +1,77 @@
-# mbp-fedora
+*This project has reached the end of its development. Please start using packages/readmes co-authored by t2linux group.*
+
+- https://wiki.t2linux.org/distributions/fedora/installation/
+- https://github.com/t2linux
+- https://github.com/orgs/t2linux/teams/fedora-maintainers/repositories
+
+# Migration to t2linux/fedora
+
+1. First update your mbp-fedora installation to the latest (possible) version of Fedora by following the tutorial from down below (section: [How to upgrade current mbp-fedora installations](#how-to-upgrade-current-mbp-fedora-installations))
+   1. I was able to only update mbp-fedora to F39 with the latest version of mbp-fedora-kernel
+
+2. Add t2linux copr repo and install newer kernel and config packages
+
+```bash
+sudo -i
+
+### Execute as root
+
+## Create yum repo and change $releasever in baseurl= line to the latest one available here (i.e.: 41): https://copr.fedorainfracloud.org/coprs/sharpenedblade/t2linux
+vi /etc/yum.repos.d/t2linux.repo
+
+#########
+[copr:copr.fedorainfracloud.org:sharpenedblade:t2linux]
+name=Copr repo for t2linux owned by sharpenedblade
+baseurl=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+priority=80
+#########
+
+### i.e.:
+#########
+[copr:copr.fedorainfracloud.org:sharpenedblade:t2linux]
+name=Copr repo for t2linux owned by sharpenedblade
+baseurl=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/fedora-41-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/sharpenedblade/t2linux/pubkey.gpg
+repo_gpgcheck=0
+enabled=1
+enabled_metadata=1
+priority=80
+#########
+
+## remove mbp-fedora-t2 packages and proceed with t2linux ones
+
+dnf remove mbp-fedora-t2-config mbp-fedora-t2-repo
+rm -rf /etc/yum.repos.d/mbp-fedora.repo
+dnf upgrade --refresh
+dnf install t2linux-config
+```
+
+3. Update to the latest version of Fedora once again by following the tutorial from down below (starting from the point 3, we don't need to update mbp-fedora-kernel as we are now using t2linux fedora kernel) (section: [How to upgrade current mbp-fedora installations](#how-to-upgrade-current-mbp-fedora-installations))
+4. Cleanup manual changes and install all t2linux packages:
+
+```bash
+dnf remove t2linux-config
+dnf install t2linux-release t2linux-repos
+rm -rf /etc/yum.repos.d/t2linux.repo
+
+reboot
+```
+
+5. To modify TouchBar configuration go to: `/usr/share/tiny-dfr/config.toml`
+   1. i.e. to enable media keys as default modify line: `MediaLayerDefault = false` to `MediaLayerDefault = true` and restart tiny-dfr service `systemctl restart tiny-dfr.service`
+   2. or to come back to stock stop tiny-dfr service: `systemctl disable tiny-dfr`
+
+## mbp-fedora - DEPRECATED
 
 [![Build Status](https://github.com/mikeeq/mbp-fedora/actions/workflows/build-iso.yml/badge.svg)](https://github.com/mikeeq/mbp-fedora/actions/workflows/build-iso.yml)
 
@@ -109,7 +182,7 @@ reboot
 
 # 2. Update mbp-fedora-kernel
 ## update_kernel_mbp has built-in selfupgrade function, so when it fails it's just due to script update - please rerun everything should be good on second run
-KERNEL_VERSION="6.4.4-f38" UPDATE_SCRIPT_BRANCH="v6.4-f38" update_kernel_mbp
+KERNEL_VERSION="6.4.16-f38" UPDATE_SCRIPT_BRANCH="v6.4-f38" update_kernel_mbp
 reboot
 
 # 3. Update your OS to include all changes made in mbp-fedora-t2-config RPM
@@ -120,9 +193,9 @@ reboot
 dnf install -y dnf-plugin-system-upgrade
 
 # 5. Upgrade to new OS version
-## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 33 -> 34, 34 -> 35, 35 -> 36, 36 -> 37 -> 38, by changing the number in `--releasever` argument
+## If you're trying to upgrade older version of mbp-fedora to latest version, please repeat a process by upgrading only to one major release of Fedora, i.e.: Fedora 36 -> 37 -> 38, 38 -> 39 by changing the number passed to `--releasever` argument
 
-dnf system-upgrade download -y --releasever=38
+dnf system-upgrade download -y --releasever=39
 
 # 6. Reboot your Mac
 dnf system-upgrade reboot
